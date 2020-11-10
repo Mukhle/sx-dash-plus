@@ -1,0 +1,10 @@
+{
+	"extName" : {
+		"message": "Dash+",
+		"description": "Navn på udvidelsen"
+	},
+	"extDesc" : {
+		"message": "Tilføjer ekstra funktionalitet til stavox dash side.",
+		"description": "Beskrivelse af udvidelsen"
+	}
+}

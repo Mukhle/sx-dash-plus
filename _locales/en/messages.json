@@ -1,0 +1,10 @@
+{
+	"extName" : {
+		"message": "Dash+",
+		"description": "Name of the extension"
+	},
+	"extDesc" : {
+		"message": "Adds extra functionality to the stavox dashboard.",
+		"description": "Description of the extension"
+	}
+}
