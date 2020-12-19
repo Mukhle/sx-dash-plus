@@ -12,3 +12,5 @@ jobs:
       - name: Release
         id: release
         uses: xxx0365/sx-dash-plus-release-action@v1.0
+        with:
+          path: ${{ github.workspace }}/source
