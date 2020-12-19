@@ -4,7 +4,7 @@
 	"name": "__MSG_extName__",
 	"description": "__MSG_extDesc__",
 	"default_locale": "da",
-	"version": "0.4.5",
+	"version": "0.4.6",
 	"icons": {
 		"64": "icon128.png",
 		"128": "icon128.png"
@@ -15,42 +15,42 @@
 	"content_scripts": [
 		{
 			"js": ["staffcheck.js"],
-			"matches": ["https://stavox.dk/dash/*"]
+			"matches": ["*://stavox.dk/dash/*"]
 		},
 		{
 			"js": ["lookup.js"],
-			"matches": ["https://stavox.dk/dash/lookup?lookupid=*"]
+			"matches": ["*://stavox.dk/dash/lookup*?lookupid=*"]
 		},
 		{
 			"js": ["me.js"],
-			"matches": ["https://stavox.dk/dash/me*"]
+			"matches": ["*://stavox.dk/dash/me*"]
 		},
 		{
 			"js": ["stafflist.js"],
-			"matches": ["https://stavox.dk/dash/stafflist"]
+			"matches": ["*://stavox.dk/dash/stafflist*"]
 		},
 		{
 			"js": ["rules.js"],
-			"matches": ["https://stavox.dk/dash/rules"]
+			"matches": ["*://stavox.dk/dash/rules*"]
 		},
 		{
 			"js": ["bans.js"],
-			"matches": ["https://stavox.dk/dash/bans"]
+			"matches": ["*://stavox.dk/dash/bans*"]
 		},
 		{
 			"js": ["latestbans.js"],
-			"matches": ["https://stavox.dk/dash/latestbans"]
+			"matches": ["*://stavox.dk/dash/latestbans*"]
 		},
 		{
 			"js": ["latestunbans.js"],
-			"matches": ["https://stavox.dk/dash/latestunbans"]
+			"matches": ["*://stavox.dk/dash/latestunbans*"]
 		},
 		{
 			"js": ["lookupsearch.js"],
-			"matches": ["https://stavox.dk/dash/*"],
+			"matches": ["*://stavox.dk/dash/*"],
 			"exclude_matches": [
-				"https://stavox.dk/dash/lookup*",
-				"https://stavox.dk/dash/bans"
+				"*://stavox.dk/dash/lookup*",
+				"*://stavox.dk/dash/bans*"
 			]
 		}
 	]
