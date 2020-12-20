@@ -7,5 +7,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Release
         uses: xxx0365/sx-dash-plus-release-action@v1.0
