@@ -7,23 +7,5 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
       - name: Release
-        id: release
         uses: xxx0365/sx-dash-plus-release-action@v1.0
-        with:
-          path: ${{ github.workspace }}/source/
-      - name: Zip files
-        if: ${{ steps.release.outputs.released }}
-        uses: vimtor/action-zip@v1
-        with:
-          files: source/
-      - name: Upload release asset
-        if: ${{ steps.release.outputs.released }}
-        uses: actions/upload-release-asset@v1.0.2
-        with:
-          upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: '${{ github.workspace }}/result.zip'
-          asset_name: 'unpacked'
-          asset_content_type: 'application/zip'
