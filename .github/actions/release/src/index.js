@@ -1,14 +1,14 @@
 const core = require('@actions/core');
-const { Octokit } = require("@octokit/rest");
+const github = require('@actions/github');
 const path = require('path');
 const fs = require('fs');
 
-const octokit = new Octokit({
-	auth: core.getInput('token')
-});
+const token = core.getInput('token');
+const octokit = github.getOctokit(token);
 
 async function main() {
 	const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
+
 	core.info(`Repository ${owner}/${repo}`);
 
 	let currentVersion
