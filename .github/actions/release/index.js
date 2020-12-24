@@ -72,7 +72,7 @@ async function main() {
 		const sourcePath = path.join(process.env.GITHUB_WORKSPACE, 'src')
 
 		const zip = new AdmZip();
-		zip.addLocalFolder(sourcePath, ".");
+		zip.addLocalFolder(sourcePath);
 		buffer = zip.toBuffer();
 
 		core.info(`Stored zip to buffer.`);
