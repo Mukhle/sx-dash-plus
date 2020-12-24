@@ -117,6 +117,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.16.tgz#3cc351f8d48101deadfed4c9e4f116048d437b4b"
   integrity sha512-naXYePhweTi+BMv11TgioE2/FXU4fSl29HAH1ffxVciNsH3rYXjNP2yM8wqmSm7jS20gM8TIklKiTen+1iVncw==
 
+adm-zip@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/adm-zip/-/adm-zip-0.5.1.tgz#32e51c6fe88370f4389b424567b78a345e79ebc6"
+  integrity sha512-a5ABmIFUJ9OxHV5zrXM9Q41JzpRIflFtdgpL4UQM9DsTHHxQzPRaeyAdnMW7kxL0NRWm/NHafJdj6pO+ty7L2g==
+
 before-after-hook@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/before-after-hook/-/before-after-hook-2.1.0.tgz#b6c03487f44e24200dd30ca5e6a1979c5d2fb635"
