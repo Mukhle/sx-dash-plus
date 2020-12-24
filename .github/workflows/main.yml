@@ -10,4 +10,4 @@ jobs:
         with:
           fetch-depth: 0
       - name: Release
-        uses: ./.github/actions/release
+        uses: .github/actions/release
