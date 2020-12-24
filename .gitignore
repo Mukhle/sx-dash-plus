@@ -1,1 +1,1 @@
-.github/actions/release/node_modules
+.github/actions/*/node_modules/
