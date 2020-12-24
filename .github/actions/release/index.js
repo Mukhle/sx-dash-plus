@@ -83,8 +83,8 @@ async function main() {
 	}
 
 	try {
-		console.log(buffer.length)
-		console.log(buffer)
+		core.info(buffer.length)
+		core.info(buffer)
 
 		await octokit.repos.uploadReleaseAsset({
 			url: upload_url,
