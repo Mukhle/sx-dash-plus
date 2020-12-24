@@ -45,7 +45,7 @@ async function main() {
 		core.info('No previous release version.');
 	}
 
-	const changelog = previousVersion ? `https://github.com/${owner}/${repo}/compare/${previousVersion}...${version}` : `Initial release`
+	const changelog = previousVersion ? `https://github.com/${owner}/${repo}/compare/${previousVersion}...${currentVersion}` : `Initial release`
 
 	let upload_url
 	try {
