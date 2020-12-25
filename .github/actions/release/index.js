@@ -18,7 +18,7 @@ async function run() {
 			const manifest = fs.readFileSync(manifestPath)
 			const { version } = JSON.parse(manifest);
 
-			core.info(`Detected version: ${currentVersion}`);
+			core.info(`Detected version: ${version}`);
 
 			return version
 		} catch (error) {
@@ -30,19 +30,19 @@ async function run() {
 
 	const previousVersion = await core.group('Get release version', async () => {
 		try {
-			const { data: { tag_name: previousVersion } } = await octokit.repos.getLatestRelease({
+			const { data: { tag_name: version } } = await octokit.repos.getLatestRelease({
 				owner,
 				repo
 			});
 
-			core.info(`Previous release version: ${previousVersion}`);
+			core.info(`Previous release version: ${version}`);
 
-			if (previousVersion === currentVersion) {
+			if (version === currentVersion) {
 				core.info('Version has not changed.');
 				process.exit();
 			}
 
-			return previousVersion
+			return version
 		} catch (error) {
 			core.info('No previous release version.');
 		}
@@ -51,7 +51,7 @@ async function run() {
 	const changelog = previousVersion ? `https://github.com/${owner}/${repo}/compare/${previousVersion}...${currentVersion}` : `Initial release`
 	const upload_url = await core.group('Create release', async () => {
 		try {
-			const { data: { upload_url } } = await octokit.repos.createRelease({
+			const { data: { upload_url: url } } = await octokit.repos.createRelease({
 				owner,
 				repo,
 				tag_name: currentVersion,
@@ -61,7 +61,7 @@ async function run() {
 
 			core.info(`Created release for version ${currentVersion}`);
 
-			return upload_url
+			return url
 		} catch (error) {
 			core.setFailed(`Failed to create release ${currentVersion} for ${owner}/${repo}#${process.env.GITHUB_SHA}.`);
 			core.error(error);
@@ -77,11 +77,11 @@ async function run() {
 
 			const zip = new AdmZip();
 			zip.addLocalFolder(sourcePath);
-			const buffer = zip.toBuffer();
+			const zipped = zip.toBuffer();
 
 			core.info(`Stored zipped source to buffer.`);
 
-			return buffer
+			return zipped
 		} catch (error) {
 			core.setFailed(`Failed to store zip.`);
 			core.error(error);
@@ -91,9 +91,6 @@ async function run() {
 
 	await core.group('Upload zipped buffer to release', async () => {
 		try {
-			console.log(buffer.length)
-			console.log(buffer)
-
 			await octokit.repos.uploadReleaseAsset({
 				url: upload_url,
 				headers: {
