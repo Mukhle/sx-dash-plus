@@ -49,7 +49,7 @@ async function run() {
 	})
 
 	const changelog = previousVersion ? `https://github.com/${owner}/${repo}/compare/${previousVersion}...${currentVersion}` : `Initial release`
-	const upload_url = await core.group('Create release', async () => {
+	const upload_url = await core.group('Create new release', async () => {
 		try {
 			const { data: { upload_url: url } } = await octokit.repos.createRelease({
 				owner,
