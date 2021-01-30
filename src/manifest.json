@@ -4,7 +4,7 @@
 	"name": "__MSG_extName__",
 	"description": "__MSG_extDesc__",
 	"default_locale": "da",
-	"version": "1.1.3",
+	"version": "1.1.4",
 	"icons": {
 		"64": "icon128.png",
 		"128": "icon128.png"
@@ -16,18 +16,22 @@
 			"matches": ["*://stavox.dk/dash/*"]
 		},
 		{
-			"js": ["steamids.js"],
-			"css": ["steamids.css"],
-			"matches": ["*://stavox.dk/dash/*"]
-		},
-		{
-			"js": ["tablechanges.js"],
-			"css": ["tablechanges.css"],
+			"js": ["fixes/tables.js"],
+			"css": ["fixes/tables.css"],
 			"matches": ["*://stavox.dk/dash/*"]
 		},
 		{
 			"js": ["fixes/stafflist.js"],
 			"matches": ["*://stavox.dk/dash/stafflist*"]
+		},
+		{
+			"js": ["fixes/traficlaws.js"],
+			"matches": ["*://stavox.dk/dash/ptraficlaw*"]
+		},
+		{
+			"js": ["steamids.js"],
+			"css": ["steamids.css"],
+			"matches": ["*://stavox.dk/dash/*"]
 		},
 		{
 			"js": [
