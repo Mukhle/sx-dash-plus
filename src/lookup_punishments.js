@@ -1,36 +1,20 @@
-const cont = document.querySelector(
-	"body > div > div > div.main > div > div.container-fluid.half-padding > div"
-);
-var punishments;
+const [punishments, punishmentsRow] = getLookupContainerFromHeaderText(
+	"Strafhistorik",
+	(elt) => {
+		const punishmentsRow = elt.closest(".row");
+		const punishments = punishmentsRow.querySelector("tbody").children;
 
-for (let elt of document.querySelectorAll("h3.panel-title")) {
-	if (elt.textContent == "Strafhistorik - Ældste er øverst") {
-		punishments = elt.parentElement.parentElement.querySelector("tbody")
-			.children;
+		return [punishments, punishmentsRow];
 	}
-}
+);
 
-const now = new Date();
-const monthRange = deltaDate(now, 0, -1, 0);
-const weekRange = deltaDate(now, -7, 0, 0);
-const dayRange = deltaDate(now, -1, 0, 0);
-
-function deltaDate(input, days, months, years) {
-	return new Date(
-		input.getFullYear() + years,
-		input.getMonth() + months,
-		Math.min(
-			input.getDate() + days,
-			new Date(
-				input.getFullYear() + years,
-				input.getMonth() + months + 1,
-				0
-			).getDate()
-		)
-	);
-}
-
-function clickEventListener(type, period, titleElement, tableElement, array) {
+function punishmentsClickEventListener(
+	type,
+	period,
+	titleElement,
+	tableElement,
+	array
+) {
 	titleElement.textContent = `${type} - ${period}`;
 
 	while (tableElement.lastElementChild) {
@@ -38,7 +22,10 @@ function clickEventListener(type, period, titleElement, tableElement, array) {
 	}
 
 	for (let elt of array[type]) {
-		tableElement.appendChild(elt.cloneNode(true));
+		let clone = elt.cloneNode(true);
+		clone.removeChild(clone.lastElementChild);
+
+		tableElement.appendChild(clone);
 	}
 }
 
@@ -160,7 +147,7 @@ function punishmentsCreate(modal, filter, tbody) {
 				a.textContent = allPunishments[key].length;
 				a.addEventListener(
 					"click",
-					clickEventListener.bind(
+					punishmentsClickEventListener.bind(
 						null,
 						key,
 						"Altid",
@@ -193,7 +180,7 @@ function punishmentsCreate(modal, filter, tbody) {
 				a.textContent = monthPunishments[key].length;
 				a.addEventListener(
 					"click",
-					clickEventListener.bind(
+					punishmentsClickEventListener.bind(
 						null,
 						key,
 						"Seneste måned",
@@ -226,7 +213,7 @@ function punishmentsCreate(modal, filter, tbody) {
 				a.textContent = weekPunishments[key].length;
 				a.addEventListener(
 					"click",
-					clickEventListener.bind(
+					punishmentsClickEventListener.bind(
 						null,
 						key,
 						"Seneste uge",
@@ -259,7 +246,7 @@ function punishmentsCreate(modal, filter, tbody) {
 				a.textContent = dayPunishments[key].length;
 				a.addEventListener(
 					"click",
-					clickEventListener.bind(
+					punishmentsClickEventListener.bind(
 						null,
 						key,
 						"Seneste døgn",
@@ -355,6 +342,7 @@ if (punishments) {
 	let tbody = container.querySelector("tbody");
 
 	cont.appendChild(container);
+	punishmentsRow.after(container);
 
 	filter.addEventListener(
 		"keyup",

@@ -1,8 +1,8 @@
-if(user_is_staff) {
+if (user_is_staff) {
 	const maincont = document.querySelector(".main__cont");
 
-	if(maincont) {
-		let search = document.createElement('div');
+	if (maincont) {
+		let search = document.createElement("div");
 		search.className = "main-heading";
 		search.style = "display: block;";
 		search.innerHTML = `<div class="main-title">
@@ -23,6 +23,6 @@ if(user_is_staff) {
 			</form>
 		</div>`;
 
-		maincont.insertBefore(search,maincont.firstChild)
+		maincont.insertBefore(search, maincont.firstChild);
 	}
 }
