@@ -3,7 +3,7 @@ const [notes, notesRow] = getLookupContainerFromHeaderText("Noter", (elt) => {
 	const notes = notesRow.querySelector("div.sp-widget__list").children;
 
 	return [notes, notesRow];
-});
+}) ?? [null, null];
 
 function notesClickEventListener(period, titleElement, listElement, array) {
 	titleElement.textContent = `Noter - ${period}`;
@@ -246,7 +246,7 @@ if (notes) {
 	let tbody = container.querySelector("tbody");
 
 	cont.appendChild(container);
-	notesRow.after(container);
+	notesRow.before(container);
 
 	filter.addEventListener(
 		"keyup",

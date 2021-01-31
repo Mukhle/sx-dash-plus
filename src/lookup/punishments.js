@@ -6,7 +6,7 @@ const [punishments, punishmentsRow] = getLookupContainerFromHeaderText(
 
 		return [punishments, punishmentsRow];
 	}
-);
+) ?? [null, null];
 
 function punishmentsClickEventListener(
 	type,
@@ -342,7 +342,7 @@ if (punishments) {
 	let tbody = container.querySelector("tbody");
 
 	cont.appendChild(container);
-	punishmentsRow.after(container);
+	punishmentsRow.before(container);
 
 	filter.addEventListener(
 		"keyup",

@@ -13,7 +13,7 @@ const [information, steamidParts] = getLookupContainerFromHeaderText(
 			}
 		}
 	}
-);
+) ?? [null, null];
 
 if (information) {
 	const communityID =
