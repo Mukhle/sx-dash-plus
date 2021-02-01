@@ -21,31 +21,28 @@ if (information) {
 		BigInt(76561197960265728) +
 		BigInt(steamidParts[1]);
 
-	const buttons = document.querySelectorAll("a.btn");
-	const uglybutton = Array.from(buttons).find((button) => {
-		return button.innerText.includes("Steam profil");
+	document.querySelectorAll("a.btn").forEach((element) => {
+		if (element.innerText === "Steam profil") {
+			element.remove();
+		}
 	});
 
-	if (uglybutton) {
-		const steamProfile = document.createElement("a");
-		steamProfile.href = `http://steamcommunity.com/profiles/${communityID}`;
-		steamProfile.target = "_blank";
-		steamProfile.className = "btn btn-default pull-right";
-		steamProfile.style["color"] = "white";
-		steamProfile.style["margin-left"] = "10px";
-		steamProfile.innerHTML = `<i class="fa fa-steam" style="margin-right: 10px;"></i>Steam Profil`;
+	const steamProfile = document.createElement("a");
+	steamProfile.href = `http://steamcommunity.com/profiles/${communityID}`;
+	steamProfile.target = "_blank";
+	steamProfile.className = "btn btn-default pull-right";
+	steamProfile.style["color"] = "white";
+	steamProfile.style["margin-left"] = "10px";
+	steamProfile.innerHTML = `<i class="fa fa-steam" style="margin-right: 10px;"></i>Steam Profil`;
 
-		information.appendChild(steamProfile);
+	information.appendChild(steamProfile);
 
-		const friendsList = document.createElement("a");
-		friendsList.href = `http://steamcommunity.com/profiles/${communityID}/friends/`;
-		friendsList.target = "_blank";
-		friendsList.className = "btn btn-default pull-right";
-		friendsList.style["color"] = "white";
-		friendsList.innerHTML = `<i class="fa fa-steam" style="margin-right: 10px;"></i>Venneliste`;
+	const friendsList = document.createElement("a");
+	friendsList.href = `http://steamcommunity.com/profiles/${communityID}/friends/`;
+	friendsList.target = "_blank";
+	friendsList.className = "btn btn-default pull-right";
+	friendsList.style["color"] = "white";
+	friendsList.innerHTML = `<i class="fa fa-steam" style="margin-right: 10px;"></i>Venneliste`;
 
-		information.appendChild(friendsList);
-
-		uglybutton.remove();
-	}
+	information.appendChild(friendsList);
 }
