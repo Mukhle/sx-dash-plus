@@ -19,7 +19,7 @@ function notesClickEventListener(period, titleElement, listElement, array) {
 
 function notesCreate(modal, filter, tbody) {
 	tbody.innerHTML = `
-	<tr style="">
+	<tr class="sxplusrow">
 		<td>Antal</td>
 	</tr>`;
 

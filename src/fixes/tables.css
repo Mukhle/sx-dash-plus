@@ -1,0 +1,7 @@
+.table > tbody > tr.sxplusrow {
+	cursor: default;
+}
+
+.table > tbody > tr.sxplusrow a {
+	cursor: pointer;
+}

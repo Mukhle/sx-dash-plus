@@ -31,16 +31,16 @@ function punishmentsClickEventListener(
 
 function punishmentsCreate(modal, filter, tbody) {
 	tbody.innerHTML = `
-	<tr style="font-weight: bold;color:#ed4949;">
+	<tr class="sxplusrow" style="font-weight: bold;color:#ed4949;">
 		<td>Altid</td>
 	</tr>
-	<tr style="">
+	<tr class="sxplusrow">
 		<td>Seneste måned</td>
 	</tr>
-	<tr style="">
+	<tr class="sxplusrow">
 		<td>Seneste uge</td>
 	</tr>
-	<tr style="">
+	<tr class="sxplusrow">
 		<td>Seneste døgn</td>
 	</tr>`;
 
