@@ -1,12 +1,12 @@
 const [information, steamidParts] = getLookupContainerFromHeaderText(
 	"Spillerinformation",
 	(elt) => {
-		let paragraphs = elt.parentElement.parentElement.querySelectorAll(
+		const paragraphs = elt.parentElement.parentElement.querySelectorAll(
 			"div.panel-body > p"
 		);
 
-		for (let pb of paragraphs) {
-			let match = pb.textContent.match(/STEAM_0:(\d):(\d+)/);
+		for (const pb of paragraphs) {
+			const match = pb.textContent.match(/STEAM_0:(\d):(\d+)/);
 
 			if (match) {
 				return [pb, match];
@@ -21,17 +21,31 @@ if (information) {
 		BigInt(76561197960265728) +
 		BigInt(steamidParts[1]);
 
-	let steamProfile = document.createElement("a");
-	steamProfile.href = `http://steamcommunity.com/profiles/${communityID}`;
-	steamProfile.target = "_blank";
-	steamProfile.innerHTML = `<button type="button" class="btn btn-default pull-right" style="color:white;">Steam Profil</button>`;
+	const buttons = document.querySelectorAll("a.btn");
+	const uglybutton = Array.from(buttons).find((button) => {
+		return button.innerText.includes("Steam profil");
+	});
 
-	information.appendChild(steamProfile);
+	if (uglybutton) {
+		const steamProfile = document.createElement("a");
+		steamProfile.href = `http://steamcommunity.com/profiles/${communityID}`;
+		steamProfile.target = "_blank";
+		steamProfile.className = "btn btn-default pull-right";
+		steamProfile.style["color"] = "white";
+		steamProfile.style["margin-left"] = "10px";
+		steamProfile.innerHTML = `<i class="fa fa-steam" style="margin-right: 10px;"></i>Steam Profil`;
 
-	let friendsList = document.createElement("a");
-	friendsList.href = `http://steamcommunity.com/profiles/${communityID}/friends/`;
-	friendsList.target = "_blank";
-	friendsList.innerHTML = `<button type="button" class="btn btn-default pull-right" style="color:white;">Venneliste</button>`;
+		information.appendChild(steamProfile);
 
-	information.appendChild(friendsList);
+		const friendsList = document.createElement("a");
+		friendsList.href = `http://steamcommunity.com/profiles/${communityID}/friends/`;
+		friendsList.target = "_blank";
+		friendsList.className = "btn btn-default pull-right";
+		friendsList.style["color"] = "white";
+		friendsList.innerHTML = `<i class="fa fa-steam" style="margin-right: 10px;"></i>Venneliste`;
+
+		information.appendChild(friendsList);
+
+		uglybutton.remove();
+	}
 }
