@@ -1,23 +1,28 @@
-const [information, steamidParts] = getLookupContainerFromHeaderText(
+const [buttongroup, steamidParts] = getLookupContainerFromHeaderText(
 	"Spillerinformation",
 	(elt) => {
-		const paragraphs = elt.parentElement.parentElement.querySelectorAll(
-			"div.panel-body > p"
+		const group = elt.parentElement.parentElement.querySelector(
+			"div.btn-group"
 		);
 
-		for (const pb of paragraphs) {
-			const match = pb.textContent.match(/STEAM_0:(\d):(\d+)/);
+		if (group) {
+			const paragraphs = elt.parentElement.parentElement.querySelectorAll(
+				"p > strong"
+			);
 
-			if (match) {
-				return [pb, match];
+			for (const pb of paragraphs) {
+				const match = pb.parentElement.textContent.match(/STEAM_\d:(\d):(\d+)/);
+
+				if (match) {
+					return [group, match];
+				}
 			}
 		}
-	}
 	},
 	[null, null]
 );
 
-if (information) {
+if (buttongroup) {
 	const communityID =
 		BigInt(steamidParts[2]) * BigInt(2) +
 		BigInt(76561197960265728) +
@@ -32,19 +37,18 @@ if (information) {
 	const steamProfile = document.createElement("a");
 	steamProfile.href = `http://steamcommunity.com/profiles/${communityID}`;
 	steamProfile.target = "_blank";
-	steamProfile.className = "btn btn-default pull-right";
+	steamProfile.className = "btn btn-default";
 	steamProfile.style["color"] = "white";
-	steamProfile.style["margin-left"] = "10px";
 	steamProfile.innerHTML = `<i class="fa fa-steam" style="margin-right: 10px;"></i>Steam Profil`;
 
-	information.appendChild(steamProfile);
+	buttongroup.appendChild(steamProfile);
 
 	const friendsList = document.createElement("a");
 	friendsList.href = `http://steamcommunity.com/profiles/${communityID}/friends/`;
 	friendsList.target = "_blank";
-	friendsList.className = "btn btn-default pull-right";
+	friendsList.className = "btn btn-default";
 	friendsList.style["color"] = "white";
 	friendsList.innerHTML = `<i class="fa fa-steam" style="margin-right: 10px;"></i>Venneliste`;
 
-	information.appendChild(friendsList);
+	buttongroup.appendChild(friendsList);
 }
