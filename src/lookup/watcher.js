@@ -7,7 +7,6 @@ if (user_is_staff) {
 		const callback = function (mutationsList) {
 			for (const mutation of mutationsList) {
 				if (mutation.type === "childList") {
-					console.log(mutation.addedNodes);
 					mutation.addedNodes?.forEach((element) => {
 						if (element.hasAttribute("data-ajaxlookup-table")) {
 							processDocument(element);
