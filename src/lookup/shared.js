@@ -23,10 +23,10 @@ function deltaDate(input, days, months, years) {
 }
 
 const headers = document.querySelectorAll("h3.panel-title");
-const getLookupContainerFromHeaderText = (headerText, getReturnValue) => {
+const getLookupContainerFromHeaderText = (headerText, getReturnValue, defaults) => {
 	for (let elt of headers) {
 		if (elt.textContent?.includes(headerText)) {
-			return getReturnValue(elt);
+			return getReturnValue(elt) ?? defaults;
 		}
 	}
 };

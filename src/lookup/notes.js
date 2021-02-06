@@ -1,9 +1,13 @@
-const [notes, notesRow] = getLookupContainerFromHeaderText("Noter", (elt) => {
-	const notesRow = elt.closest(".row");
-	const notes = notesRow.querySelector("div.sp-widget__list").children;
+const [notes, notesRow] = getLookupContainerFromHeaderText(
+	"Noter",
+	(elt) => {
+		const notesRow = elt.closest(".row");
+		const notes = notesRow.querySelector("div.sp-widget__list").children;
 
-	return [notes, notesRow];
-}) ?? [null, null];
+		return [notes, notesRow];
+	},
+	[null, null]
+);
 
 function notesClickEventListener(period, titleElement, listElement, array) {
 	titleElement.textContent = `Noter - ${period}`;

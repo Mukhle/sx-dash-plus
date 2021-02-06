@@ -5,8 +5,9 @@ const [punishments, punishmentsRow] = getLookupContainerFromHeaderText(
 		const punishments = punishmentsRow.querySelector("tbody").children;
 
 		return [punishments, punishmentsRow];
-	}
-) ?? [null, null];
+	},
+	[null, null]
+);
 
 function punishmentsClickEventListener(
 	type,
