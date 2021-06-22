@@ -1,17 +1,19 @@
+import { getLookupContainerFromHeaderText } from "./shared";
+
 const [buttongroup, steamidParts] = getLookupContainerFromHeaderText(
 	"Spillerinformation",
-	(elt) => {
-		const group = elt.parentElement.parentElement.querySelector(
-			"div.btn-group"
-		);
+	(elt: HTMLElement) => {
+		const group = elt.parentElement?.parentElement?.querySelector("div.btn-group");
 
 		if (group) {
-			const paragraphs = elt.parentElement.parentElement.querySelectorAll(
-				"p > strong"
-			);
+			const paragraphs = elt.parentElement?.parentElement?.querySelectorAll("p > strong");
+
+			if (paragraphs === undefined) {
+				return [null, null];
+			}
 
 			for (const pb of paragraphs) {
-				const match = pb.parentElement.textContent.match(/STEAM_\d:(\d):(\d+)/);
+				const match = pb.parentElement?.textContent?.match(/STEAM_\d:(\d):(\d+)/);
 
 				if (match) {
 					return [group, match];
@@ -24,11 +26,9 @@ const [buttongroup, steamidParts] = getLookupContainerFromHeaderText(
 
 if (buttongroup) {
 	const communityID =
-		BigInt(steamidParts[2]) * BigInt(2) +
-		BigInt(76561197960265728) +
-		BigInt(steamidParts[1]);
+		BigInt(steamidParts[2]) * BigInt(2) + BigInt(76561197960265728) + BigInt(steamidParts[1]);
 
-	document.querySelectorAll("a.btn").forEach((element) => {
+	document.querySelectorAll<HTMLButtonElement>("a.btn").forEach((element) => {
 		if (element.innerText === "Steam profil") {
 			element.remove();
 		}
@@ -39,7 +39,7 @@ if (buttongroup) {
 	steamProfile.target = "_blank";
 	steamProfile.className = "btn btn-default";
 	steamProfile.style["color"] = "white";
-	steamProfile.innerHTML = `<i class="fa fa-steam" style="margin-right: 10px;"></i>Steam Profil`;
+	steamProfile.innerHTML = `<i class='fa fa-steam' style='margin-right: 10px;'></i>Steam Profil`;
 
 	buttongroup.appendChild(steamProfile);
 
@@ -48,7 +48,7 @@ if (buttongroup) {
 	friendsList.target = "_blank";
 	friendsList.className = "btn btn-default";
 	friendsList.style["color"] = "white";
-	friendsList.innerHTML = `<i class="fa fa-steam" style="margin-right: 10px;"></i>Venneliste`;
+	friendsList.innerHTML = `<i class='fa fa-steam' style='margin-right: 10px;'></i>Venneliste`;
 
 	buttongroup.appendChild(friendsList);
 }

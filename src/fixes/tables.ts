@@ -1,0 +1,13 @@
+const unbind_event_listeners = (node: HTMLElement) => {
+	node.parentNode?.replaceChild(node.cloneNode(true), node);
+};
+
+export function removeTableRowListeners(root: HTMLElement) {
+	for (const element of root.querySelectorAll<HTMLTableRowElement>(".table>tbody>tr")) {
+		element.classList.add("sxplusrow");
+		element.removeAttribute("onclick");
+		unbind_event_listeners(element);
+	}
+}
+
+removeTableRowListeners(document.documentElement);
