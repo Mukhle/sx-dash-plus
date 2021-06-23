@@ -7,6 +7,9 @@ jobs:
   version:
     runs-on: ubuntu-latest
     name: Check for version change
+    outputs:
+      currentVersion: ${{ steps.version.outputs.currentVersion }}
+      previousVersion: ${{ steps.version.outputs.previousVersion }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -38,6 +41,6 @@ jobs:
 
       - name: Create Release
         with:
-          currentVersion: ${{ jobs.version.steps.version.currentVersion }}
-          previousVersion: ${{ jobs.version.steps.version.previousVersion }}
+          currentVersion: ${{ needs.version.outputs.currentVersion }}
+          previousVersion: ${{ needs.version.outputs.previousVersion }}
         uses: ./.github/actions/release
