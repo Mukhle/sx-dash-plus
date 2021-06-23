@@ -73,7 +73,7 @@ async function run() {
 
 	const buffer = await core.group('Save zipped source to buffer', async () => {
 		try {
-			const sourcePath = path.join(process.env.GITHUB_WORKSPACE, 'src')
+			const sourcePath = path.join(process.env.GITHUB_WORKSPACE, 'dist')
 
 			const zip = new AdmZip();
 			zip.addLocalFolder(sourcePath);
