@@ -7,3 +7,5 @@ for (const a of document.querySelectorAll(".sidebar__title")) {
 		break;
 	}
 }
+
+export default user_is_staff;

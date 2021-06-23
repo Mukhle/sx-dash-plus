@@ -4,6 +4,6 @@ if (panel) {
 	const colDiv = document.createElement("div");
 	colDiv.className = "col-md-12 col-xs-11";
 
-	panel.parentNode.insertBefore(colDiv, panel);
+	panel.parentNode?.insertBefore(colDiv, panel);
 	colDiv.appendChild(panel);
 }
