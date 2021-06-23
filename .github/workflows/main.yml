@@ -38,6 +38,6 @@ jobs:
 
       - name: Create Release
         with:
-          currentVersion: jobs.version.steps.version.currentVersion
-          previousVersion: jobs.version.steps.version.previousVersion
+          currentVersion: ${{ jobs.version.steps.version.currentVersion }}
+          previousVersion: ${{ jobs.version.steps.version.previousVersion }}
         uses: ./.github/actions/release
