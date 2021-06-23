@@ -4,9 +4,20 @@ on:
       - master
 
 jobs:
-  auto_release:
+  version:
     runs-on: ubuntu-latest
-    name: Create release if version changed
+    name: Check for version change
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Check for version change
+        id: version
+        uses: ./.github/actions/version
+  release:
+    runs-on: ubuntu-latest
+    name: Create release
+    needs: version
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -18,12 +29,15 @@ jobs:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Packages
-        if: steps.cache.outputs.cache-hit != 'true'
+      - name: Install Packages
+        if: steps.cache.outputs.cache-hit != 'true',
         run: yarn install
 
       - name: Build
         run: yarn build
 
-      - name: Release
+      - name: Create Release
+        with:
+          currentVersion: jobs.version.steps.version.currentVersion
+          previousVersion: jobs.version.steps.version.previousVersion
         uses: ./.github/actions/release
