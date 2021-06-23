@@ -30,7 +30,7 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install Packages
-        if: steps.cache.outputs.cache-hit != 'true',
+        if: steps.cache.outputs.cache-hit != 'true'
         run: yarn install
 
       - name: Build
