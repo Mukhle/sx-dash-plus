@@ -2,7 +2,6 @@
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const srcDir = path.join(__dirname, "..", "src");
-const glob = require("glob");
 
 module.exports = {
 	entry: {
