@@ -12,10 +12,6 @@
 	"host_permissions": ["*://stavox.dk/dash/*"],
 	"content_scripts": [
 		{
-			"js": ["js/staffcheck.js"],
-			"matches": ["*://stavox.dk/dash/*"]
-		},
-		{
 			"js": ["js/fixes/tables.js"],
 			"css": ["tables.css"],
 			"matches": ["*://stavox.dk/dash/*"]
@@ -34,17 +30,11 @@
 			"matches": ["*://stavox.dk/dash/*"]
 		},
 		{
-			"js": [
-				"js/lookup/shared.js",
-				"js/lookup/info.js",
-				"js/lookup/notes.js",
-				"js/lookup/punishments.js",
-				"js/lookup/watcher.js"
-			],
+			"js": ["js/lookup/notes.js", "js/lookup/punishments.js", "js/lookup/watcher.js"],
 			"matches": ["*://stavox.dk/dash/lookup*?lookupid=*"]
 		},
 		{
-			"js": ["js/lookup/shared.js", "js/lookup/punishments.js"],
+			"js": ["js/lookup/punishments.js"],
 			"matches": ["*://stavox.dk/dash/me*"]
 		},
 		{
