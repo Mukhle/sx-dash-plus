@@ -33,25 +33,20 @@ export function handleTextNode(textNode: Node) {
 
 const nodeNameSkip = ["SCRIPT", "STYLE"];
 export function processDocument(start: Node) {
-	let treeWalker = document.createTreeWalker(
-		start,
-		NodeFilter.SHOW_TEXT,
-		{
-			acceptNode: function (node) {
-				if (node.textContent?.length === 0) {
-					return NodeFilter.FILTER_SKIP;
-				}
+	let treeWalker = document.createTreeWalker(start, NodeFilter.SHOW_TEXT, {
+		acceptNode: function (node) {
+			if (node.textContent?.length === 0) {
+				return NodeFilter.FILTER_SKIP;
+			}
 
-				const nodeName = node.parentNode?.nodeName;
-				if (nodeName && nodeNameSkip.includes(nodeName)) {
-					return NodeFilter.FILTER_SKIP;
-				}
+			const nodeName = node.parentNode?.nodeName;
+			if (nodeName && nodeNameSkip.includes(nodeName)) {
+				return NodeFilter.FILTER_SKIP;
+			}
 
-				return NodeFilter.FILTER_ACCEPT;
-			},
+			return NodeFilter.FILTER_ACCEPT;
 		},
-		false
-	);
+	});
 
 	let nodeList = [];
 	while (treeWalker.nextNode()) {
