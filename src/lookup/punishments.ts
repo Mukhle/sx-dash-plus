@@ -42,8 +42,8 @@ function punishmentsClickEventListener(
 		tableElement.removeChild(tableElement.lastElementChild);
 	}
 
-	for (let elt of array[type]) {
-		let clone = elt.cloneNode(true) as HTMLElement;
+	for (const elt of array[type]) {
+		const clone = elt.cloneNode(true) as HTMLElement;
 
 		if (clone.lastElementChild) {
 			clone.removeChild(clone.lastElementChild);
@@ -120,7 +120,7 @@ function punishmentsCreate(
 		CarBan: [],
 	};
 
-	for (let elt of punishments) {
+	for (const elt of punishments) {
 		if (elt.style.getPropertyValue("textDecoration") == "line-through") {
 			continue;
 		}
@@ -148,7 +148,7 @@ function punishmentsCreate(
 		let filterSkip = true;
 
 		const filterText = filter.value.toLowerCase();
-		for (let elt2 of elt.children) {
+		for (const elt2 of elt.children) {
 			const eltText = elt2.textContent?.toLowerCase();
 
 			if (eltText && eltText.indexOf(filterText) > -1) {
@@ -189,9 +189,9 @@ function punishmentsCreate(
 
 		if (allPunishments.hasOwnProperty(punishmentKey)) {
 			if (allPunishments[punishmentKey].length > 0) {
-				let td = document.createElement("td");
+				const td = document.createElement("td");
 
-				let a = document.createElement("a");
+				const a = document.createElement("a");
 				a.setAttribute("data-toggle", "modal");
 				a.setAttribute("data-target", "#punishmentsModal");
 				a.style.setProperty("color", "inherit");
@@ -210,21 +210,21 @@ function punishmentsCreate(
 				td.appendChild(a);
 				tbody.children[0].appendChild(td);
 			} else {
-				let td = document.createElement("td");
+				const td = document.createElement("td");
 				td.textContent = "0";
 				tbody.children[0].appendChild(td);
 			}
 		}
 	}
 
-	for (let key in monthPunishments) {
+	for (const key in monthPunishments) {
 		const punishmentKey = key as PunishmentKey;
 
 		if (monthPunishments.hasOwnProperty(punishmentKey)) {
 			if (monthPunishments[punishmentKey].length > 0) {
-				let td = document.createElement("td");
+				const td = document.createElement("td");
 
-				let a = document.createElement("a");
+				const a = document.createElement("a");
 				a.setAttribute("data-toggle", "modal");
 				a.setAttribute("data-target", "#punishmentsModal");
 				a.style.setProperty("color", "inherit");
@@ -243,21 +243,21 @@ function punishmentsCreate(
 				td.appendChild(a);
 				tbody.children[1].appendChild(td);
 			} else {
-				let td = document.createElement("td");
+				const td = document.createElement("td");
 				td.textContent = "0";
 				tbody.children[1].appendChild(td);
 			}
 		}
 	}
 
-	for (let key in weekPunishments) {
+	for (const key in weekPunishments) {
 		const punishmentKey = key as PunishmentKey;
 
 		if (weekPunishments.hasOwnProperty(punishmentKey)) {
 			if (weekPunishments[punishmentKey].length > 0) {
-				let td = document.createElement("td");
+				const td = document.createElement("td");
 
-				let a = document.createElement("a");
+				const a = document.createElement("a");
 				a.setAttribute("data-toggle", "modal");
 				a.setAttribute("data-target", "#punishmentsModal");
 				a.style.setProperty("color", "inherit");
@@ -276,21 +276,21 @@ function punishmentsCreate(
 				td.appendChild(a);
 				tbody.children[2].appendChild(td);
 			} else {
-				let td = document.createElement("td");
+				const td = document.createElement("td");
 				td.textContent = "0";
 				tbody.children[2].appendChild(td);
 			}
 		}
 	}
 
-	for (let key in dayPunishments) {
+	for (const key in dayPunishments) {
 		const punishmentKey = key as PunishmentKey;
 
 		if (dayPunishments.hasOwnProperty(punishmentKey)) {
 			if (dayPunishments[punishmentKey].length > 0) {
-				let td = document.createElement("td");
+				const td = document.createElement("td");
 
-				let a = document.createElement("a");
+				const a = document.createElement("a");
 				a.setAttribute("data-toggle", "modal");
 				a.setAttribute("data-target", "#punishmentsModal");
 				a.style.setProperty("color", "inherit");
@@ -309,7 +309,7 @@ function punishmentsCreate(
 				td.appendChild(a);
 				tbody.children[3].appendChild(td);
 			} else {
-				let td = document.createElement("td");
+				const td = document.createElement("td");
 				td.textContent = "0";
 				tbody.children[3].appendChild(td);
 			}
@@ -318,7 +318,7 @@ function punishmentsCreate(
 }
 
 if (punishments) {
-	let modal = document.createElement("div");
+	const modal = document.createElement("div");
 	modal.className = "modal fade";
 	modal.id = "punishmentsModal";
 	//Clear all CSS properties on the element
@@ -358,7 +358,7 @@ if (punishments) {
 
 	cont.appendChild(modal);
 
-	let container = document.createElement("div");
+	const container = document.createElement("div");
 	container.className = "row";
 	container.innerHTML = `<div class='col-md-12 col-xs-11'>
 		<div class='panel panel-danger'>

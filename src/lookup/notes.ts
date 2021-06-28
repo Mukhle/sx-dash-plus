@@ -38,7 +38,7 @@ function notesClickEventListener(
 		listElement.removeChild(listElement.lastElementChild);
 	}
 
-	for (let elt of array) {
+	for (const elt of array) {
 		listElement.appendChild(elt.cloneNode(true));
 	}
 }
@@ -68,7 +68,7 @@ function notesCreate(
 	const weekNotes: HTMLElement[] = [];
 	const dayNotes: HTMLElement[] = [];
 
-	for (let elt of notes) {
+	for (const elt of notes) {
 		const user = elt.querySelector<HTMLSpanElement>("div.sp-widget__user > span");
 		const text = elt.querySelector<HTMLDivElement>("div.sp-widget__text");
 
@@ -77,7 +77,7 @@ function notesCreate(
 				continue;
 			}
 
-			let time = user.textContent?.match(/\d{2}-\d{2}-\d{2} \d{2}:\d{2}/);
+			const time = user.textContent?.match(/\d{2}-\d{2}-\d{2} \d{2}:\d{2}/);
 
 			if (time) {
 				const now = dayjs();
@@ -101,9 +101,9 @@ function notesCreate(
 	}
 
 	if (allNotes.length > 0) {
-		let td = document.createElement("td");
+		const td = document.createElement("td");
 
-		let a = document.createElement("a");
+		const a = document.createElement("a");
 		a.setAttribute("data-toggle", "modal");
 		a.setAttribute("data-target", "#notesModal");
 		a.style.setProperty("color", "inherit");
@@ -116,15 +116,15 @@ function notesCreate(
 		td.appendChild(a);
 		tbody.children[0].appendChild(td);
 	} else {
-		let td = document.createElement("td");
+		const td = document.createElement("td");
 		td.textContent = "0";
 		tbody.children[0].appendChild(td);
 	}
 
 	if (monthNotes.length > 0) {
-		let td = document.createElement("td");
+		const td = document.createElement("td");
 
-		let a = document.createElement("a");
+		const a = document.createElement("a");
 		a.setAttribute("data-toggle", "modal");
 		a.setAttribute("data-target", "#notesModal");
 		a.style.setProperty("color", "inherit");
@@ -137,15 +137,15 @@ function notesCreate(
 		td.appendChild(a);
 		tbody.children[0].appendChild(td);
 	} else {
-		let td = document.createElement("td");
+		const td = document.createElement("td");
 		td.textContent = "0";
 		tbody.children[0].appendChild(td);
 	}
 
 	if (weekNotes.length > 0) {
-		let td = document.createElement("td");
+		const td = document.createElement("td");
 
-		let a = document.createElement("a");
+		const a = document.createElement("a");
 		a.setAttribute("data-toggle", "modal");
 		a.setAttribute("data-target", "#notesModal");
 		a.style.setProperty("color", "inherit");
@@ -158,15 +158,15 @@ function notesCreate(
 		td.appendChild(a);
 		tbody.children[0].appendChild(td);
 	} else {
-		let td = document.createElement("td");
+		const td = document.createElement("td");
 		td.textContent = "0";
 		tbody.children[0].appendChild(td);
 	}
 
 	if (dayNotes.length > 0) {
-		let td = document.createElement("td");
+		const td = document.createElement("td");
 
-		let a = document.createElement("a");
+		const a = document.createElement("a");
 		a.setAttribute("data-toggle", "modal");
 		a.setAttribute("data-target", "#notesModal");
 		a.style.setProperty("color", "inherit");
@@ -179,14 +179,14 @@ function notesCreate(
 		td.appendChild(a);
 		tbody.children[0].appendChild(td);
 	} else {
-		let td = document.createElement("td");
+		const td = document.createElement("td");
 		td.textContent = "0";
 		tbody.children[0].appendChild(td);
 	}
 }
 
 if (notes) {
-	let modal = document.createElement("div");
+	const modal = document.createElement("div");
 	modal.className = "modal fade";
 	modal.id = "notesModal";
 	//Clear all CSS properties on the element
@@ -220,7 +220,7 @@ if (notes) {
 
 	cont.appendChild(modal);
 
-	let container = document.createElement("div");
+	const container = document.createElement("div");
 	container.className = "row";
 	container.innerHTML = `<div class='col-md-12 col-xs-11'>
 		<div class='panel panel-danger'>

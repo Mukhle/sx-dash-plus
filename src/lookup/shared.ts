@@ -4,7 +4,7 @@ export const getLookupContainerFromHeaderText = (
 	getReturnValue: (element: HTMLElement) => any,
 	defaults: any
 ) => {
-	for (let elt of headers) {
+	for (const elt of headers) {
 		if (elt.textContent?.includes(headerText)) {
 			return getReturnValue(elt) ?? defaults;
 		}
@@ -33,7 +33,7 @@ export function handleTextNode(textNode: Node) {
 
 const nodeNameSkip = ["SCRIPT", "STYLE"];
 export function processDocument(start: Node) {
-	let treeWalker = document.createTreeWalker(start, NodeFilter.SHOW_TEXT, {
+	const treeWalker = document.createTreeWalker(start, NodeFilter.SHOW_TEXT, {
 		acceptNode: function (node) {
 			if (node.textContent?.length === 0) {
 				return NodeFilter.FILTER_SKIP;
@@ -48,7 +48,7 @@ export function processDocument(start: Node) {
 		},
 	});
 
-	let nodeList = [];
+	const nodeList = [];
 	while (treeWalker.nextNode()) {
 		nodeList.push(treeWalker.currentNode);
 	}
