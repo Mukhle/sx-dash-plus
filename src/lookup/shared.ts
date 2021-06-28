@@ -32,7 +32,8 @@ export function handleTextNode(textNode: Node) {
 }
 
 const nodeNameSkip = ["SCRIPT", "STYLE"];
-export function processDocument(start: Node) {
+/** Creates a tree walker, starting on the given node, and uses it to generate links on all text nodes found that contain a steamid, to the relevant lookup page. */
+export function processTextNodes(start: Node) {
 	const treeWalker = document.createTreeWalker(start, NodeFilter.SHOW_TEXT, {
 		acceptNode: function (node) {
 			if (node.textContent?.length === 0) {

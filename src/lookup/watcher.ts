@@ -1,5 +1,5 @@
 import { removeTableRowListeners } from "../fixes/tables";
-import { user_is_staff, processDocument } from "./shared";
+import { user_is_staff, processTextNodes } from "./shared";
 
 if (user_is_staff) {
 	const container = document.querySelector("div.template.template__controls");
@@ -13,7 +13,7 @@ if (user_is_staff) {
 					mutation.addedNodes.forEach((node) => {
 						if (node instanceof HTMLElement) {
 							if (node.hasAttribute("data-ajaxlookup-table")) {
-								processDocument(node);
+								processTextNodes(node);
 								removeTableRowListeners(node);
 							}
 						}
