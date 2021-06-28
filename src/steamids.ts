@@ -1,5 +1,5 @@
-import { user_is_staff, processTextNodes } from "./lookup/shared";
+import { userIsStaff, processTextNodes } from "./lookup/shared";
 
-if (user_is_staff) {
+if (userIsStaff) {
 	processTextNodes(document.body);
 }

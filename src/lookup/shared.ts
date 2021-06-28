@@ -59,7 +59,7 @@ export function processTextNodes(start: Node) {
 	});
 }
 
-export const user_is_staff = (() => {
+export const userIsStaff = (() => {
 	for (const a of document.querySelectorAll(".sidebar__title")) {
 		if (a.textContent == "Staff") {
 			return true;

@@ -1,6 +1,6 @@
-import { user_is_staff } from "./lookup/shared";
+import { userIsStaff } from "./lookup/shared";
 
-if (user_is_staff) {
+if (userIsStaff) {
 	const lookupField = document.querySelector("#lookupid");
 
 	if (!lookupField) {
