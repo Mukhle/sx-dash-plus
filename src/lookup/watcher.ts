@@ -1,6 +1,5 @@
 import { removeTableRowListeners } from "../fixes/tables";
-import { processDocument } from "./shared";
-import user_is_staff from "../staffcheck";
+import { user_is_staff, processDocument } from "./shared";
 
 if (user_is_staff) {
 	const container = document.querySelector("div.template.template__controls");

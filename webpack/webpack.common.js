@@ -14,7 +14,6 @@ module.exports = {
 		"lookup/shared": path.join(srcDir, "lookup/shared.ts"),
 		"lookup/watcher": path.join(srcDir, "lookup/watcher.ts"),
 		lookupsearch: path.join(srcDir, "lookupsearch.ts"),
-		staffcheck: path.join(srcDir, "staffcheck.ts"),
 		steamids: path.join(srcDir, "steamids.ts"),
 	},
 	output: {
