@@ -30,7 +30,12 @@
 			"matches": ["*://stavox.dk/dash/*"]
 		},
 		{
-			"js": ["js/lookup/notes.js", "js/lookup/punishments.js", "js/lookup/watcher.js"],
+			"js": [
+				"js/lookup/notes.js",
+				"js/lookup/punishments.js",
+				"js/lookup/watcher.js",
+				"js/lookup/info.js"
+			],
 			"matches": ["*://stavox.dk/dash/lookup*?lookupid=*"]
 		},
 		{
