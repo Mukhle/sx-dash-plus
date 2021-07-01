@@ -18,6 +18,8 @@ const [punishments, punishmentsRow]: [HTMLElement[], HTMLElement] =
 			const punishmentsRow = elt.closest(".row");
 			const punishments = punishmentsRow?.querySelector("tbody")?.children;
 
+			if (punishments === undefined) return;
+
 			return [punishments, punishmentsRow];
 		},
 		[null, null]

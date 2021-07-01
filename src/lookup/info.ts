@@ -5,20 +5,16 @@ const [buttongroup, steamidParts] = getLookupContainerFromHeaderText(
 	(elt: HTMLElement) => {
 		const group = elt.parentElement?.parentElement?.querySelector("div.btn-group");
 
-		if (group) {
-			const paragraphs = elt.parentElement?.parentElement?.querySelectorAll("p > strong");
+		if (group === undefined) return;
 
-			if (paragraphs === undefined) {
-				return [null, null];
-			}
+		const paragraphs = elt.parentElement?.parentElement?.querySelectorAll("p > strong");
 
-			for (const pb of paragraphs) {
-				const match = pb.parentElement?.textContent?.match(/STEAM_\d:(\d):(\d+)/);
+		if (paragraphs === undefined) return;
 
-				if (match) {
-					return [group, match];
-				}
-			}
+		for (const pb of paragraphs) {
+			const match = pb.parentElement?.textContent?.match(/STEAM_\d:(\d):(\d+)/);
+
+			if (match) return [group, match];
 		}
 	},
 	[null, null]

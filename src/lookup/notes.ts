@@ -17,9 +17,7 @@ const [notes, notesRow]: [HTMLElement[], HTMLElement] = getLookupContainerFromHe
 		const notesRow = elt.closest(".row");
 		const notes = notesRow?.querySelector<HTMLElement>("div.sp-widget__list")?.children;
 
-		if (!notes) {
-			return;
-		}
+		if (notes === undefined) return;
 
 		return [notes, notesRow];
 	},
