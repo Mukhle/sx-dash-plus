@@ -5,9 +5,7 @@ if (userIsStaff) {
 	const container = document.querySelector("div.template.template__controls");
 
 	if (container) {
-		const config = { childList: true };
-
-		const callback = function (mutationsList: MutationRecord[]) {
+		const observer = new MutationObserver((mutationsList: MutationRecord[]) => {
 			for (const mutation of mutationsList) {
 				if (mutation.type === "childList") {
 					mutation.addedNodes.forEach((node) => {
@@ -20,10 +18,8 @@ if (userIsStaff) {
 					});
 				}
 			}
-		};
+		});
 
-		const observer = new MutationObserver(callback);
-
-		observer.observe(container, config);
+		observer.observe(container, { childList: true });
 	}
 }
