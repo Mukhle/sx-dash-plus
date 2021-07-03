@@ -10,3 +10,13 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+
+  - package-ecosystem: "npm"
+    directory: "/.github/actions/release/"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "npm"
+    directory: "/.github/actions/version/"
+    schedule:
+      interval: "daily"
