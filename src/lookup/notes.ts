@@ -13,8 +13,8 @@ if (!cont) {
 
 const [notes, notesRow]: [HTMLElement[], HTMLElement] = getLookupContainerFromHeaderText(
 	"Noter",
-	(elt) => {
-		const notesRow = elt.closest(".row");
+	(element) => {
+		const notesRow = element.closest(".row");
 		const notes = notesRow?.querySelector<HTMLElement>("div.sp-widget__list")?.children;
 
 		if (notes === undefined) return;
@@ -36,8 +36,8 @@ function notesClickEventListener(
 		listElement.removeChild(listElement.lastElementChild);
 	}
 
-	for (const elt of array) {
-		listElement.appendChild(elt.cloneNode(true));
+	for (const element of array) {
+		listElement.appendChild(element.cloneNode(true));
 	}
 }
 
@@ -66,9 +66,9 @@ function notesCreate(
 	const weekNotes: HTMLElement[] = [];
 	const dayNotes: HTMLElement[] = [];
 
-	for (const elt of notes) {
-		const user = elt.querySelector<HTMLSpanElement>("div.sp-widget__user > span");
-		const text = elt.querySelector<HTMLDivElement>("div.sp-widget__text");
+	for (const element of notes) {
+		const user = element.querySelector<HTMLSpanElement>("div.sp-widget__user > span");
+		const text = element.querySelector<HTMLDivElement>("div.sp-widget__text");
 
 		if (user && text) {
 			if (text.textContent?.toLowerCase().indexOf(filter.value.toLowerCase()) == -1) {
@@ -81,18 +81,18 @@ function notesCreate(
 				const now = dayjs();
 				const date = dayjs(time[0]);
 
-				allNotes.push(elt);
+				allNotes.push(element);
 
 				if (date.diff(now, "month") == 0) {
-					monthNotes.push(elt);
+					monthNotes.push(element);
 				}
 
 				if (date.diff(now, "week") == 0) {
-					weekNotes.push(elt);
+					weekNotes.push(element);
 				}
 
 				if (date.diff(now, "day") == 0) {
-					dayNotes.push(elt);
+					dayNotes.push(element);
 				}
 			}
 		}

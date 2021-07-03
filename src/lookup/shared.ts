@@ -4,9 +4,9 @@ export const getLookupContainerFromHeaderText = (
 	getReturnValue: (element: HTMLElement) => any,
 	defaults: any
 ) => {
-	for (const elt of headers) {
-		if (elt.textContent?.includes(headerText)) {
-			return getReturnValue(elt) ?? defaults;
+	for (const element of headers) {
+		if (element.textContent?.includes(headerText)) {
+			return getReturnValue(element) ?? defaults;
 		}
 	}
 };
@@ -60,8 +60,8 @@ export function processTextNodes(start: Node) {
 }
 
 export const userIsStaff = (() => {
-	for (const a of document.querySelectorAll(".sidebar__title")) {
-		if (a.textContent == "Staff") {
+	for (const element of document.querySelectorAll(".sidebar__title")) {
+		if (element.textContent == "Staff") {
 			return true;
 		}
 	}

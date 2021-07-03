@@ -14,8 +14,8 @@ if (!cont) {
 const [punishments, punishmentsRow]: [HTMLElement[], HTMLElement] =
 	getLookupContainerFromHeaderText(
 		"Strafhistorik",
-		(elt) => {
-			const punishmentsRow = elt.closest(".row");
+		(element) => {
+			const punishmentsRow = element.closest(".row");
 			const punishments = punishmentsRow?.querySelector("tbody")?.children;
 
 			if (punishments === undefined) return;
@@ -44,8 +44,8 @@ function punishmentsClickEventListener(
 		tableElement.removeChild(tableElement.lastElementChild);
 	}
 
-	for (const elt of array[type]) {
-		const clone = elt.cloneNode(true) as HTMLElement;
+	for (const element of array[type]) {
+		const clone = element.cloneNode(true) as HTMLElement;
 
 		if (clone.lastElementChild) {
 			clone.removeChild(clone.lastElementChild);
@@ -122,18 +122,18 @@ function punishmentsCreate(
 		CarBan: [],
 	};
 
-	for (const elt of punishments) {
-		if (elt.style.getPropertyValue("textDecoration") == "line-through") {
+	for (const element of punishments) {
+		if (element.style.getPropertyValue("textDecoration") == "line-through") {
 			continue;
 		}
 
-		const time = elt.children[0].textContent;
+		const time = element.children[0].textContent;
 
 		if (time == null) {
 			continue;
 		}
 
-		const type = elt.children[1].textContent as PunishmentKey | null;
+		const type = element.children[1].textContent as PunishmentKey | null;
 
 		if (type == null) {
 			continue;
@@ -150,7 +150,7 @@ function punishmentsCreate(
 		let filterSkip = true;
 
 		const filterText = filter.value.toLowerCase();
-		for (const elt2 of elt.children) {
+		for (const elt2 of element.children) {
 			const eltText = elt2.textContent?.toLowerCase();
 
 			if (eltText && eltText.indexOf(filterText) > -1) {
@@ -167,22 +167,22 @@ function punishmentsCreate(
 		const now = dayjs();
 		const date = dayjs(time[0]);
 
-		allPunishments.Alle.push(elt);
-		allPunishments[type].push(elt);
+		allPunishments.Alle.push(element);
+		allPunishments[type].push(element);
 
 		if (date.diff(now, "month") == 0) {
-			monthPunishments.Alle.push(elt);
-			monthPunishments[type].push(elt);
+			monthPunishments.Alle.push(element);
+			monthPunishments[type].push(element);
 		}
 
 		if (date.diff(now, "week") == 0) {
-			weekPunishments.Alle.push(elt);
-			weekPunishments[type].push(elt);
+			weekPunishments.Alle.push(element);
+			weekPunishments[type].push(element);
 		}
 
 		if (date.diff(now, "day") == 0) {
-			dayPunishments.Alle.push(elt);
-			dayPunishments[type].push(elt);
+			dayPunishments.Alle.push(element);
+			dayPunishments[type].push(element);
 		}
 	}
 

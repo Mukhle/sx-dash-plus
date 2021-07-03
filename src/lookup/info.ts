@@ -2,12 +2,12 @@ import { getLookupContainerFromHeaderText } from "./shared";
 
 const [buttongroup, steamidParts] = getLookupContainerFromHeaderText(
 	"Spillerinformation",
-	(elt: HTMLElement) => {
-		const group = elt.parentElement?.parentElement?.querySelector("div.btn-group");
+	(element: HTMLElement) => {
+		const group = element.parentElement?.parentElement?.querySelector("div.btn-group");
 
 		if (group === undefined) return;
 
-		const paragraphs = elt.parentElement?.parentElement?.querySelectorAll("p > strong");
+		const paragraphs = element.parentElement?.parentElement?.querySelectorAll("p > strong");
 
 		if (paragraphs === undefined) return;
 
