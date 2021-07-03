@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Create release
     needs: version
-    if: ${{ needs.version.outputs.versionChanged }} == 'true'
+    if: needs.version.outputs.versionChanged == 'true'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
