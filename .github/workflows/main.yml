@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Check for version change
     outputs:
+      versionChanged: ${{ steps.version.outputs.versionChanged }}
       currentVersion: ${{ steps.version.outputs.currentVersion }}
       previousVersion: ${{ steps.version.outputs.previousVersion }}
     steps:
@@ -21,6 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Create release
     needs: version
+    if: ${{ needs.version.outputs.versionChanged }} == 'true'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
