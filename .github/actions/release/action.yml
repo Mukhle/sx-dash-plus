@@ -1,0 +1,19 @@
+name: SxDashPlus Release Action
+description: Automatic GitHub release when manifest.json version changes
+branding:
+  color: red
+  icon: archive
+inputs:
+  token:
+    description: Personal access token. Defaults to GITHUB_TOKEN.
+    default: ${{ github.token }}
+    required: false
+  currentVersion:
+    description: New version.
+    required: true
+  previousVersion:
+    description: Version of latest release.
+    required: true
+runs:
+  using: "node12"
+  main: "dist/index.js"

@@ -1,0 +1,10 @@
+.sxpluslookup {
+	color: inherit;
+	font-style: italic;
+	text-decoration: underline;
+}
+
+.sxpluslookup:hover {
+	color: inherit;
+	filter: brightness(75%);
+}
