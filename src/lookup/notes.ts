@@ -1,4 +1,5 @@
 import { getLookupContainerFromHeaderText } from './shared';
+import { debounce } from 'debounce';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
@@ -243,9 +244,12 @@ export const execute = async () => {
 	notesRow.before(container);
 
 	//TODO Add debounce
-	filter.addEventListener('keyup', () => {
-		notesCreate(notes, modal, filter, tbody);
-	});
+	filter.addEventListener(
+		'keyup',
+		debounce(() => {
+			notesCreate(notes, modal, filter, tbody);
+		}, 500)
+	);
 
 	notesCreate(notes, modal, filter, tbody);
 };

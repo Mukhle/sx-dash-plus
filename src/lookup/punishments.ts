@@ -1,4 +1,5 @@
 import { getLookupContainerFromHeaderText } from './shared';
+import { debounce } from 'debounce';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
@@ -346,10 +347,12 @@ export const execute = async () => {
 	cont.appendChild(container);
 	punishmentsRow.before(container);
 
-	//TODO Add debounce
-	filter.addEventListener('keyup', () => {
+	filter.addEventListener(
+		'keyup',
+		debounce(() => {
 		punishmentsCreate(punishments, modal, filter, tbody);
-	});
+		}, 500)
+	);
 
 	punishmentsCreate(punishments, modal, filter, tbody);
 };
