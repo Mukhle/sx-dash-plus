@@ -251,7 +251,10 @@ export const execute = async () => {
 		}, 500)
 	);
 
-	notesCreate(notes, modal, filter, tbody);
+	//Some fuckery was happening with the click event listeners when running the function immediately
+	setTimeout(() => {
+		notesCreate(notes, modal, filter, tbody);
+	});
 };
 
 execute();

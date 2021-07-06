@@ -354,7 +354,10 @@ export const execute = async () => {
 		}, 500)
 	);
 
+	//Some fuckery was happening with the click event listeners when running the function immediately
+	setTimeout(() => {
 	punishmentsCreate(punishments, modal, filter, tbody);
+	});
 };
 
 execute();
