@@ -24,7 +24,7 @@
 		"webpack-merge": "^5.8.0"
 	},
 	"dependencies": {
-		"dayjs": "^1.10.5",
+		"dayjs": "^1.10.6",
 		"debounce": "^1.2.1"
 	}
 }
