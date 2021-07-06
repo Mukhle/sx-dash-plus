@@ -3,9 +3,9 @@ const unbind_event_listeners = (node: HTMLElement) => {
 };
 
 export function removeTableRowListeners(root: HTMLElement) {
-	for (const element of root.querySelectorAll<HTMLTableRowElement>(".table>tbody>tr")) {
-		element.classList.add("sxplusrow");
-		element.removeAttribute("onclick");
+	for (const element of root.querySelectorAll<HTMLTableRowElement>('.table>tbody>tr')) {
+		element.classList.add('sxplusrow');
+		element.removeAttribute('onclick');
 		unbind_event_listeners(element);
 	}
 }

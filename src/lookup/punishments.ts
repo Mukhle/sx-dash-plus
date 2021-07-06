@@ -1,21 +1,16 @@
-import { getLookupContainerFromHeaderText } from "./shared";
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
+import { getLookupContainerFromHeaderText } from './shared';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 
-const PunishmentKeys = ["Alle", "Ban", "Kick", "Jail", "JobBan", "CarBan"] as const;
+const PunishmentKeys = ['Alle', 'Ban', 'Kick', 'Jail', 'JobBan', 'CarBan'] as const;
 type PunishmentKey = typeof PunishmentKeys[number];
 type PunishmentArrayObject = {
 	[key in PunishmentKey]: HTMLElement[];
 };
 
-function punishmentsClickEventListener(
-	type: PunishmentKey,
-	period: string,
-	titleElement: HTMLHeadingElement,
-	tableElement: HTMLTableSectionElement,
-	array: PunishmentArrayObject
-) {
+function punishmentsClickEventListener(type: PunishmentKey, period: string, titleElement: HTMLHeadingElement, tableElement: HTMLTableSectionElement, array: PunishmentArrayObject) {
+	console.log('punishmentsClickEventListener', type, period);
 	titleElement.textContent = `${type} - ${period}`;
 
 	while (tableElement.lastElementChild) {
@@ -33,36 +28,14 @@ function punishmentsClickEventListener(
 	}
 }
 
-function punishmentsCreate(
-	punishments: HTMLElement[],
-	modal: HTMLDivElement,
-	filter: HTMLInputElement,
-	tbody: HTMLTableSectionElement
-) {
-	tbody.innerHTML = `<tr class='sxplusrow' style='font-weight: bold;color:#ed4949;'>
-		<td>Altid</td>
-	</tr>
-	<tr class='sxplusrow'>
-		<td>Seneste måned</td>
-	</tr>
-	<tr class='sxplusrow'>
-		<td>Seneste uge</td>
-	</tr>
-	<tr class='sxplusrow'>
-		<td>Seneste døgn</td>
-	</tr>`;
+function punishmentsCreate(punishments: HTMLElement[], modal: HTMLDivElement, filter: HTMLInputElement, tbody: HTMLTableSectionElement) {
+	const modalTitle = modal.querySelector('h4');
+	if (modalTitle === null) return;
 
-	const modalTitle = modal.querySelector("h4");
-	if (modalTitle == null) {
-		return;
-	}
+	const modalTable = modal.querySelector('tbody');
+	if (modalTable === null) return;
 
-	const modalTable = modal.querySelector("tbody");
-	if (modalTable == null) {
-		return;
-	}
-
-	const skip = ["Unban", "Update"];
+	const skip = ['Unban', 'Update'];
 
 	const allPunishments: PunishmentArrayObject = {
 		Alle: [],
@@ -101,29 +74,17 @@ function punishmentsCreate(
 	};
 
 	for (const element of punishments) {
-		if (element.style.getPropertyValue("textDecoration") == "line-through") {
-			continue;
-		}
+		if (element.style.getPropertyValue('textDecoration') == 'line-through') continue;
 
 		const time = element.children[0].textContent;
 
-		if (time == null) {
-			continue;
-		}
+		if (time === null) continue;
 
 		const type = element.children[1].textContent as PunishmentKey | null;
 
-		if (type == null) {
-			continue;
-		}
-
-		if (skip.includes(type)) {
-			continue;
-		}
-
-		if (!(type in PunishmentKeys)) {
-			continue;
-		}
+		if (type === null) continue;
+		if (skip.includes(type)) continue;
+		if (PunishmentKeys.includes(type) === false) continue;
 
 		let filterSkip = true;
 
@@ -131,16 +92,14 @@ function punishmentsCreate(
 		for (const elt2 of element.children) {
 			const eltText = elt2.textContent?.toLowerCase();
 
-			if (eltText && eltText.indexOf(filterText) > -1) {
+			if (eltText && eltText.includes(filterText)) {
 				filterSkip = false;
 
 				break;
 			}
 		}
 
-		if (filterSkip) {
-			continue;
-		}
+		if (filterSkip) continue;
 
 		const now = dayjs();
 		const date = dayjs(time[0]);
@@ -148,17 +107,17 @@ function punishmentsCreate(
 		allPunishments.Alle.push(element);
 		allPunishments[type].push(element);
 
-		if (date.diff(now, "month") == 0) {
+		if (date.diff(now, 'month') == 0) {
 			monthPunishments.Alle.push(element);
 			monthPunishments[type].push(element);
 		}
 
-		if (date.diff(now, "week") == 0) {
+		if (date.diff(now, 'week') == 0) {
 			weekPunishments.Alle.push(element);
 			weekPunishments[type].push(element);
 		}
 
-		if (date.diff(now, "day") == 0) {
+		if (date.diff(now, 'day') == 0) {
 			dayPunishments.Alle.push(element);
 			dayPunishments[type].push(element);
 		}
@@ -168,32 +127,25 @@ function punishmentsCreate(
 		const punishmentKey = key as PunishmentKey;
 
 		if (allPunishments.hasOwnProperty(punishmentKey)) {
-			if (allPunishments[punishmentKey].length > 0) {
-				const td = document.createElement("td");
+			const td = document.createElement('td');
 
-				const a = document.createElement("a");
-				a.setAttribute("data-toggle", "modal");
-				a.setAttribute("data-target", "#punishmentsModal");
-				a.style.setProperty("color", "inherit");
-				a.style.setProperty("textDecoration", "underline");
+			if (allPunishments[punishmentKey].length > 0) {
+				const a = document.createElement('a');
+				a.setAttribute('data-toggle', 'modal');
+				a.setAttribute('data-target', '#punishmentsModal');
+				a.style.setProperty('color', 'inherit');
+				a.style.setProperty('textDecoration', 'underline');
 				a.textContent = allPunishments[punishmentKey].length.toString();
-				a.addEventListener("click", () => {
-					punishmentsClickEventListener(
-						punishmentKey,
-						"Altid",
-						modalTitle,
-						modalTable,
-						allPunishments
-					);
+				a.addEventListener('click', () => {
+					punishmentsClickEventListener(punishmentKey, 'Altid', modalTitle, modalTable, allPunishments);
 				});
 
 				td.appendChild(a);
-				tbody.children[0].appendChild(td);
 			} else {
-				const td = document.createElement("td");
-				td.textContent = "0";
-				tbody.children[0].appendChild(td);
+				td.textContent = '0';
 			}
+
+			tbody.children[0].appendChild(td);
 		}
 	}
 
@@ -201,32 +153,25 @@ function punishmentsCreate(
 		const punishmentKey = key as PunishmentKey;
 
 		if (monthPunishments.hasOwnProperty(punishmentKey)) {
-			if (monthPunishments[punishmentKey].length > 0) {
-				const td = document.createElement("td");
+			const td = document.createElement('td');
 
-				const a = document.createElement("a");
-				a.setAttribute("data-toggle", "modal");
-				a.setAttribute("data-target", "#punishmentsModal");
-				a.style.setProperty("color", "inherit");
-				a.style.setProperty("textDecoration", "underline");
+			if (monthPunishments[punishmentKey].length > 0) {
+				const a = document.createElement('a');
+				a.setAttribute('data-toggle', 'modal');
+				a.setAttribute('data-target', '#punishmentsModal');
+				a.style.setProperty('color', 'inherit');
+				a.style.setProperty('textDecoration', 'underline');
 				a.textContent = monthPunishments[punishmentKey].length.toString();
-				a.addEventListener("click", () => {
-					punishmentsClickEventListener(
-						punishmentKey,
-						"Seneste måned",
-						modalTitle,
-						modalTable,
-						monthPunishments
-					);
+				a.addEventListener('click', () => {
+					punishmentsClickEventListener(punishmentKey, 'Seneste måned', modalTitle, modalTable, monthPunishments);
 				});
 
 				td.appendChild(a);
-				tbody.children[1].appendChild(td);
 			} else {
-				const td = document.createElement("td");
-				td.textContent = "0";
-				tbody.children[1].appendChild(td);
+				td.textContent = '0';
 			}
+
+			tbody.children[1].appendChild(td);
 		}
 	}
 
@@ -234,32 +179,25 @@ function punishmentsCreate(
 		const punishmentKey = key as PunishmentKey;
 
 		if (weekPunishments.hasOwnProperty(punishmentKey)) {
-			if (weekPunishments[punishmentKey].length > 0) {
-				const td = document.createElement("td");
+			const td = document.createElement('td');
 
-				const a = document.createElement("a");
-				a.setAttribute("data-toggle", "modal");
-				a.setAttribute("data-target", "#punishmentsModal");
-				a.style.setProperty("color", "inherit");
-				a.style.setProperty("textDecoration", "underline");
+			if (weekPunishments[punishmentKey].length > 0) {
+				const a = document.createElement('a');
+				a.setAttribute('data-toggle', 'modal');
+				a.setAttribute('data-target', '#punishmentsModal');
+				a.style.setProperty('color', 'inherit');
+				a.style.setProperty('textDecoration', 'underline');
 				a.textContent = weekPunishments[punishmentKey].length.toString();
-				a.addEventListener("click", () => {
-					punishmentsClickEventListener(
-						punishmentKey,
-						"Seneste uge",
-						modalTitle,
-						modalTable,
-						weekPunishments
-					);
+				a.addEventListener('click', () => {
+					punishmentsClickEventListener(punishmentKey, 'Seneste uge', modalTitle, modalTable, weekPunishments);
 				});
 
 				td.appendChild(a);
-				tbody.children[2].appendChild(td);
 			} else {
-				const td = document.createElement("td");
-				td.textContent = "0";
-				tbody.children[2].appendChild(td);
+				td.textContent = '0';
 			}
+
+			tbody.children[2].appendChild(td);
 		}
 	}
 
@@ -267,70 +205,58 @@ function punishmentsCreate(
 		const punishmentKey = key as PunishmentKey;
 
 		if (dayPunishments.hasOwnProperty(punishmentKey)) {
-			if (dayPunishments[punishmentKey].length > 0) {
-				const td = document.createElement("td");
+			const td = document.createElement('td');
 
-				const a = document.createElement("a");
-				a.setAttribute("data-toggle", "modal");
-				a.setAttribute("data-target", "#punishmentsModal");
-				a.style.setProperty("color", "inherit");
-				a.style.setProperty("textDecoration", "underline");
+			if (dayPunishments[punishmentKey].length > 0) {
+				const a = document.createElement('a');
+				a.setAttribute('data-toggle', 'modal');
+				a.setAttribute('data-target', '#punishmentsModal');
+				a.style.setProperty('color', 'inherit');
+				a.style.setProperty('textDecoration', 'underline');
 				a.textContent = dayPunishments[punishmentKey].length.toString();
-				a.addEventListener("click", () => {
-					punishmentsClickEventListener(
-						punishmentKey,
-						"Seneste døgn",
-						modalTitle,
-						modalTable,
-						dayPunishments
-					);
+				a.addEventListener('click', () => {
+					punishmentsClickEventListener(punishmentKey, 'Seneste døgn', modalTitle, modalTable, dayPunishments);
 				});
 
 				td.appendChild(a);
-				tbody.children[3].appendChild(td);
 			} else {
-				const td = document.createElement("td");
-				td.textContent = "0";
-				tbody.children[3].appendChild(td);
+				td.textContent = '0';
 			}
+
+			tbody.children[3].appendChild(td);
 		}
 	}
 }
 
 export const execute = async () => {
-	const cont = document.querySelector(
-		"body > div > div > div.main > div > div.container-fluid.half-padding > div"
+	const cont = document.querySelector('body > div > div > div.main > div > div.container-fluid.half-padding > div');
+
+	if (cont === null) return;
+
+	const [punishments, punishmentsRow]: [HTMLElement[] | null, HTMLElement | null] = getLookupContainerFromHeaderText(
+		'Strafhistorik',
+		(element) => {
+			const punishmentsRow = element.closest('.row');
+			const punishments = punishmentsRow?.querySelector('tbody')?.children;
+
+			if (punishments === undefined) return;
+
+			return [punishments, punishmentsRow];
+		},
+		[null, null]
 	);
-
-	if (!cont) {
-		throw new Error("Content div not found");
-	}
-
-	const [punishments, punishmentsRow]: [HTMLElement[] | null, HTMLElement | null] =
-		getLookupContainerFromHeaderText(
-			"Strafhistorik",
-			(element) => {
-				const punishmentsRow = element.closest(".row");
-				const punishments = punishmentsRow?.querySelector("tbody")?.children;
-
-				if (punishments === undefined) return;
-
-				return [punishments, punishmentsRow];
-			},
-			[null, null]
-		);
 
 	if (punishments === null || punishmentsRow === null) return;
 
-	const modal = document.createElement("div");
-	modal.className = "modal fade";
-	modal.id = "punishmentsModal";
+	const modal = document.createElement('div');
+	modal.className = 'modal fade';
+	modal.id = 'punishmentsModal';
 	//Clear all CSS properties on the element
 	for (let i = 1; modal.style.length; i++) {
 		const propertyName = modal.style.item(i);
 		modal.style.removeProperty(propertyName);
 	}
-	modal.style.setProperty("display", "none");
+	modal.style.setProperty('display', 'none');
 	modal.innerHTML = `<div class='modal-dialog modal-lg' role='document'>
 		<div class='modal-content'>
 			<div class='modal-header'>
@@ -362,8 +288,8 @@ export const execute = async () => {
 
 	cont.appendChild(modal);
 
-	const container = document.createElement("div");
-	container.className = "row";
+	const container = document.createElement('div');
+	container.className = 'row';
 	container.innerHTML = `<div class='col-md-12 col-xs-11'>
 		<div class='panel panel-danger'>
 			<div class='panel-heading' style='background-color:#16a085;border-bottom-color:white;'>
@@ -377,7 +303,7 @@ export const execute = async () => {
 						<table class='table table_sortable {sortlist: [[0,0]]}' cellspacing='0' width='100%'>
 							<thead>
 								<tr>
-									<th>Tidsperiode</th>
+									<th></th>
 									<th>Alle</th>
 									<th>Ban</th>
 									<th>Kick</th>
@@ -388,7 +314,18 @@ export const execute = async () => {
 							</thead>
 
 							<tbody>
-
+								<tr class='sxplusrow' style='font-weight: bold;color:#ed4949;'>
+									<th>Altid</th>
+								</tr>
+								<tr class='sxplusrow'>
+									<th>Seneste måned</th>
+								</tr>
+								<tr class='sxplusrow'>
+									<th>Seneste uge</th>
+								</tr>
+								<tr class='sxplusrow'>
+									<th>Seneste døgn</th>
+								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -397,16 +334,17 @@ export const execute = async () => {
 		</div>
 	</div>`;
 
-	const filter = container.querySelector<HTMLInputElement>("input");
-	if (!filter) return;
+	const filter = container.querySelector<HTMLInputElement>('input');
+	if (filter === null) return;
 
-	const tbody = container.querySelector<HTMLTableSectionElement>("tbody");
-	if (!tbody) return;
+	const tbody = container.querySelector<HTMLTableSectionElement>('tbody');
+	if (tbody === null) return;
 
 	cont.appendChild(container);
 	punishmentsRow.before(container);
 
-	filter.addEventListener("keyup", () => {
+	//TODO Add debounce
+	filter.addEventListener('keyup', () => {
 		punishmentsCreate(punishments, modal, filter, tbody);
 	});
 
@@ -414,3 +352,5 @@ export const execute = async () => {
 };
 
 execute();
+
+//TODO Create link to note if it includes timestamp of punishment
