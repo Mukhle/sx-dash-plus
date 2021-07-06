@@ -243,6 +243,53 @@ function punishmentsCreate(punishments: HTMLElement[], modal: HTMLDivElement, fi
 	}
 }
 
+function createNotesLink(punishments: Element[]) {
+	const notes: HTMLElement[] | null = getLookupContainerFromHeaderText(
+		'Noter',
+		(element) => {
+			const notes = element.closest('.row')?.querySelector<HTMLElement>('div.sp-widget__list')?.children;
+
+			if (notes === undefined) return;
+
+			return notes;
+		},
+		null
+	);
+
+	if (notes === null) return;
+
+	for (const punishmentRow of punishments) {
+		const time = punishmentRow.children[0].textContent;
+		if (time === null) continue;
+
+		const buttonCell = punishmentRow.children[0];
+		if (buttonCell === null) continue;
+
+		for (const noteEntry of notes) {
+			const noteText = noteEntry.textContent?.toLowerCase();
+			if (noteText === undefined) continue;
+
+			if (noteText && noteText.includes(time)) {
+				console.log(punishmentRow, noteEntry);
+
+				const button = document.createElement('i');
+				button.className = 'fa fa-file-text-o';
+				button.style.setProperty('cursor', 'pointer');
+				button.style.setProperty('color', '#ffffff');
+				button.style.setProperty('margin-left', '4px');
+				button.addEventListener('click', () => {
+					noteEntry.scrollIntoView({
+						behavior: 'smooth',
+						block: 'center',
+					});
+				});
+
+				buttonCell.appendChild(button);
+			}
+		}
+	}
+}
+
 export const execute = async () => {
 	const cont = document.querySelector('body > div > div > div.main > div > div.container-fluid.half-padding > div');
 
@@ -356,7 +403,8 @@ export const execute = async () => {
 
 	//Some fuckery was happening with the click event listeners when running the function immediately
 	setTimeout(() => {
-	punishmentsCreate(punishments, modal, filter, tbody);
+		createNotesLink(punishments);
+		punishmentsCreate(punishments, modal, filter, tbody);
 	});
 };
 
