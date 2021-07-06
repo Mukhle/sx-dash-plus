@@ -4,7 +4,7 @@
 	"name": "__MSG_extName__",
 	"description": "__MSG_extDesc__",
 	"default_locale": "da",
-	"version": "1.3.1",
+	"version": "1.4.0",
 	"icons": {
 		"64": "icon128.png",
 		"128": "icon128.png"
@@ -30,12 +30,7 @@
 			"matches": ["*://stavox.dk/dash/*"]
 		},
 		{
-			"js": [
-				"js/lookup/notes.js",
-				"js/lookup/punishments.js",
-				"js/lookup/watcher.js",
-				"js/lookup/info.js"
-			],
+			"js": ["js/lookup/notes.js", "js/lookup/punishments.js", "js/lookup/watcher.js", "js/lookup/info.js"],
 			"matches": ["*://stavox.dk/dash/lookup*?lookupid=*"]
 		},
 		{
