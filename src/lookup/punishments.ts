@@ -11,7 +11,6 @@ type PunishmentArrayObject = {
 };
 
 function punishmentsClickEventListener(type: PunishmentKey, period: string, titleElement: HTMLHeadingElement, tableElement: HTMLTableSectionElement, array: PunishmentArrayObject) {
-	console.log('punishmentsClickEventListener', type, period);
 	titleElement.textContent = `${type} - ${period}`;
 
 	while (tableElement.lastElementChild) {
@@ -92,12 +91,11 @@ function punishmentsCreate(punishments: HTMLElement[], modal: HTMLDivElement, fi
 		if (element.style.getPropertyValue('textDecoration') == 'line-through') continue;
 
 		const time = element.children[0].textContent;
-
 		if (time === null) continue;
 
 		const type = element.children[1].textContent as PunishmentKey | null;
-
 		if (type === null) continue;
+
 		if (skip.includes(type)) continue;
 		if (PunishmentKeys.includes(type) === false) continue;
 
@@ -117,7 +115,7 @@ function punishmentsCreate(punishments: HTMLElement[], modal: HTMLDivElement, fi
 		if (filterSkip) continue;
 
 		const now = dayjs();
-		const date = dayjs(time[0]);
+		const date = dayjs(time);
 
 		allPunishments.Alle.push(element);
 		allPunishments[type].push(element);
@@ -292,7 +290,6 @@ function createNotesLink(punishments: Element[]) {
 
 export const execute = async () => {
 	const cont = document.querySelector('body > div > div > div.main > div > div.container-fluid.half-padding > div');
-
 	if (cont === null) return;
 
 	const [punishments, punishmentsRow]: [HTMLElement[] | null, HTMLElement | null] = getLookupContainerFromHeaderText(
@@ -397,7 +394,7 @@ export const execute = async () => {
 	filter.addEventListener(
 		'keyup',
 		debounce(() => {
-		punishmentsCreate(punishments, modal, filter, tbody);
+			punishmentsCreate(punishments, modal, filter, tbody);
 		}, 500)
 	);
 
