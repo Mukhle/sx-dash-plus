@@ -16,6 +16,11 @@ function notesClickEventListener(period: string, titleElement: HTMLHeadingElemen
 }
 
 function notesCreate(notes: HTMLElement[], modal: HTMLDivElement, filter: HTMLInputElement, tbody: HTMLTableSectionElement) {
+	//Reset table body
+	tbody.innerHTML = `<tr class='sxplusrow'>
+		<th>Antal</th>
+	</tr>`;
+
 	const modalTitle = modal.querySelector<HTMLHeadingElement>('h4');
 	if (modalTitle === null) return;
 
@@ -219,9 +224,7 @@ export const execute = async () => {
 							</thead>
 
 							<tbody>
-								<tr class='sxplusrow'>
-									<th>Antal</th>
-								</tr>
+								
 							</tbody>
 						</table>
 					</div>

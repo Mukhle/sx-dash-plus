@@ -29,6 +29,20 @@ function punishmentsClickEventListener(type: PunishmentKey, period: string, titl
 }
 
 function punishmentsCreate(punishments: HTMLElement[], modal: HTMLDivElement, filter: HTMLInputElement, tbody: HTMLTableSectionElement) {
+	//Reset table body
+	tbody.innerHTML = `<tr class='sxplusrow' style='font-weight: bold;color:#ed4949;'>
+		<th>Altid</th>
+	</tr>
+	<tr class='sxplusrow'>
+		<th>Seneste måned</th>
+	</tr>
+	<tr class='sxplusrow'>
+		<th>Seneste uge</th>
+	</tr>
+	<tr class='sxplusrow'>
+		<th>Seneste døgn</th>
+	</tr>`;
+
 	const modalTitle = modal.querySelector('h4');
 	if (modalTitle === null) return;
 
@@ -314,18 +328,7 @@ export const execute = async () => {
 							</thead>
 
 							<tbody>
-								<tr class='sxplusrow' style='font-weight: bold;color:#ed4949;'>
-									<th>Altid</th>
-								</tr>
-								<tr class='sxplusrow'>
-									<th>Seneste måned</th>
-								</tr>
-								<tr class='sxplusrow'>
-									<th>Seneste uge</th>
-								</tr>
-								<tr class='sxplusrow'>
-									<th>Seneste døgn</th>
-								</tr>
+								
 							</tbody>
 						</table>
 					</div>
