@@ -1,33 +1,76 @@
 import { getLookupContainerFromHeaderText } from './shared';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
 
+const skip = ['Unban', 'Update'];
 function createNotesLink(punishments: Element[], notes: Element[]) {
 	for (const punishmentRow of punishments) {
-		const time = punishmentRow.children[0].textContent;
-		if (time === null) continue;
+		const type = punishmentRow.children[1].textContent;
+		if (type === null) continue;
 
-		const buttonCell = punishmentRow.children[0];
+		if (skip.includes(type)) continue;
+
+		const punishmentTime = punishmentRow.children[0].textContent;
+		if (punishmentTime === null) continue;
+
+		const buttonCell = punishmentRow.children[2];
 		if (buttonCell === null) continue;
+
+		const punishmentDate = dayjs(punishmentTime, 'DD-MM-YY HH:mm:ss');
 
 		for (const noteEntry of notes) {
 			const noteText = noteEntry.textContent?.toLowerCase();
 			if (noteText === undefined) continue;
 
-			if (noteText && noteText.includes(time)) {
-				console.log(punishmentRow, noteEntry);
-
-				const button = document.createElement('i');
-				button.className = 'fa fa-file-text-o';
-				button.style.setProperty('cursor', 'pointer');
-				button.style.setProperty('color', '#ffffff');
-				button.style.setProperty('margin-left', '4px');
-				button.addEventListener('click', () => {
-					noteEntry.scrollIntoView({
-						behavior: 'smooth',
-						block: 'center',
+			if (noteText) {
+				if (noteText.includes(punishmentTime)) {
+					const button = document.createElement('i');
+					button.className = 'fa fa-file-text-o';
+					button.title = 'Note indeholder tidspunktet hvor straffen er registreret';
+					button.style.setProperty('cursor', 'pointer');
+					button.style.setProperty('color', '#6ab04c');
+					button.style.setProperty('margin-left', '4px');
+					button.addEventListener('click', () => {
+						noteEntry.scrollIntoView({
+							behavior: 'smooth',
+							block: 'center',
+						});
 					});
-				});
 
-				buttonCell.appendChild(button);
+					buttonCell.appendChild(button);
+				} else {
+					const noteTime = noteEntry.querySelector<HTMLDivElement>('.sp-widget__date')?.textContent?.substring(2);
+					if (noteTime === undefined) continue;
+
+					const noteUser = noteEntry.querySelector<HTMLDivElement>('.sp-widget__user')?.textContent;
+					if (noteUser === null || noteUser === undefined) continue;
+
+					const skipUser = ['CABPSH', 'ForumUnban', 'MASSUnban'].some((username) => {
+						if (noteUser.includes(username)) return true;
+					});
+					if (skipUser) continue;
+
+					const noteDate = dayjs(noteTime, 'DD-MM-YY HH:mm');
+					const dateDiff = noteDate.diff(punishmentDate, 'minute');
+
+					if (dateDiff >= 0 && dateDiff <= 30) {
+						const button = document.createElement('i');
+						button.className = 'fa fa-file-text-o';
+						button.title = 'Note oprettet inden for 30 efter straffen er registreret';
+						button.style.setProperty('cursor', 'pointer');
+						button.style.setProperty('color', '#f6e58d');
+						button.style.setProperty('margin-left', '4px');
+						button.addEventListener('click', () => {
+							noteEntry.scrollIntoView({
+								behavior: 'smooth',
+								block: 'center',
+							});
+						});
+
+						buttonCell.appendChild(button);
+					}
+				}
 			}
 		}
 	}

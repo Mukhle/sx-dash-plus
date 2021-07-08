@@ -34,32 +34,25 @@ function notesCreate(notes: HTMLElement[], modal: HTMLDivElement, filter: HTMLIn
 	const dayNotes: HTMLElement[] = [];
 
 	for (const element of notes) {
-		const user = element.querySelector<HTMLSpanElement>('div.sp-widget__user > span');
-		const text = element.querySelector<HTMLDivElement>('div.sp-widget__text');
+		const noteTime = element.querySelector<HTMLDivElement>('.sp-widget__date')?.textContent?.substring(2);
+		if (noteTime === undefined) continue;
 
-		if (user && text) {
-			if (text.textContent?.toLowerCase().includes(filter.value.toLowerCase()) === false) continue;
+		const noteText = element.querySelector<HTMLDivElement>('.sp-widget__text')?.textContent;
+		if (noteText === null || noteText === undefined) continue;
 
-			const time = user.textContent?.match(/\d{2}-\d{2}-\d{2} \d{2}:\d{2}/);
+		if (noteText.toLowerCase().includes(filter.value.toLowerCase()) === false) continue;
 
-			if (time) {
-				const now = dayjs();
-				const date = dayjs(time[0]);
+		const now = dayjs();
+		const date = dayjs(noteTime, 'DD-MM-YY HH:mm:ss');
 
-				allNotes.push(element);
+		allNotes.push(element);
 
-				if (date.diff(now, 'month') == 0) {
-					monthNotes.push(element);
-				}
-
-				if (date.diff(now, 'week') == 0) {
-					weekNotes.push(element);
-				}
-
-				if (date.diff(now, 'day') == 0) {
-					dayNotes.push(element);
-				}
-			}
+		if (date.diff(now, 'day') == 0) {
+			dayNotes.push(element);
+		} else if (date.diff(now, 'week') == 0) {
+			weekNotes.push(element);
+		} else if (date.diff(now, 'month') == 0) {
+			monthNotes.push(element);
 		}
 	}
 
