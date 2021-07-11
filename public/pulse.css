@@ -1,0 +1,16 @@
+.pulse {
+	animation-name: pulse;
+	animation-duration: 500ms;
+	animation-iteration-count: 6;
+	animation-direction: alternate;
+}
+
+@keyframes pulse {
+	from {
+		filter: brightness(100%);
+	}
+
+	to {
+		filter: brightness(200%);
+	}
+}

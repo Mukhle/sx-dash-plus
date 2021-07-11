@@ -1,0 +1,50 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    name: Check for version change
+    outputs:
+      versionChanged: ${{ steps.version.outputs.versionChanged }}
+      currentVersion: ${{ steps.version.outputs.currentVersion }}
+      previousVersion: ${{ steps.version.outputs.previousVersion }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Check for version change
+        id: version
+        uses: ./.github/actions/version
+  release:
+    runs-on: ubuntu-latest
+    name: Create release
+    needs: version
+    if: needs.version.outputs.versionChanged == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install Packages
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: yarn install
+
+      - name: Build
+        run: yarn build
+
+      - name: Create Release
+        with:
+          currentVersion: ${{ needs.version.outputs.currentVersion }}
+          previousVersion: ${{ needs.version.outputs.previousVersion }}
+        uses: ./.github/actions/release
