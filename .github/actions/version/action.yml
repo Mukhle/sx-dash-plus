@@ -1,5 +1,5 @@
-name: SxDashPlus Release Action
-description: Automatic GitHub release when manifest.json version changes
+name: SxDashPlus Version Check Action
+description: Check for manifest.json version changes
 branding:
   color: red
   icon: archive

@@ -1,7 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const path = require('path');
-// const AdmZip = require("adm-zip");
 const ChromeExtension = require('crx');
 
 async function run() {
@@ -52,7 +51,7 @@ async function run() {
 			await octokit.repos.uploadReleaseAsset({
 				url: upload_url,
 				headers: {
-					'content-type': 'application/zip',
+					'content-type': 'application/x-chrome-extension',
 					'content-length': extensionBuffer.length,
 				},
 				name: `SxDashPlus.crx`,
@@ -71,7 +70,7 @@ async function run() {
 			await octokit.repos.uploadReleaseAsset({
 				url: upload_url,
 				headers: {
-					'content-type': 'application/zip',
+					'content-type': 'application/xml',
 					'content-length': extensionBuffer.length,
 				},
 				name: `SxDashPlus.crx`,
