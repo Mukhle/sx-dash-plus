@@ -26,7 +26,7 @@ function createNotesLink(punishments: HTMLTableRowElement[], notes: HTMLDivEleme
 			if (noteText.includes(punishmentTime)) {
 				const button = document.createElement('i');
 				button.className = 'fa fa-link button-sxplus';
-				button.title = 'Gå til note, der blev oprettet inden for 30 minutter efter, at hændelsen blev registreret.';
+				button.title = 'Gå til note, som indeholder det tidspunkt, hvor hændelsen blev registreret.';
 				button.style.setProperty('color', '#6ab04c');
 				button.addEventListener('click', () => {
 					noteEntry.scrollIntoView({
