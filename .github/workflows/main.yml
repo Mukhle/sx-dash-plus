@@ -48,7 +48,6 @@ jobs:
       - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          EXTENSION_PRIVATE_KEY: ${{ secrets.EXTENSION_PRIVATE_KEY }}
         with:
           currentVersion: ${{ needs.version.outputs.currentVersion }}
           previousVersion: ${{ needs.version.outputs.previousVersion }}
