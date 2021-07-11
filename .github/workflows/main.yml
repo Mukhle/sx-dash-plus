@@ -19,8 +19,6 @@ jobs:
 
       - name: Check for version change
         id: version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: ./.github/actions/version
   release:
     runs-on: ubuntu-latest
@@ -46,10 +44,8 @@ jobs:
         run: yarn build
 
       - name: Create Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CRX_PEM: ${{ secrets.CRX_PEM }}
         with:
+          privateKey: ${{ secrets.EXTENSION_PRIVATE_KEY }}
           currentVersion: ${{ needs.version.outputs.currentVersion }}
           previousVersion: ${{ needs.version.outputs.previousVersion }}
         uses: ./.github/actions/release

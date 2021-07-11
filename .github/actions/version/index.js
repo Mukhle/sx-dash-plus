@@ -4,7 +4,8 @@ const path = require('path');
 const fs = require('fs');
 
 async function run() {
-	const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+	const token = core.getInput('token');
+	const octokit = github.getOctokit(token);
 
 	const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
 

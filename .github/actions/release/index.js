@@ -4,11 +4,8 @@ const path = require('path');
 const ChromeExtension = require('crx');
 
 async function run() {
-	const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
-	core.info('octokit undefined', octokit === undefined);
-	core.info('octokit null', octokit === null);
-	core.info('octokit.repos undefined', octokit.repos === undefined);
-	core.info('octokit.repos null', octokit.repos === null);
+	const token = core.getInput('token');
+	const octokit = github.getOctokit(token);
 
 	const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
 
@@ -42,9 +39,10 @@ async function run() {
 		}
 	});
 
+	const privateKey = core.getInput('privateKey');
 	const crx = new ChromeExtension({
 		codebase: `https://github.com/${owner}/${repo}/releases/latest/download/SxDashPlus.crx`,
-		privateKey: process.env.CRX_PEM,
+		privateKey: privateKey,
 	});
 
 	const loaded = await crx.load(path.join(process.env.GITHUB_WORKSPACE, 'dist'));
