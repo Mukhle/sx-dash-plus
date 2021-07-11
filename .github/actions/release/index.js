@@ -67,16 +67,16 @@ async function run() {
 
 	await core.group('Upload update asset to release', async () => {
 		try {
-			const extensionBuffer = await loaded.pack();
+			const updateBuffer = await loaded.generateUpdateXML();
 
 			await octokit.rest.repos.uploadReleaseAsset({
 				url: upload_url,
 				headers: {
 					'content-type': 'application/xml',
-					'content-length': extensionBuffer.length,
+					'content-length': updateBuffer.length,
 				},
 				name: `update.xml`,
-				data: extensionBuffer,
+				data: updateBuffer,
 			});
 
 			core.info(`Uploaded asset to release.`);
