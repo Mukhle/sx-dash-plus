@@ -1,11 +1,10 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-// const path = require('path');
-// const ChromeExtension = require('crx');
+const path = require('path');
+const ChromeExtension = require('crx');
 
 async function run() {
-	const token = core.getInput('token');
-	const octokit = github.getOctokit(token);
+	const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
 
 	const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
 
@@ -19,7 +18,7 @@ async function run() {
 		try {
 			const {
 				data: { upload_url: url },
-			} = await octokit.repos.createRelease({
+			} = await octokit.rest.repos.createRelease({
 				owner,
 				repo,
 				tag_name: currentVersion,
@@ -37,53 +36,54 @@ async function run() {
 		}
 	});
 
-	// const privateKey = core.getInput('privateKey');
-	// const crx = new ChromeExtension({
-	// 	codebase: `https://github.com/${owner}/${repo}/releases/latest/download/SxDashPlus.crx`,
-	// 	privateKey: privateKey,
-	// });
+	const crx = new ChromeExtension({
+		codebase: `https://github.com/${owner}/${repo}/releases/latest/download/SxDashPlus.crx`,
+		privateKey: process.env.EXTENSION_PRIVATE_KEY,
+	});
 
-	// const loaded = await crx.load(path.join(process.env.GITHUB_WORKSPACE, 'dist'));
+	const loaded = await crx.load(path.join(process.env.GITHUB_WORKSPACE, 'dist'));
 
-	// await core.group('Upload extension asset to release', async () => {
-	// 	try {
-	// 		const extensionBuffer = await loaded.pack();
-	// 		await octokit.repos.uploadReleaseAsset({
-	// 			url: upload_url,
-	// 			headers: {
-	// 				'content-type': 'application/x-chrome-extension',
-	// 				'content-length': extensionBuffer.length,
-	// 			},
-	// 			name: `SxDashPlus.crx`,
-	// 			data: extensionBuffer,
-	// 		});
-	// 	} catch (error) {
-	// 		core.setFailed(`Failed to upload release asset.`);
-	// 		core.error(error);
-	// 		process.exit();
-	// 	}
-	// });
+	await core.group('Upload extension asset to release', async () => {
+		try {
+			const extensionBuffer = await loaded.pack();
 
-	// await core.group('Upload update asset to release', async () => {
-	// 	try {
-	// 		const extensionBuffer = await loaded.pack();
-	// 		await octokit.repos.uploadReleaseAsset({
-	// 			url: upload_url,
-	// 			headers: {
-	// 				'content-type': 'application/xml',
-	// 				'content-length': extensionBuffer.length,
-	// 			},
-	// 			name: `SxDashPlus.crx`,
-	// 			data: extensionBuffer,
-	// 		});
+			await octokit.rest.repos.uploadReleaseAsset({
+				url: upload_url,
+				headers: {
+					'content-type': 'application/x-chrome-extension',
+					'content-length': extensionBuffer.length,
+				},
+				name: `SxDashPlus.crx`,
+				data: extensionBuffer,
+			});
+		} catch (error) {
+			core.setFailed(`Failed to upload release asset.`);
+			core.error(error);
+			process.exit();
+		}
+	});
 
-	// 		core.info(`Uploaded asset to release.`);
-	// 	} catch (error) {
-	// 		core.setFailed(`Failed to upload release asset.`);
-	// 		core.error(error);
-	// 		process.exit();
-	// 	}
-	// });
+	await core.group('Upload update asset to release', async () => {
+		try {
+			const extensionBuffer = await loaded.pack();
+
+			await octokit.rest.repos.uploadReleaseAsset({
+				url: upload_url,
+				headers: {
+					'content-type': 'application/xml',
+					'content-length': extensionBuffer.length,
+				},
+				name: `SxDashPlus.crx`,
+				data: extensionBuffer,
+			});
+
+			core.info(`Uploaded asset to release.`);
+		} catch (error) {
+			core.setFailed(`Failed to upload release asset.`);
+			core.error(error);
+			process.exit();
+		}
+	});
 }
 
 run();

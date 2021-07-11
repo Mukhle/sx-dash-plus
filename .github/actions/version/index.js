@@ -4,8 +4,7 @@ const path = require('path');
 const fs = require('fs');
 
 async function run() {
-	const token = core.getInput('token');
-	const octokit = github.getOctokit(token);
+	const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
 
 	const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
 
@@ -31,7 +30,7 @@ async function run() {
 		try {
 			const {
 				data: { tag_name: version },
-			} = await octokit.repos.getLatestRelease({
+			} = await octokit.rest.repos.getLatestRelease({
 				owner,
 				repo,
 			});

@@ -3,11 +3,6 @@ description: Check for manifest.json version changes
 branding:
   color: red
   icon: archive
-inputs:
-  token:
-    description: Personal access token. Defaults to GITHUB_TOKEN.
-    default: ${{ github.token }}
-    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
