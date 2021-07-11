@@ -5,6 +5,10 @@ const ChromeExtension = require('crx');
 
 async function run() {
 	const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+	core.debug(octokit === undefined);
+	core.debug(octokit === null);
+	core.debug(octokit.repos === undefined);
+	core.debug(octokit.repos === null);
 
 	const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
 
