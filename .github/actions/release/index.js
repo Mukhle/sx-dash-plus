@@ -73,7 +73,7 @@ async function run() {
 					'content-type': 'application/xml',
 					'content-length': extensionBuffer.length,
 				},
-				name: `SxDashPlus.crx`,
+				name: `update.xml`,
 				data: extensionBuffer,
 			});
 
