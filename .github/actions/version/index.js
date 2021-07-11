@@ -1,19 +1,18 @@
-const core = require("@actions/core");
-const github = require("@actions/github");
-const path = require("path");
-const fs = require("fs");
+const core = require('@actions/core');
+const github = require('@actions/github');
+const path = require('path');
+const fs = require('fs');
 
 async function run() {
-	const token = core.getInput("token");
-	const octokit = github.getOctokit(token);
+	const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
 
-	const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
+	const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
 
 	core.info(`Repository ${owner}/${repo}`);
 
-	const currentVersion = await core.group("Get current version", async () => {
+	const currentVersion = await core.group('Get current version', async () => {
 		try {
-			const manifestPath = path.join(process.env.GITHUB_WORKSPACE, "public/manifest.json");
+			const manifestPath = path.join(process.env.GITHUB_WORKSPACE, 'public/manifest.json');
 			const manifest = fs.readFileSync(manifestPath);
 			const { version } = JSON.parse(manifest);
 
@@ -27,7 +26,7 @@ async function run() {
 		}
 	});
 
-	const previousVersion = await core.group("Get release version", async () => {
+	const previousVersion = await core.group('Get release version', async () => {
 		try {
 			const {
 				data: { tag_name: version },
@@ -39,19 +38,19 @@ async function run() {
 			core.info(`Previous release version: ${version}`);
 
 			if (version === currentVersion) {
-				core.info("Version has not changed.");
+				core.info('Version has not changed.');
 				process.exit();
 			}
 
 			return version;
 		} catch (error) {
-			core.info("No previous release version.");
+			core.info('No previous release version.');
 		}
 	});
 
-	core.setOutput("versionChanged", true);
-	core.setOutput("currentVersion", currentVersion);
-	core.setOutput("previousVersion", previousVersion);
+	core.setOutput('versionChanged', true);
+	core.setOutput('currentVersion', currentVersion);
+	core.setOutput('previousVersion', previousVersion);
 }
 
 run();

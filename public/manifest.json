@@ -2,7 +2,8 @@
 	"manifest_version": 2,
 	"name": "Dash+",
 	"description": "Tilføjer ekstra funktionalitet til stavox dash side.",
-	"version": "1.4.7",
+	"update_url": "https://github.com/Mukhle/sx-dash-plus/releases/latest/download/update.xml",
+	"version": "1.4.8",
 	"icons": {
 		"64": "icon128.png",
 		"128": "icon128.png"

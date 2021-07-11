@@ -3,11 +3,8 @@ description: Automatic GitHub release when manifest.json version changes
 branding:
   color: red
   icon: archive
-inputs:
-  token:
-    description: Personal access token. Defaults to GITHUB_TOKEN.
-    default: ${{ github.token }}
-    required: false
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 runs:
-  using: "node12"
-  main: "dist/index.js"
+  using: 'node12'
+  main: 'dist/index.js'

@@ -3,11 +3,10 @@ description: Automatic GitHub release when manifest.json version changes
 branding:
   color: red
   icon: archive
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  CRX_PEM: ${{ secrets.CRX_PEM }}
 inputs:
-  token:
-    description: Personal access token. Defaults to GITHUB_TOKEN.
-    default: ${{ github.token }}
-    required: false
   currentVersion:
     description: New version.
     required: true
@@ -15,5 +14,5 @@ inputs:
     description: Version of latest release.
     required: true
 runs:
-  using: "node12"
-  main: "dist/index.js"
+  using: 'node12'
+  main: 'dist/index.js'
