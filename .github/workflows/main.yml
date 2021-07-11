@@ -46,10 +46,10 @@ jobs:
         run: yarn build
 
       - name: Create Release
-        with:
-          currentVersion: ${{ needs.version.outputs.currentVersion }}
-          previousVersion: ${{ needs.version.outputs.previousVersion }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CRX_PEM: ${{ secrets.CRX_PEM }}
+        with:
+          currentVersion: ${{ needs.version.outputs.currentVersion }}
+          previousVersion: ${{ needs.version.outputs.previousVersion }}
         uses: ./.github/actions/release
