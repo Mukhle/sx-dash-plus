@@ -3,7 +3,7 @@
 	"name": "Dash+",
 	"description": "Tilføjer ekstra funktionalitet til stavox dash side.",
 	"update_url": "https://github.com/Mukhle/sx-dash-plus/releases/latest/download/update.xml",
-	"version": "1.4.9",
+	"version": "1.4.7",
 	"icons": {
 		"64": "icon128.png",
 		"128": "icon128.png"
