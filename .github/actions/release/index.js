@@ -56,6 +56,8 @@ async function run() {
 				name: `SxDashPlus.crx`,
 				data: extensionBuffer,
 			});
+
+			core.info(`Uploaded asset to release.`);
 		} catch (error) {
 			core.setFailed(`Failed to upload release asset.`);
 			core.error(error);
