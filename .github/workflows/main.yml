@@ -19,6 +19,8 @@ jobs:
 
       - name: Check for version change
         id: version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: ./.github/actions/version
   release:
     runs-on: ubuntu-latest
@@ -33,7 +35,7 @@ jobs:
         id: cache
         uses: actions/cache@v2
         with:
-          path: "**/node_modules"
+          path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install Packages
@@ -47,4 +49,7 @@ jobs:
         with:
           currentVersion: ${{ needs.version.outputs.currentVersion }}
           previousVersion: ${{ needs.version.outputs.previousVersion }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CRX_PEM: ${{ secrets.CRX_PEM }}
         uses: ./.github/actions/release

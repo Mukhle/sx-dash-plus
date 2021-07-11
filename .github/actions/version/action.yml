@@ -3,8 +3,6 @@ description: Automatic GitHub release when manifest.json version changes
 branding:
   color: red
   icon: archive
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 runs:
   using: 'node12'
   main: 'dist/index.js'
