@@ -4,7 +4,10 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 
-function notesClickEventListener(period: string, modal: HTMLElement, array: HTMLElement[]) {
+function notesClickEventListener(period: string, array: HTMLElement[]) {
+	const modal = document.querySelector<HTMLDivElement>('#modal-notes-sxplus');
+	if (modal === null) return;
+
 	const modalTitle = modal.querySelector<HTMLHeadingElement>('h4');
 	if (modalTitle === null) return;
 
@@ -22,7 +25,7 @@ function notesClickEventListener(period: string, modal: HTMLElement, array: HTML
 	}
 }
 
-function notesCreate(notes: HTMLElement[], modal: HTMLDivElement, tbody: HTMLTableSectionElement) {
+function notesCreate(notes: HTMLElement[], tbody: HTMLTableSectionElement) {
 	//Reset table body
 	tbody.innerHTML = `<tr class='row-sxplus'>
 		<th>Antal</th>
@@ -67,7 +70,7 @@ function notesCreate(notes: HTMLElement[], modal: HTMLDivElement, tbody: HTMLTab
 		a.style.setProperty('text-decoration', 'underline');
 		a.textContent = allNotes.length.toString();
 		a.addEventListener('click', () => {
-			notesClickEventListener('Altid', modal, allNotes);
+			notesClickEventListener('Altid', allNotes);
 		});
 
 		td.appendChild(a);
@@ -88,7 +91,7 @@ function notesCreate(notes: HTMLElement[], modal: HTMLDivElement, tbody: HTMLTab
 		a.style.setProperty('text-decoration', 'underline');
 		a.textContent = monthNotes.length.toString();
 		a.addEventListener('click', () => {
-			notesClickEventListener('Seneste måned', modal, monthNotes);
+			notesClickEventListener('Seneste måned', monthNotes);
 		});
 
 		td.appendChild(a);
@@ -109,7 +112,7 @@ function notesCreate(notes: HTMLElement[], modal: HTMLDivElement, tbody: HTMLTab
 		a.style.setProperty('text-decoration', 'underline');
 		a.textContent = weekNotes.length.toString();
 		a.addEventListener('click', () => {
-			notesClickEventListener('Seneste uge', modal, weekNotes);
+			notesClickEventListener('Seneste uge', weekNotes);
 		});
 
 		td.appendChild(a);
@@ -130,7 +133,7 @@ function notesCreate(notes: HTMLElement[], modal: HTMLDivElement, tbody: HTMLTab
 		a.style.setProperty('text-decoration', 'underline');
 		a.textContent = dayNotes.length.toString();
 		a.addEventListener('click', () => {
-			notesClickEventListener('Seneste døgn', modal, dayNotes);
+			notesClickEventListener('Seneste døgn', dayNotes);
 		});
 
 		td.appendChild(a);
@@ -145,7 +148,7 @@ function notesCreate(notes: HTMLElement[], modal: HTMLDivElement, tbody: HTMLTab
 export const execute = async () => {
 	//Some fuckery was happening with the click event listeners when running the function immediately
 	setTimeout(() => {
-		const cont = document.querySelector('.template.template__controls');
+		const cont = document.querySelector<HTMLDivElement>('.template.template__controls');
 		if (cont === null) return;
 
 		const [notes, notesRow]: [HTMLDivElement[], HTMLDivElement] | [null, null] = getLookupContainerFromHeaderText(
@@ -251,11 +254,11 @@ export const execute = async () => {
 					}
 				}
 
-				notesCreate(filteredNotes, modal, tbody);
+				notesCreate(filteredNotes, tbody);
 			}, 800)
 		);
 
-		notesCreate(notes, modal, tbody);
+		notesCreate(notes, tbody);
 	});
 };
 

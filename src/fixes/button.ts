@@ -1,19 +1,41 @@
-function confirmClickEventListener(evalString: string, modal: HTMLDivElement) {
-	const modalButton = modal.querySelector('button.btn.btn-danger');
+function confirmClickEventListener(evalString: string) {
+	const modal = document.querySelector<HTMLDivElement>('#modal-button-confirm-sxplus');
+	if (modal === null) return;
+
+	const modalButton = modal.querySelector<HTMLButtonElement>('button.btn.btn-danger');
 	if (modalButton === null) return;
 
 	modalButton.setAttribute('onclick', evalString);
 }
 
-export function removeTableRowListeners(root: HTMLElement) {
+export function confirmCreate() {
+	for (const element of document.querySelectorAll<HTMLButtonElement>('.table > tbody > tr > td:nth-child(6) > button')) {
+		const evalString = element.getAttribute('onclick');
+		if (evalString === null) return;
+
+		const button = document.createElement('i');
+		button.className = 'fa fa-strikethrough button-sxplus';
+		button.title = 'Streg hændelsen ud.';
+		button.setAttribute('data-toggle', 'modal');
+		button.setAttribute('data-target', '#modal-button-confirm-sxplus');
+		button.style.setProperty('color', '#e74c3c');
+		button.addEventListener('click', () => {
+			confirmClickEventListener(evalString);
+		});
+
+		element.replaceWith(button);
+	}
+}
+
+export const execute = async () => {
 	//Some fuckery was happening with the click event listeners when running the function immediately
 	setTimeout(() => {
-		const cont = document.querySelector('.template.template__controls');
+		const cont = document.querySelector<HTMLDivElement>('.template.template__controls');
 		if (cont === null) return;
 
 		const modal = document.createElement('div');
 		modal.className = 'modal fade';
-		modal.id = 'modal-confirm-sxplus';
+		modal.id = 'modal-button-confirm-sxplus';
 		modal.style.setProperty('display', 'none');
 		modal.innerHTML = `<div class="modal-dialog">
 			<div class="modal-content">
@@ -22,7 +44,7 @@ export function removeTableRowListeners(root: HTMLElement) {
 					<h4 class='modal-title' style='color:white;'>Bekræft handling</h4>
 				</div>
 				<div class="modal-body">
-					Du er ved at strege denne straf ud. Dette markere straffen som ugyldiggjort. Det er ikke muligt at fortryde handlingen.
+					Du er ved at strege denne straf ud. Dette markere straffen som ugyldiggjort. Det er ikke muligt at fortryde handlingen senere.
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Annuller</button>
@@ -33,27 +55,8 @@ export function removeTableRowListeners(root: HTMLElement) {
 
 		cont.appendChild(modal);
 
-		for (const element of root.querySelectorAll<HTMLTableDataCellElement>('.table > tbody > tr > td:nth-child(6) > button')) {
-			const functionString = element.getAttribute('onclick');
-			if (functionString === null) return;
-
-			const button = document.createElement('i');
-			button.className = 'fa fa-strikethrough button-sxplus';
-			button.title = 'Streg hændelsen ud.';
-			button.setAttribute('data-toggle', 'modal');
-			button.setAttribute('data-target', '#modal-confirm-sxplus');
-			button.style.setProperty('color', '#e74c3c');
-			button.addEventListener('click', () => {
-				confirmClickEventListener(functionString, modal);
-			});
-
-			element.replaceWith(button);
-		}
+		confirmCreate();
 	});
-}
-
-export const execute = async () => {
-	removeTableRowListeners(document.documentElement);
 };
 
 execute();

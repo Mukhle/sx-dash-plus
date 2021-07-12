@@ -10,11 +10,14 @@ type PunishmentArrayObject = {
 	[key in PunishmentKey]: HTMLElement[];
 };
 
-function punishmentsClickEventListener(type: PunishmentKey, period: string, modal: HTMLElement, array: PunishmentArrayObject) {
-	const modalTitle = modal.querySelector('h4');
+function punishmentsClickEventListener(type: PunishmentKey, period: string, array: PunishmentArrayObject) {
+	const modal = document.querySelector<HTMLDivElement>('#modal-punishments-sxplus');
+	if (modal === null) return;
+
+	const modalTitle = modal.querySelector<HTMLHeadingElement>('h4');
 	if (modalTitle === null) return;
 
-	const modalTable = modal.querySelector('tbody');
+	const modalTable = modal.querySelector<HTMLTableSectionElement>('tbody');
 	if (modalTable === null) return;
 
 	modalTitle.textContent = `${type} - ${period}`;
@@ -39,7 +42,7 @@ function punishmentsClickEventListener(type: PunishmentKey, period: string, moda
 	}
 }
 
-function punishmentsCreate(punishments: HTMLElement[], modal: HTMLDivElement, tbody: HTMLTableSectionElement) {
+function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionElement) {
 	//Reset table body
 	tbody.innerHTML = `<tr class='row-sxplus' style='font-weight: bold;color:#ed4949;'>
 		<th>Altid</th>
@@ -145,7 +148,7 @@ function punishmentsCreate(punishments: HTMLElement[], modal: HTMLDivElement, tb
 				a.style.setProperty('text-decoration', 'underline');
 				a.textContent = allPunishments[punishmentKey].length.toString();
 				a.addEventListener('click', () => {
-					punishmentsClickEventListener(punishmentKey, 'Altid', modal, allPunishments);
+					punishmentsClickEventListener(punishmentKey, 'Altid', allPunishments);
 				});
 
 				td.appendChild(a);
@@ -171,7 +174,7 @@ function punishmentsCreate(punishments: HTMLElement[], modal: HTMLDivElement, tb
 				a.style.setProperty('text-decoration', 'underline');
 				a.textContent = monthPunishments[punishmentKey].length.toString();
 				a.addEventListener('click', () => {
-					punishmentsClickEventListener(punishmentKey, 'Seneste måned', modal, monthPunishments);
+					punishmentsClickEventListener(punishmentKey, 'Seneste måned', monthPunishments);
 				});
 
 				td.appendChild(a);
@@ -197,7 +200,7 @@ function punishmentsCreate(punishments: HTMLElement[], modal: HTMLDivElement, tb
 				a.style.setProperty('text-decoration', 'underline');
 				a.textContent = weekPunishments[punishmentKey].length.toString();
 				a.addEventListener('click', () => {
-					punishmentsClickEventListener(punishmentKey, 'Seneste uge', modal, weekPunishments);
+					punishmentsClickEventListener(punishmentKey, 'Seneste uge', weekPunishments);
 				});
 
 				td.appendChild(a);
@@ -223,7 +226,7 @@ function punishmentsCreate(punishments: HTMLElement[], modal: HTMLDivElement, tb
 				a.style.setProperty('text-decoration', 'underline');
 				a.textContent = dayPunishments[punishmentKey].length.toString();
 				a.addEventListener('click', () => {
-					punishmentsClickEventListener(punishmentKey, 'Seneste døgn', modal, dayPunishments);
+					punishmentsClickEventListener(punishmentKey, 'Seneste døgn', dayPunishments);
 				});
 
 				td.appendChild(a);
@@ -239,7 +242,7 @@ function punishmentsCreate(punishments: HTMLElement[], modal: HTMLDivElement, tb
 export const execute = async () => {
 	//Some fuckery was happening with the click event listeners when running the function immediately
 	setTimeout(() => {
-		const cont = document.querySelector('.template.template__controls');
+		const cont = document.querySelector<HTMLDivElement>('.template.template__controls');
 		if (cont === null) return;
 
 		const [punishments, punishmentsRow]: [HTMLTableRowElement[], HTMLDivElement] | [null, null] = getLookupContainerFromHeaderText(
@@ -355,11 +358,11 @@ export const execute = async () => {
 					}
 				}
 
-				punishmentsCreate(filteredPunishments, modal, tbody);
+				punishmentsCreate(filteredPunishments, tbody);
 			}, 800)
 		);
 
-		punishmentsCreate(punishments, modal, tbody);
+		punishmentsCreate(punishments, tbody);
 	});
 };
 
