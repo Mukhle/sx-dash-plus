@@ -37,6 +37,11 @@
 			"matches": ["*://stavox.dk/dash/me*"]
 		},
 		{
+			"js": ["js/fixes/carmarket.js"],
+			"matches": ["*://stavox.dk/dash/carmarket*"],
+			"run_at": "document_end"
+		},
+		{
 			"js": ["js/lookupsearch.js"],
 			"matches": ["*://stavox.dk/dash/*"],
 			"exclude_matches": ["*://stavox.dk/dash/lookup*", "*://stavox.dk/dash/bans*"]
