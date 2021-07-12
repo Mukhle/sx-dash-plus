@@ -83,9 +83,9 @@ function createNotesLink(punishments: HTMLTableRowElement[], notes: HTMLDivEleme
 		const button = document.createElement('i');
 		button.className = 'fa fa-file-text-o button-sxplus';
 		button.title = 'Start en ny note, der indeholder det tidspunkt, hvor hændelsen blev registreret.';
+		button.style.setProperty('color', '#ffffff');
 		button.setAttribute('data-toggle', 'modal');
 		button.setAttribute('data-target', '#modal-note');
-		button.style.setProperty('color', '#ffffff');
 		button.addEventListener('click', () => {
 			noteTextEntry.value = `${type} ${punishmentTime}\n`;
 		});

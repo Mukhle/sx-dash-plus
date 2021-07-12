@@ -64,11 +64,11 @@ function notesCreate(notes: HTMLElement[], tbody: HTMLTableSectionElement) {
 		const td = document.createElement('td');
 
 		const a = document.createElement('a');
-		a.setAttribute('data-toggle', 'modal');
-		a.setAttribute('data-target', '#modal-notes-sxplus');
+		a.textContent = allNotes.length.toString();
 		a.style.setProperty('color', 'inherit');
 		a.style.setProperty('text-decoration', 'underline');
-		a.textContent = allNotes.length.toString();
+		a.setAttribute('data-toggle', 'modal');
+		a.setAttribute('data-target', '#modal-notes-sxplus');
 		a.addEventListener('click', () => {
 			notesClickEventListener('Altid', allNotes);
 		});
@@ -85,11 +85,11 @@ function notesCreate(notes: HTMLElement[], tbody: HTMLTableSectionElement) {
 		const td = document.createElement('td');
 
 		const a = document.createElement('a');
-		a.setAttribute('data-toggle', 'modal');
-		a.setAttribute('data-target', '#modal-notes-sxplus');
+		a.textContent = monthNotes.length.toString();
 		a.style.setProperty('color', 'inherit');
 		a.style.setProperty('text-decoration', 'underline');
-		a.textContent = monthNotes.length.toString();
+		a.setAttribute('data-toggle', 'modal');
+		a.setAttribute('data-target', '#modal-notes-sxplus');
 		a.addEventListener('click', () => {
 			notesClickEventListener('Seneste måned', monthNotes);
 		});
@@ -106,11 +106,11 @@ function notesCreate(notes: HTMLElement[], tbody: HTMLTableSectionElement) {
 		const td = document.createElement('td');
 
 		const a = document.createElement('a');
-		a.setAttribute('data-toggle', 'modal');
-		a.setAttribute('data-target', '#modal-notes-sxplus');
+		a.textContent = weekNotes.length.toString();
 		a.style.setProperty('color', 'inherit');
 		a.style.setProperty('text-decoration', 'underline');
-		a.textContent = weekNotes.length.toString();
+		a.setAttribute('data-toggle', 'modal');
+		a.setAttribute('data-target', '#modal-notes-sxplus');
 		a.addEventListener('click', () => {
 			notesClickEventListener('Seneste uge', weekNotes);
 		});
@@ -127,11 +127,11 @@ function notesCreate(notes: HTMLElement[], tbody: HTMLTableSectionElement) {
 		const td = document.createElement('td');
 
 		const a = document.createElement('a');
-		a.setAttribute('data-toggle', 'modal');
-		a.setAttribute('data-target', '#modal-notes-sxplus');
+		a.textContent = dayNotes.length.toString();
 		a.style.setProperty('color', 'inherit');
 		a.style.setProperty('text-decoration', 'underline');
-		a.textContent = dayNotes.length.toString();
+		a.setAttribute('data-toggle', 'modal');
+		a.setAttribute('data-target', '#modal-notes-sxplus');
 		a.addEventListener('click', () => {
 			notesClickEventListener('Seneste døgn', dayNotes);
 		});

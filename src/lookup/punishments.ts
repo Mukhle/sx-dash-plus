@@ -142,11 +142,11 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 
 			if (allPunishments[punishmentKey].length > 0) {
 				const a = document.createElement('a');
-				a.setAttribute('data-toggle', 'modal');
-				a.setAttribute('data-target', '#modal-punishments-sxplus');
+				a.textContent = allPunishments[punishmentKey].length.toString();
 				a.style.setProperty('color', 'inherit');
 				a.style.setProperty('text-decoration', 'underline');
-				a.textContent = allPunishments[punishmentKey].length.toString();
+				a.setAttribute('data-toggle', 'modal');
+				a.setAttribute('data-target', '#modal-punishments-sxplus');
 				a.addEventListener('click', () => {
 					punishmentsClickEventListener(punishmentKey, 'Altid', allPunishments);
 				});
@@ -168,11 +168,11 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 
 			if (monthPunishments[punishmentKey].length > 0) {
 				const a = document.createElement('a');
-				a.setAttribute('data-toggle', 'modal');
-				a.setAttribute('data-target', '#modal-punishments-sxplus');
+				a.textContent = monthPunishments[punishmentKey].length.toString();
 				a.style.setProperty('color', 'inherit');
 				a.style.setProperty('text-decoration', 'underline');
-				a.textContent = monthPunishments[punishmentKey].length.toString();
+				a.setAttribute('data-toggle', 'modal');
+				a.setAttribute('data-target', '#modal-punishments-sxplus');
 				a.addEventListener('click', () => {
 					punishmentsClickEventListener(punishmentKey, 'Seneste måned', monthPunishments);
 				});
@@ -194,11 +194,11 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 
 			if (weekPunishments[punishmentKey].length > 0) {
 				const a = document.createElement('a');
-				a.setAttribute('data-toggle', 'modal');
-				a.setAttribute('data-target', '#modal-punishments-sxplus');
+				a.textContent = weekPunishments[punishmentKey].length.toString();
 				a.style.setProperty('color', 'inherit');
 				a.style.setProperty('text-decoration', 'underline');
-				a.textContent = weekPunishments[punishmentKey].length.toString();
+				a.setAttribute('data-toggle', 'modal');
+				a.setAttribute('data-target', '#modal-punishments-sxplus');
 				a.addEventListener('click', () => {
 					punishmentsClickEventListener(punishmentKey, 'Seneste uge', weekPunishments);
 				});
@@ -220,11 +220,11 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 
 			if (dayPunishments[punishmentKey].length > 0) {
 				const a = document.createElement('a');
-				a.setAttribute('data-toggle', 'modal');
-				a.setAttribute('data-target', '#modal-punishments-sxplus');
+				a.textContent = dayPunishments[punishmentKey].length.toString();
 				a.style.setProperty('color', 'inherit');
 				a.style.setProperty('text-decoration', 'underline');
-				a.textContent = dayPunishments[punishmentKey].length.toString();
+				a.setAttribute('data-toggle', 'modal');
+				a.setAttribute('data-target', '#modal-punishments-sxplus');
 				a.addEventListener('click', () => {
 					punishmentsClickEventListener(punishmentKey, 'Seneste døgn', dayPunishments);
 				});

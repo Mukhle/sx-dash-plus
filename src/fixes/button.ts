@@ -16,9 +16,9 @@ export function confirmCreate() {
 		const button = document.createElement('i');
 		button.className = 'fa fa-strikethrough button-sxplus';
 		button.title = 'Streg hændelsen ud.';
+		button.style.setProperty('color', '#e74c3c');
 		button.setAttribute('data-toggle', 'modal');
 		button.setAttribute('data-target', '#modal-button-confirm-sxplus');
-		button.style.setProperty('color', '#e74c3c');
 		button.addEventListener('click', () => {
 			confirmClickEventListener(evalString);
 		});
