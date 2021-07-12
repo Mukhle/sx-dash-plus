@@ -1,17 +1,12 @@
-const unbind_event_listeners = (node: HTMLElement) => {
-	node.parentNode?.replaceChild(node.cloneNode(true), node);
-};
-
-export function removeTableRowListeners(root: HTMLElement) {
-	for (const element of root.querySelectorAll<HTMLTableRowElement>('.table > tbody > tr')) {
-		element.classList.add('row-sxplus');
-		element.removeAttribute('onclick');
-		unbind_event_listeners(element);
-	}
-}
-
 export const execute = async () => {
-	removeTableRowListeners(document.documentElement);
+	for (const element of document.querySelectorAll<HTMLTableRowElement>('.table > tbody > tr')) {
+		element.removeAttribute('onclick');
+
+		const clone = element.cloneNode(true) as HTMLTableRowElement;
+		clone.classList.add('row-sxplus');
+
+		element.replaceWith(clone);
+	}
 };
 
 execute();

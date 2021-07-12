@@ -1,5 +1,15 @@
-import { removeTableRowListeners } from '../fixes/tables';
 import { userIsStaff, processTextNodes } from './shared';
+
+function removeTableRowListeners(root: HTMLElement) {
+	for (const element of root.querySelectorAll<HTMLTableRowElement>('.table > tbody > tr')) {
+		element.removeAttribute('onclick');
+
+		const clone = element.cloneNode(true) as HTMLTableRowElement;
+		clone.classList.add('row-sxplus');
+
+		element.replaceWith(clone);
+	}
+}
 
 export const execute = async () => {
 	if (userIsStaff) {
