@@ -20,7 +20,7 @@ export function handleTextNode(textNode: Node) {
 			return match;
 		}
 
-		return `<a class='lookup-sxplus' href='https://stavox.dk/dash/lookup?lookupid=${match}'>${match}</a>`;
+		return `<a class="lookup-sxplus" href="https://stavox.dk/dash/lookup?lookupid=${match}">${match}</a>`;
 	});
 
 	if (newHtml && origText && newHtml !== origText) {

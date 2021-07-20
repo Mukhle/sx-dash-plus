@@ -34,7 +34,7 @@ export const execute = async () => {
 	steamProfile.target = '_blank';
 	steamProfile.className = 'btn btn-default';
 	steamProfile.style['color'] = 'white';
-	steamProfile.innerHTML = `<i class='fa fa-steam' style='margin-right: 10px;'></i>Steam Profil`;
+	steamProfile.innerHTML = `<i class="fa fa-steam" style="margin-right: 10px;"></i>Steam Profil`;
 
 	buttongroup.appendChild(steamProfile);
 
@@ -43,7 +43,7 @@ export const execute = async () => {
 	friendsList.target = '_blank';
 	friendsList.className = 'btn btn-default';
 	friendsList.style['color'] = 'white';
-	friendsList.innerHTML = `<i class='fa fa-steam' style='margin-right: 10px;'></i>Venneliste`;
+	friendsList.innerHTML = `<i class="fa fa-steam" style="margin-right: 10px;"></i>Venneliste`;
 
 	buttongroup.appendChild(friendsList);
 };

@@ -44,16 +44,16 @@ function punishmentsClickEventListener(type: PunishmentKey, period: string, arra
 
 function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionElement) {
 	//Reset table body
-	tbody.innerHTML = `<tr class='row-sxplus' style='font-weight: bold;color:#ed4949;'>
+	tbody.innerHTML = `<tr class="row-sxplus" style="font-weight: bold;color:#ed4949;">
 		<th>Altid</th>
 	</tr>
-	<tr class='row-sxplus'>
+	<tr class="row-sxplus">
 		<th>Seneste måned</th>
 	</tr>
-	<tr class='row-sxplus'>
+	<tr class="row-sxplus">
 		<th>Seneste uge</th>
 	</tr>
-	<tr class='row-sxplus'>
+	<tr class="row-sxplus">
 		<th>Seneste døgn</th>
 	</tr>`;
 
@@ -265,14 +265,14 @@ export const execute = async () => {
 		modal.className = 'modal fade';
 		modal.id = 'modal-punishments-sxplus';
 		modal.style.setProperty('display', 'none');
-		modal.innerHTML = `<div class='modal-dialog modal-lg' role='document'>
-			<div class='modal-content'>
-				<div class='modal-header'>
-					<button type='button' data-dismiss='modal' aria-label='Close' class='close'><span aria-hidden='true'>×</span></button>
-					<h4 class='modal-title' style='color:white;'></h4>
+		modal.innerHTML = `<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+					<h4 class="modal-title" style="color:white;"></h4>
 				</div>
-				<div class='modal-body' style='color:white;font-size:15px;'>
-					<table class='table table_sortable {sortlist: [[0,0]]}' cellspacing='0' width='100%'>
+				<div class="modal-body" style="color:white;font-size:15px;">
+					<table class="table table_sortable {sortlist: [[0,0]]}" cellspacing="0" width="100%">
 						<thead>
 							<tr>
 								<th>Tidspunkt</th>
@@ -288,8 +288,8 @@ export const execute = async () => {
 						</tbody>
 					</table>
 				</div>
-				<div class='modal-footer'>
-					<button type='button' data-dismiss='modal' class='btn btn-default'>Luk</button>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal" class="btn btn-default">Luk</button>
 				</div>
 			</div>
 		</div>`;
@@ -298,17 +298,17 @@ export const execute = async () => {
 
 		const container = document.createElement('div');
 		container.className = 'row';
-		container.innerHTML = `<div class='col-md-12 col-xs-11'>
-			<div class='panel panel-danger'>
-				<div class='panel-heading' style='background-color:#16a085;border-bottom-color:white;'>
-					<h3 class='panel-title'>Strafoverblik</h3>
+		container.innerHTML = `<div class="col-md-12 col-xs-11">
+			<div class="panel panel-danger">
+				<div class="panel-heading" style="background-color:#16a085;border-bottom-color:white;">
+					<h3 class="panel-title">Strafoverblik</h3>
 				</div>
 
-				<div class='panel-body'>
-					<input class='form-control' type='text' placeholder='Filter..'>
-					<div class='template__table_static template__table_responsive'>
-						<div class='scrollable'>
-							<table class='table table_sortable {sortlist: [[0,0]]}' cellspacing='0' width='100%'>
+				<div class="panel-body">
+					<input class="form-control" type="text" placeholder="Filter..">
+					<div class="template__table_static template__table_responsive">
+						<div class="scrollable">
+							<table class="table table_sortable {sortlist: [[0,0]]}" cellspacing="0" width="100%">
 								<thead>
 									<tr>
 										<th></th>

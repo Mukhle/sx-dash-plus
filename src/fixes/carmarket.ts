@@ -38,9 +38,9 @@ export const execute = async () => {
 		modal.style.setProperty('display', 'none');
 		modal.innerHTML = `<div class="modal-dialog">
 			<div class="modal-content">
-				<div class='modal-header'>
-					<button type='button' data-dismiss='modal' aria-label='Close' class='close'><span aria-hidden='true'>×</span></button>
-					<h4 class='modal-title' style='color:white;'>Bekræft handling</h4>
+				<div class="modal-header">
+					<button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+					<h4 class="modal-title" style="color:white;">Bekræft handling</h4>
 				</div>
 				<div class="modal-body">
 					Du er ved at købe en bil. Det er ikke muligt at fortryde handlingen senere.
