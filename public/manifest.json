@@ -38,13 +38,11 @@
 		},
 		{
 			"js": ["js/fixes/carmarket.js"],
-			"matches": ["*://stavox.dk/dash/carmarket*"],
-			"run_at": "document_end"
+			"matches": ["*://stavox.dk/dash/carmarket*"]
 		},
 		{
 			"js": ["js/lookupsearch.js"],
-			"matches": ["*://stavox.dk/dash/*"],
-			"exclude_matches": ["*://stavox.dk/dash/lookup*", "*://stavox.dk/dash/bans*"]
+			"matches": ["*://stavox.dk/dash/*"]
 		}
 	]
 }
