@@ -5,7 +5,7 @@ export const execute = async () => {
 		const lookupField = document.querySelector('#lookupid');
 
 		if (lookupField === null) {
-			const mainHeading = document.querySelector('.main-heading.lookuptop');
+			const mainHeading = document.querySelector('.main-heading');
 
 			if (mainHeading) {
 				const breadcrumb = mainHeading.querySelector('.breadcrumb');
@@ -14,7 +14,7 @@ export const execute = async () => {
 					const mainTitle = document.createElement('div');
 					mainTitle.classList.add('main-title');
 
-					breadcrumb.parentNode?.insertBefore(mainTitle, breadcrumb);
+					mainHeading.insertBefore(mainTitle, breadcrumb);
 					mainTitle.appendChild(breadcrumb);
 				} else {
 					const mainTitle = document.createElement('div');
@@ -39,6 +39,7 @@ export const execute = async () => {
 					</div>
 				</form>`;
 
+				mainHeading.classList.add('lookuptop');
 				mainHeading.appendChild(search);
 			} else {
 				const mainCont = document.querySelector('.main__cont');
