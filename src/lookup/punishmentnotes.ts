@@ -96,6 +96,8 @@ function createNotesLink(punishments: HTMLTableRowElement[], notes: HTMLDivEleme
 
 export const execute = async () => {
 	setTimeout(() => {
+		const perfStart = performance.now();
+
 		const cont = document.querySelector('.template.template__controls');
 		if (cont === null) return;
 
@@ -134,6 +136,9 @@ export const execute = async () => {
 		//Some fuckery was happening with the click event listeners when running the function immediately
 
 		createNotesLink(punishments, notes);
+
+		const perfEnd = performance.now();
+		console.log(`punishmentnotes took ${perfEnd - perfStart} milliseconds.`);
 	});
 };
 

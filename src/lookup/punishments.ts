@@ -242,6 +242,8 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 export const execute = async () => {
 	//Some fuckery was happening with the click event listeners when running the function immediately
 	setTimeout(() => {
+		const perfStart = performance.now();
+
 		const cont = document.querySelector<HTMLDivElement>('.template.template__controls');
 		if (cont === null) return;
 
@@ -363,6 +365,9 @@ export const execute = async () => {
 		);
 
 		punishmentsCreate(punishments, tbody);
+
+		const perfEnd = performance.now();
+		console.log(`punishments took ${perfEnd - perfStart} milliseconds.`);
 	});
 };
 
