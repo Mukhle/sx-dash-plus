@@ -4,13 +4,9 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 
-const PunishmentKeys = ['Alle', 'Ban', 'Kick', 'Jail', 'JobBan', 'CarBan'] as const;
-type PunishmentKey = typeof PunishmentKeys[number];
-type PunishmentArrayObject = {
-	[key in PunishmentKey]: HTMLElement[];
-};
+type PunishmentArrayObject = { [key: string]: HTMLElement[] };
 
-function punishmentsClickEventListener(type: PunishmentKey, period: string, array: PunishmentArrayObject) {
+function punishmentsClickEventListener(type: string, period: string, array: PunishmentArrayObject) {
 	const modal = document.querySelector<HTMLDivElement>('#modal-punishments-sxplus');
 	if (modal === null) return;
 
@@ -101,11 +97,10 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 		const time = element.children[0].textContent;
 		if (time === null) continue;
 
-		const type = element.children[1].textContent as PunishmentKey | null;
+		const type = element.children[1].textContent;
 		if (type === null) continue;
 
 		if (skip.includes(type)) continue;
-		if (PunishmentKeys.includes(type) === false) continue;
 
 		const now = dayjs();
 		const date = dayjs(time, 'DD-MM-YY HH:mm:ss');
@@ -135,20 +130,18 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 	}
 
 	for (const key in allPunishments) {
-		const punishmentKey = key as PunishmentKey;
-
-		if (allPunishments.hasOwnProperty(punishmentKey)) {
+		if (allPunishments.hasOwnProperty(key)) {
 			const td = document.createElement('td');
 
-			if (allPunishments[punishmentKey].length > 0) {
+			if (allPunishments[key].length > 0) {
 				const a = document.createElement('a');
-				a.textContent = allPunishments[punishmentKey].length.toString();
+				a.textContent = allPunishments[key].length.toString();
 				a.style.setProperty('color', 'inherit');
 				a.style.setProperty('text-decoration', 'underline');
 				a.setAttribute('data-toggle', 'modal');
 				a.setAttribute('data-target', '#modal-punishments-sxplus');
 				a.addEventListener('click', () => {
-					punishmentsClickEventListener(punishmentKey, 'Altid', allPunishments);
+					punishmentsClickEventListener(key, 'Altid', allPunishments);
 				});
 
 				td.appendChild(a);
@@ -161,20 +154,18 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 	}
 
 	for (const key in monthPunishments) {
-		const punishmentKey = key as PunishmentKey;
-
-		if (monthPunishments.hasOwnProperty(punishmentKey)) {
+		if (monthPunishments.hasOwnProperty(key)) {
 			const td = document.createElement('td');
 
-			if (monthPunishments[punishmentKey].length > 0) {
+			if (monthPunishments[key].length > 0) {
 				const a = document.createElement('a');
-				a.textContent = monthPunishments[punishmentKey].length.toString();
+				a.textContent = monthPunishments[key].length.toString();
 				a.style.setProperty('color', 'inherit');
 				a.style.setProperty('text-decoration', 'underline');
 				a.setAttribute('data-toggle', 'modal');
 				a.setAttribute('data-target', '#modal-punishments-sxplus');
 				a.addEventListener('click', () => {
-					punishmentsClickEventListener(punishmentKey, 'Seneste måned', monthPunishments);
+					punishmentsClickEventListener(key, 'Seneste måned', monthPunishments);
 				});
 
 				td.appendChild(a);
@@ -187,20 +178,18 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 	}
 
 	for (const key in weekPunishments) {
-		const punishmentKey = key as PunishmentKey;
-
-		if (weekPunishments.hasOwnProperty(punishmentKey)) {
+		if (weekPunishments.hasOwnProperty(key)) {
 			const td = document.createElement('td');
 
-			if (weekPunishments[punishmentKey].length > 0) {
+			if (weekPunishments[key].length > 0) {
 				const a = document.createElement('a');
-				a.textContent = weekPunishments[punishmentKey].length.toString();
+				a.textContent = weekPunishments[key].length.toString();
 				a.style.setProperty('color', 'inherit');
 				a.style.setProperty('text-decoration', 'underline');
 				a.setAttribute('data-toggle', 'modal');
 				a.setAttribute('data-target', '#modal-punishments-sxplus');
 				a.addEventListener('click', () => {
-					punishmentsClickEventListener(punishmentKey, 'Seneste uge', weekPunishments);
+					punishmentsClickEventListener(key, 'Seneste uge', weekPunishments);
 				});
 
 				td.appendChild(a);
@@ -213,20 +202,18 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 	}
 
 	for (const key in dayPunishments) {
-		const punishmentKey = key as PunishmentKey;
-
-		if (dayPunishments.hasOwnProperty(punishmentKey)) {
+		if (dayPunishments.hasOwnProperty(key)) {
 			const td = document.createElement('td');
 
-			if (dayPunishments[punishmentKey].length > 0) {
+			if (dayPunishments[key].length > 0) {
 				const a = document.createElement('a');
-				a.textContent = dayPunishments[punishmentKey].length.toString();
+				a.textContent = dayPunishments[key].length.toString();
 				a.style.setProperty('color', 'inherit');
 				a.style.setProperty('text-decoration', 'underline');
 				a.setAttribute('data-toggle', 'modal');
 				a.setAttribute('data-target', '#modal-punishments-sxplus');
 				a.addEventListener('click', () => {
-					punishmentsClickEventListener(punishmentKey, 'Seneste døgn', dayPunishments);
+					punishmentsClickEventListener(key, 'Seneste døgn', dayPunishments);
 				});
 
 				td.appendChild(a);
