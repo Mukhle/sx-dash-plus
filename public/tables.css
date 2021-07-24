@@ -5,3 +5,12 @@
 .table > tbody > tr.row-sxplus a {
 	cursor: pointer;
 }
+
+.table > tbody > tr.row-sxplus .dashed {
+	text-decoration-line: underline;
+	text-decoration-style: dashed;
+}
+
+.table > tbody > tr.row-sxplus .projected {
+	color: #f1c40f;
+}

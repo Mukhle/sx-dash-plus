@@ -12,6 +12,7 @@ module.exports = {
 		'fixes/traficlaws': path.join(srcDir, 'fixes/traficlaws.ts'),
 		'lookup/info': path.join(srcDir, 'lookup/info.ts'),
 		'lookup/notes': path.join(srcDir, 'lookup/notes.ts'),
+		'lookup/punishmentFrequency': path.join(srcDir, 'lookup/punishmentFrequency.ts'),
 		'lookup/punishmentnotes': path.join(srcDir, 'lookup/punishmentnotes.ts'),
 		'lookup/punishments': path.join(srcDir, 'lookup/punishments.ts'),
 		'lookup/shared': path.join(srcDir, 'lookup/shared.ts'),

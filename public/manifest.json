@@ -28,12 +28,12 @@
 			"matches": ["*://stavox.dk/dash/*"]
 		},
 		{
-			"js": ["js/lookup/notes.js", "js/lookup/punishmentnotes.js", "js/lookup/punishments.js", "js/lookup/watcher.js", "js/lookup/info.js", "js/fixes/button.js"],
+			"js": ["js/lookup/notes.js", "js/lookup/punishmentnotes.js", "js/lookup/punishments.js", "js/lookup/punishmentFrequency.js", "js/lookup/watcher.js", "js/lookup/info.js", "js/fixes/button.js"],
 			"css": ["pulse.css", "button.css"],
 			"matches": ["*://stavox.dk/dash/lookup*?lookupid=*"]
 		},
 		{
-			"js": ["js/lookup/punishments.js"],
+			"js": ["js/lookup/punishments.js", "js/lookup/punishmentFrequency.js"],
 			"matches": ["*://stavox.dk/dash/me*"]
 		},
 		{
