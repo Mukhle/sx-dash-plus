@@ -109,23 +109,20 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 		allPunishments[type].push(element);
 
 		if (date.diff(now, 'day') == 0) {
-			dayPunishments.Alle.push(element);
-			dayPunishments[type].push(element);
-
-			weekPunishments.Alle.push(element);
-			weekPunishments[type].push(element);
-
-			monthPunishments.Alle.push(element);
-			monthPunishments[type].push(element);
+			[dayPunishments, weekPunishments, monthPunishments].forEach((punishmentArray) => {
+				punishmentArray.Alle.push(element);
+				punishmentArray[type].push(element);
+			});
 		} else if (date.diff(now, 'week') == 0) {
-			weekPunishments.Alle.push(element);
-			weekPunishments[type].push(element);
-
-			monthPunishments.Alle.push(element);
-			monthPunishments[type].push(element);
+			[weekPunishments, monthPunishments].forEach((punishmentArray) => {
+				punishmentArray.Alle.push(element);
+				punishmentArray[type].push(element);
+			});
 		} else if (date.diff(now, 'month') == 0) {
-			monthPunishments.Alle.push(element);
-			monthPunishments[type].push(element);
+			[monthPunishments].forEach((punishmentArray) => {
+				punishmentArray.Alle.push(element);
+				punishmentArray[type].push(element);
+			});
 		}
 	}
 
