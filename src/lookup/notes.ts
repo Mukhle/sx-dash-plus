@@ -36,6 +36,7 @@ function notesCreate(notes: HTMLElement[], tbody: HTMLTableSectionElement) {
 	const weekNotes: HTMLElement[] = [];
 	const dayNotes: HTMLElement[] = [];
 
+	const now = dayjs();
 	for (const element of notes) {
 		const noteTime = element.querySelector<HTMLDivElement>('.sp-widget__date')?.textContent?.substring(2);
 		if (noteTime === undefined) continue;
@@ -43,7 +44,6 @@ function notesCreate(notes: HTMLElement[], tbody: HTMLTableSectionElement) {
 		const noteText = element.querySelector<HTMLDivElement>('.sp-widget__text')?.textContent;
 		if (noteText === null || noteText === undefined) continue;
 
-		const now = dayjs();
 		const date = dayjs(noteTime, 'DD-MM-YY HH:mm');
 
 		allNotes.push(element);

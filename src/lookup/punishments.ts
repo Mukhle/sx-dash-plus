@@ -91,6 +91,7 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 		CarBan: [],
 	};
 
+	const now = dayjs();
 	for (const element of punishments) {
 		if (element.style.getPropertyValue('text-decoration') == 'line-through') continue;
 
@@ -102,7 +103,6 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 
 		if (skip.includes(type)) continue;
 
-		const now = dayjs();
 		const date = dayjs(time, 'DD-MM-YY HH:mm:ss');
 
 		allPunishments.Alle.push(element);
