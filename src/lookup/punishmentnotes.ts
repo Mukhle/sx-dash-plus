@@ -35,8 +35,8 @@ function createNotesLink(punishments: HTMLTableRowElement[], notes: HTMLDivEleme
 					});
 
 					noteEntry.classList.add('pulse');
-					noteEntry.addEventListener('animationend', (event) => {
-						if (event.animationName === 'pulse') {
+					noteEntry.addEventListener('animationend', ({ animationName }) => {
+						if (animationName === 'pulse') {
 							noteEntry.classList.remove('pulse');
 						}
 					});
@@ -68,8 +68,8 @@ function createNotesLink(punishments: HTMLTableRowElement[], notes: HTMLDivEleme
 						});
 
 						noteEntry.classList.add('pulse');
-						noteEntry.addEventListener('animationend', (event) => {
-							if (event.animationName === 'pulse') {
+						noteEntry.addEventListener('animationend', ({ animationName }) => {
+							if (animationName === 'pulse') {
 								noteEntry.classList.remove('pulse');
 							}
 						});
