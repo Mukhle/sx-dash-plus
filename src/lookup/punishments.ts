@@ -38,6 +38,8 @@ function punishmentsClickEventListener(type: string, period: string, array: Puni
 	}
 }
 
+const skip = ['Unban', 'Update'];
+
 function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionElement) {
 	//Reset table body
 	tbody.innerHTML = `<tr class="row-sxplus" style="font-weight: bold;color:#ed4949;">
@@ -52,8 +54,6 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 	<tr class="row-sxplus">
 		<th>Seneste døgn</th>
 	</tr>`;
-
-	const skip = ['Unban', 'Update'];
 
 	const allPunishments: PunishmentArrayObject = {
 		Alle: [],
