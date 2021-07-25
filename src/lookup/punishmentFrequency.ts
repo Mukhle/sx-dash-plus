@@ -1,9 +1,54 @@
 import { getLookupContainerFromHeaderText } from './shared';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import duration from 'dayjs/plugin/duration';
 dayjs.extend(customParseFormat);
+dayjs.extend(duration);
 
-type PunishmentArrayObject = HTMLElement[];
+type Intervals = 'years' | 'months' | 'weeks' | 'days' | 'hours' | 'minutes' | 'seconds';
+
+const durationData = [
+	['years', 'år', 'år'],
+	['months', 'måned', 'måneder'],
+	['weeks', 'uge', 'uger'],
+	['days', 'dag', 'dage'],
+	['hours', 'time', 'timer'],
+	['minutes', 'minut', 'minutter'],
+] as const;
+function createTableHead(amount: number, now: Dayjs, start: Dayjs, intervalText: string) {
+	let duration = dayjs.duration(now.diff(start) / amount);
+
+	const times = [];
+	for (const [interval, intervalSingle, intervalPlural] of durationData) {
+		const amountOfUnit = duration[interval]();
+
+		if (amountOfUnit) {
+			if (amountOfUnit === 1) {
+				times.push(`${amountOfUnit} ${intervalSingle}`);
+			} else {
+				times.push(`${amountOfUnit} ${intervalPlural}`);
+			}
+
+			duration = duration.subtract(amountOfUnit, interval);
+		}
+	}
+
+	return `<span class="dashed" title="Gennemsnitligt ${times.join(', ')} mellem hver straf">
+		${intervalText}
+	</span>`;
+}
+
+function createAllTimeTableData(amount: number, now: Dayjs, start: Dayjs, interval: Intervals) {
+	if (now.subtract(1, interval).isAfter(start)) {
+		return createTableData(amount, now, start, interval);
+	}
+
+	return '';
+}
+
+function createTableData(amount: number, now: Dayjs, start: Dayjs, interval: Intervals) {
+	return (amount / now.diff(start, interval, true)).toFixed(3);
+}
 
 const skip = ['Unban', 'Update'];
 
@@ -11,11 +56,13 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 	//Reset table body
 	tbody.innerHTML = ``;
 
-	const allPunishments: PunishmentArrayObject = [];
-	const yearPunishments: PunishmentArrayObject = [];
-	const monthPunishments: PunishmentArrayObject = [];
-	const weekPunishments: PunishmentArrayObject = [];
-	const dayPunishments: PunishmentArrayObject = [];
+	const punishmentAmounts = {
+		all: 0,
+		year: 0,
+		month: 0,
+		week: 0,
+		day: 0,
+	};
 
 	let firstPunishment: Dayjs | undefined;
 
@@ -37,23 +84,23 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 			firstPunishment = date;
 		}
 
-		allPunishments.push(element);
+		punishmentAmounts.all++;
 
 		if (date.diff(now, 'day') == 0) {
-			[dayPunishments, weekPunishments, monthPunishments, yearPunishments].forEach((object) => {
-				object.push(element);
+			(['day', 'week', 'month', 'year'] as const).forEach((key) => {
+				punishmentAmounts[key]++;
 			});
 		} else if (date.diff(now, 'week') == 0) {
-			[weekPunishments, monthPunishments, yearPunishments].forEach((object) => {
-				object.push(element);
+			(['week', 'month', 'year'] as const).forEach((key) => {
+				punishmentAmounts[key]++;
 			});
 		} else if (date.diff(now, 'month') == 0) {
-			[monthPunishments, yearPunishments].forEach((object) => {
-				object.push(element);
+			(['month', 'year'] as const).forEach((key) => {
+				punishmentAmounts[key]++;
 			});
 		} else if (date.diff(now, 'year') == 0) {
-			[yearPunishments].forEach((object) => {
-				object.push(element);
+			(['year'] as const).forEach((key) => {
+				punishmentAmounts[key]++;
 			});
 		}
 	}
@@ -64,279 +111,104 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 		row.style.setProperty('font-weight', 'bold');
 		row.style.setProperty('color', '#ed4949');
 		row.innerHTML = `<th>
-			${(() => {
-				const intervalPerPunishment = (() => {
-					const intervals = [
-						['month', 'måned', 'måneder'],
-						['week', 'uge', 'uger'],
-						['day', 'dag', 'dage'],
-						['hour', 'time', 'timer'],
-						['minute', 'minut', 'minutter'],
-					] as const;
-
-					for (const [interval, single, plural] of intervals) {
-						const diff = now.diff(firstPunishment, interval, true);
-						const ratio = Math.floor(diff / allPunishments.length);
-						if (ratio > 1) return `${ratio} ${plural} mellem hver straf`;
-					}
-
-					return 'beh';
-				})();
-
-				return `<span class="dashed" title="${intervalPerPunishment}">
-					Síden første straf
-				</span>`;
-			})()}
+			${createTableHead(punishmentAmounts.all, now, firstPunishment, 'Siden første straf')}
 		</th>
 		<td>
-			${now.subtract(1, 'hour').isAfter(firstPunishment) ? (allPunishments.length / now.diff(firstPunishment, 'hour', true)).toFixed(2) : '-'}
+			${createAllTimeTableData(punishmentAmounts.all, now, firstPunishment, 'hours')}
 		</td>
 		<td>
-			${now.subtract(1, 'day').isAfter(firstPunishment) ? (allPunishments.length / now.diff(firstPunishment, 'day', true)).toFixed(2) : '-'}
+			${createAllTimeTableData(punishmentAmounts.all, now, firstPunishment, 'days')}
 		</td>
 		<td>
-			${now.subtract(1, 'week').isAfter(firstPunishment) ? (allPunishments.length / now.diff(firstPunishment, 'week', true)).toFixed(2) : '-'}
+			${createAllTimeTableData(punishmentAmounts.all, now, firstPunishment, 'weeks')}
 		</td>
 		<td>
-			${now.subtract(1, 'month').isAfter(firstPunishment) ? (allPunishments.length / now.diff(firstPunishment, 'month', true)).toFixed(2) : '-'}
+			${createAllTimeTableData(punishmentAmounts.all, now, firstPunishment, 'months')}
 		</td>`;
 
 		tbody.appendChild(row);
 	}
 
-	if (yearPunishments.length > 0 && now.subtract(1, 'year').isAfter(firstPunishment)) {
+	if (punishmentAmounts.year > 0 && now.subtract(1, 'year').isAfter(firstPunishment)) {
 		const intervalStart = now.subtract(1, 'year');
 
 		const row = document.createElement('tr');
 		row.classList.add('row-sxplus');
 		row.innerHTML = `<th>
-			${(() => {
-				const intervalPerPunishment = (() => {
-					const intervals = [
-						['month', 'måned', 'måneder'],
-						['week', 'uge', 'uger'],
-						['day', 'dag', 'dage'],
-						['hour', 'time', 'timer'],
-						['minute', 'minut', 'minutter'],
-					] as const;
-
-					for (const [interval, single, plural] of intervals) {
-						const diff = now.diff(intervalStart, interval, true);
-						const ratio = Math.floor(diff / yearPunishments.length);
-						if (ratio > 1) return `${ratio} ${plural} mellem hver straf`;
-					}
-
-					return 'beh';
-				})();
-
-				return `<span class="dashed" title="${intervalPerPunishment}">
-					Seneste år
-				</span>`;
-			})()}
+			${createTableHead(punishmentAmounts.year, now, intervalStart, 'Seneste år')}
 		</th>
 		<td>
-			${(() => {
-				const interval = 'hour';
-				const intervalDiff = now.diff(intervalStart, interval, true);
-
-				return (yearPunishments.length / intervalDiff).toFixed(2);
-			})()}
+			${createTableData(punishmentAmounts.year, now, intervalStart, 'hours')}
 		</td>
 		<td>
-			${(() => {
-				const interval = 'day';
-				const intervalDiff = now.diff(intervalStart, interval, true);
-
-				return (yearPunishments.length / intervalDiff).toFixed(2);
-			})()}
+			${createTableData(punishmentAmounts.year, now, intervalStart, 'days')}
 		</td>
 		<td>
-			${(() => {
-				const interval = 'week';
-				const intervalDiff = now.diff(intervalStart, interval, true);
-
-				return (yearPunishments.length / intervalDiff).toFixed(2);
-			})()}
+			${createTableData(punishmentAmounts.year, now, intervalStart, 'weeks')}
 		</td>
 		<td>
-			${(() => {
-				const interval = 'month';
-				const intervalDiff = now.diff(intervalStart, interval, true);
-
-				return (yearPunishments.length / intervalDiff).toFixed(2);
-			})()}
+			${createTableData(punishmentAmounts.year, now, intervalStart, 'months')}
 		</td>`;
 
 		tbody.appendChild(row);
 	}
 
-	if (monthPunishments.length > 0 && now.subtract(1, 'month').isAfter(firstPunishment)) {
+	if (punishmentAmounts.month > 0 && now.subtract(1, 'month').isAfter(firstPunishment)) {
 		const intervalStart = now.subtract(1, 'month');
 
 		const row = document.createElement('tr');
 		row.classList.add('row-sxplus');
 		row.innerHTML = `<th>
-			${(() => {
-				const intervalPerPunishment = (() => {
-					const intervals = [
-						['week', 'uge', 'uger'],
-						['day', 'dag', 'dage'],
-						['hour', 'time', 'timer'],
-						['minute', 'minut', 'minutter'],
-					] as const;
-
-					for (const [interval, single, plural] of intervals) {
-						const diff = now.diff(intervalStart, interval, true);
-						const ratio = Math.floor(diff / monthPunishments.length);
-						if (ratio > 1) return `${ratio} ${plural} mellem hver straf`;
-					}
-
-					return 'beh';
-				})();
-
-				return `<span class="dashed" title="${intervalPerPunishment}">
-					Seneste måned
-				</span>`;
-			})()}
+			${createTableHead(punishmentAmounts.month, now, intervalStart, 'Seneste måned')}
 		</th>
 		<td>
-			${(() => {
-				const interval = 'hour';
-				const intervalDiff = now.diff(intervalStart, interval, true);
-
-				return (monthPunishments.length / intervalDiff).toFixed(2);
-			})()}
+			${createTableData(punishmentAmounts.month, now, intervalStart, 'hours')}
 		</td>
 		<td>
-			${(() => {
-				const interval = 'day';
-				const intervalDiff = now.diff(intervalStart, interval, true);
-
-				return (monthPunishments.length / intervalDiff).toFixed(2);
-			})()}
+			${createTableData(punishmentAmounts.month, now, intervalStart, 'days')}
 		</td>
 		<td>
-			${(() => {
-				const interval = 'week';
-				const intervalDiff = now.diff(intervalStart, interval, true);
-
-				return (monthPunishments.length / intervalDiff).toFixed(2);
-			})()}
+			${createTableData(punishmentAmounts.month, now, intervalStart, 'weeks')}
 		</td>
-		<td>-</td>`;
+		<td></td>`;
 
 		tbody.appendChild(row);
 	}
 
-	if (weekPunishments.length > 0 && now.subtract(1, 'week').isAfter(firstPunishment)) {
+	if (punishmentAmounts.week > 0 && now.subtract(1, 'week').isAfter(firstPunishment)) {
 		const intervalStart = now.subtract(1, 'week');
 
 		const row = document.createElement('tr');
 		row.classList.add('row-sxplus');
 		row.innerHTML = `<th>
-			${(() => {
-				const intervalPerPunishment = (() => {
-					const intervals = [
-						['day', 'dag', 'dage'],
-						['hour', 'time', 'timer'],
-						['minute', 'minut', 'minutter'],
-					] as const;
-
-					for (const [interval, single, plural] of intervals) {
-						const diff = now.diff(intervalStart, interval, true);
-						const ratio = Math.floor(diff / weekPunishments.length);
-						if (ratio > 1) return `${ratio} ${plural} mellem hver straf`;
-					}
-
-					return 'beh';
-				})();
-
-				return `<span class="dashed" title="${intervalPerPunishment}">
-					Seneste uge
-				</span>`;
-			})()}
+			${createTableHead(punishmentAmounts.week, now, intervalStart, 'Seneste uge')}
 		</th>
 		<td>
-			${(() => {
-				const interval = 'hour';
-				const intervalDiff = now.diff(intervalStart, interval, true);
-
-				return (weekPunishments.length / intervalDiff).toFixed(2);
-			})()}
+			${createTableData(punishmentAmounts.week, now, intervalStart, 'hours')}
 		</td>
 		<td>
-			${(() => {
-				const interval = 'day';
-				const intervalDiff = now.diff(intervalStart, interval, true);
-
-				return (weekPunishments.length / intervalDiff).toFixed(2);
-			})()}
+			${createTableData(punishmentAmounts.week, now, intervalStart, 'days')}
 		</td>
-		<td>-</td>
-		<td class="dashed projected" title="Fremskrivning af mængden af straffe som spilleren vil modtages i det givene interval, hvis hyppigheden på modtagelse af straffe forbliver uædnret.">
-			${(() => {
-				const interval = 'month';
-				const intervalDiff = now.diff(intervalStart, interval, true);
-
-				return (weekPunishments.length / intervalDiff).toFixed(2);
-			})()}
-		</td>`;
+		<td></td>
+		<td></td>`;
 
 		tbody.appendChild(row);
 	}
 
-	if (dayPunishments.length > 0 && now.subtract(1, 'day').isAfter(firstPunishment)) {
+	if (punishmentAmounts.day > 0 && now.subtract(1, 'day').isAfter(firstPunishment)) {
 		const intervalStart = now.subtract(1, 'day');
 
 		const row = document.createElement('tr');
 		row.classList.add('row-sxplus');
 		row.innerHTML = `<th>
-			${(() => {
-				const intervalPerPunishment = (() => {
-					const intervals = [
-						['hour', 'time', 'timer'],
-						['minute', 'minut', 'minutter'],
-					] as const;
-
-					for (const [interval, single, plural] of intervals) {
-						const diff = now.diff(intervalStart, interval, true);
-						const ratio = Math.floor(diff / dayPunishments.length);
-						if (ratio > 1) return `${ratio} ${plural} mellem hver straf`;
-					}
-
-					return 'beh';
-				})();
-
-				return `<span class="dashed" title="${intervalPerPunishment}">
-					Seneste døgn
-				</span>`;
-			})()}
+			${createTableHead(punishmentAmounts.day, now, intervalStart, 'Seneste døgn')}
 		</th>
 		<td>
-			${(() => {
-				const interval = 'hour';
-				const intervalDiff = now.diff(intervalStart, interval, true);
-
-				return (dayPunishments.length / intervalDiff).toFixed(2);
-			})()}
+			${createTableData(punishmentAmounts.day, now, intervalStart, 'hours')}
 		</td>
-		<td>-</td>
-		<td class="dashed projected" title="Fremskrivning af mængden af straffe som spilleren vil modtages i det givene interval, hvis hyppigheden på modtagelse af straffe forbliver uædnret.">
-			${(() => {
-				const interval = 'week';
-				const intervalDiff = now.diff(intervalStart, interval, true);
-
-				return (dayPunishments.length / intervalDiff).toFixed(2);
-			})()}
-		</td>
-		<td class="dashed projected" title="Fremskrivning af mængden af straffe som spilleren vil modtages i det givene interval, hvis hyppigheden på modtagelse af straffe forbliver uædnret.">
-			${(() => {
-				const interval = 'month';
-				const intervalDiff = now.diff(intervalStart, interval, true);
-
-				return (dayPunishments.length / intervalDiff).toFixed(2);
-			})()}
-		</td>`;
+		<td></td>
+		<td></td>
+		<td></td>`;
 
 		tbody.appendChild(row);
 	}
