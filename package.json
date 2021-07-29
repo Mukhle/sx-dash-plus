@@ -14,7 +14,7 @@
 		"build": "webpack --config webpack/webpack.prod.js"
 	},
 	"devDependencies": {
-		"@types/chrome": "^0.0.148",
+		"@types/chrome": "^0.0.149",
 		"@types/debounce": "^1.2.0",
 		"copy-webpack-plugin": "^9.0.1",
 		"ts-loader": "^9.2.3",
