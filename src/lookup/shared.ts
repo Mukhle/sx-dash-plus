@@ -10,12 +10,12 @@ export const getLookupContainerFromHeaderText = (headerText: string, getReturnVa
 	return defaults;
 };
 
-const rgx = /STEAM_0:\d:\d+/g;
+const steamidPattern = /STEAM_\d:\d:\d+/g;
 const blacklistedLookup = ['STEAM_0:1:48016748', 'STEAM_0:0:56939043'];
 
 export function handleTextNode(textNode: Node) {
 	const origText = textNode.textContent;
-	const newHtml = origText?.replaceAll(rgx, (match) => {
+	const newHtml = origText?.replaceAll(steamidPattern, (match) => {
 		if (blacklistedLookup.includes(match)) {
 			return match;
 		}

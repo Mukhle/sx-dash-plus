@@ -7,7 +7,10 @@
 		"64": "icon128.png",
 		"128": "icon128.png"
 	},
-	"permissions": ["*://stavox.dk/dash/*"],
+	"permissions": ["*://stavox.dk/dash/*", "<all_urls>", "contextMenus"],
+	"background": {
+		"scripts": ["js/background/background.js"]
+	},
 	"content_scripts": [
 		{
 			"js": ["js/fixes/tables.js"],
@@ -43,6 +46,10 @@
 		{
 			"js": ["js/lookupsearch.js"],
 			"matches": ["*://stavox.dk/dash/*"]
+		},
+		{
+			"js": ["js/selection.js"],
+			"matches": ["<all_urls>"]
 		}
 	]
 }

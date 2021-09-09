@@ -5,6 +5,7 @@ const srcDir = path.join(__dirname, '..', 'src');
 
 module.exports = {
 	entry: {
+		'background/background': path.join(srcDir, 'background/background.ts'),
 		'fixes/button': path.join(srcDir, 'fixes/button.ts'),
 		'fixes/carmarket': path.join(srcDir, 'fixes/carmarket.ts'),
 		'fixes/stafflist': path.join(srcDir, 'fixes/stafflist.ts'),
@@ -18,6 +19,7 @@ module.exports = {
 		'lookup/shared': path.join(srcDir, 'lookup/shared.ts'),
 		'lookup/watcher': path.join(srcDir, 'lookup/watcher.ts'),
 		lookupsearch: path.join(srcDir, 'lookupsearch.ts'),
+		selection: path.join(srcDir, 'selection.ts'),
 		steamids: path.join(srcDir, 'steamids.ts'),
 	},
 	output: {
