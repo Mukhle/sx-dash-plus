@@ -1,33 +1,33 @@
-import { userIsStaff } from './lookup/shared';
+import { userIsStaff } from './lookup/shared'
 
-export const execute = async () => {
+export async function execute(): Promise<void> {
 	if (userIsStaff) {
-		const lookupField = document.querySelector('#lookupid');
+		const lookupField = document.querySelector('#lookupid')
 
 		if (lookupField === null) {
-			const mainHeading = document.querySelector('.main-heading');
+			const mainHeading = document.querySelector('.main-heading')
 
 			if (mainHeading) {
-				const breadcrumb = mainHeading.querySelector('.breadcrumb');
+				const breadcrumb = mainHeading.querySelector('.breadcrumb')
 
 				if (breadcrumb) {
-					const mainTitle = document.createElement('div');
-					mainTitle.classList.add('main-title');
+					const mainTitle = document.createElement('div')
+					mainTitle.classList.add('main-title')
 
-					mainHeading.insertBefore(mainTitle, breadcrumb);
-					mainTitle.appendChild(breadcrumb);
+					mainHeading.insertBefore(mainTitle, breadcrumb)
+					mainTitle.appendChild(breadcrumb)
 				} else {
-					const mainTitle = document.createElement('div');
-					mainTitle.classList.add('main-title');
+					const mainTitle = document.createElement('div')
+					mainTitle.classList.add('main-title')
 					mainTitle.innerHTML = `<ol class="breadcrumb">
 						<li class="active">Spilleropslag</li>
-					</ol>`;
+					</ol>`
 
-					mainHeading.appendChild(mainTitle);
+					mainHeading.appendChild(mainTitle)
 				}
 
-				const search = document.createElement('div');
-				search.classList.add('main-filter');
+				const search = document.createElement('div')
+				search.classList.add('main-filter')
 				search.innerHTML = `<form class="main-filter__search" method="get" action="lookup">
 					<div class="input-group">
 						<input type="text" id="lookupid" name="lookupid" autocomplete="off" placeholder="Søg efter SteamID, RP navn eller Steam profillink" class="form-control">
@@ -37,17 +37,17 @@ export const execute = async () => {
 							</button>
 						</span>
 					</div>
-				</form>`;
+				</form>`
 
-				mainHeading.classList.add('lookuptop');
-				mainHeading.appendChild(search);
+				mainHeading.classList.add('lookuptop')
+				mainHeading.appendChild(search)
 			} else {
-				const mainCont = document.querySelector('.main__cont');
+				const mainCont = document.querySelector('.main__cont')
 
 				if (mainCont) {
-					const search = document.createElement('div');
-					search.classList.add('main-heading');
-					search.classList.add('lookuptop');
+					const search = document.createElement('div')
+					search.classList.add('main-heading')
+					search.classList.add('lookuptop')
 					search.innerHTML = `<div class="main-title">
 						<ol class="breadcrumb">
 							<li class="active">Spilleropslag</li>
@@ -64,13 +64,13 @@ export const execute = async () => {
 								</span>
 							</div>
 						</form>
-					</div>`;
+					</div>`
 
-					mainCont.insertBefore(search, mainCont.firstChild);
+					mainCont.insertBefore(search, mainCont.firstChild)
 				}
 			}
 		}
 	}
-};
+}
 
-execute();
+execute()

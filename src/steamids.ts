@@ -1,9 +1,9 @@
-import { userIsStaff, processTextNodes } from './lookup/shared';
+import { userIsStaff, processTextNodes } from './lookup/shared'
 
-export const execute = async () => {
+export async function execute(): Promise<void> {
 	if (userIsStaff) {
-		processTextNodes(document.body);
+		processTextNodes(document.body)
 	}
-};
+}
 
-execute();
+execute()

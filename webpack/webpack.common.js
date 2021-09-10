@@ -1,10 +1,10 @@
 // const webpack = require('webpack');
-const path = require('path');
-const CopyPlugin = require('copy-webpack-plugin');
-const srcDir = path.join(__dirname, '..', 'src');
+const path = require('path')
+const CopyPlugin = require('copy-webpack-plugin')
+const srcDir = path.join(__dirname, '..', 'src')
 
 module.exports = {
-	entry: {
+	'entry': {
 		'background/background': path.join(srcDir, 'background/background.ts'),
 		'fixes/button': path.join(srcDir, 'fixes/button.ts'),
 		'fixes/carmarket': path.join(srcDir, 'fixes/carmarket.ts'),
@@ -18,37 +18,41 @@ module.exports = {
 		'lookup/punishments': path.join(srcDir, 'lookup/punishments.ts'),
 		'lookup/shared': path.join(srcDir, 'lookup/shared.ts'),
 		'lookup/watcher': path.join(srcDir, 'lookup/watcher.ts'),
-		lookupsearch: path.join(srcDir, 'lookupsearch.ts'),
-		selection: path.join(srcDir, 'selection.ts'),
-		steamids: path.join(srcDir, 'steamids.ts'),
+		'lookupsearch': path.join(srcDir, 'lookupsearch.ts'),
+		'selection': path.join(srcDir, 'selection.ts'),
+		'steamids': path.join(srcDir, 'steamids.ts'),
 	},
-	output: {
-		path: path.join(__dirname, '../dist/js'),
-		filename: '[name].js',
+	'output': {
+		'path': path.join(__dirname, '../dist/js'),
+		'filename': '[name].js',
 	},
-	optimization: {
-		splitChunks: {
-			name: 'vendor',
-			chunks: 'initial',
+	'optimization': {
+		'splitChunks': {
+			'name': 'vendor',
+			'chunks': 'initial',
 		},
-		minimize: false,
+		'minimize': false,
 	},
-	module: {
-		rules: [
+	'module': {
+		'rules': [
 			{
-				test: /\.tsx?$/,
-				use: 'ts-loader',
-				exclude: /node_modules/,
+				'test': /\.tsx?$/,
+				'use': 'ts-loader',
+				'exclude': /node_modules/,
 			},
 		],
 	},
-	resolve: {
-		extensions: ['.ts', '.tsx', '.js'],
+	'resolve': {
+		'extensions': ['.ts', '.tsx', '.js'],
 	},
-	plugins: [
+	'plugins': [
 		new CopyPlugin({
-			patterns: [{ from: '.', to: '../', context: 'public' }],
-			options: {},
+			'patterns': [{
+				'from': '.',
+				'to': '../',
+				'context': 'public',
+			}],
+			'options': {},
 		}),
 	],
-};
+}

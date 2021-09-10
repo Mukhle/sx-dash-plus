@@ -1,9 +1,9 @@
-import { getLookupContainerFromHeaderText } from './shared';
-import dayjs, { Dayjs } from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import duration from 'dayjs/plugin/duration';
-dayjs.extend(customParseFormat);
-dayjs.extend(duration);
+import { getLookupContainerFromHeaderText } from './shared'
+import dayjs, { Dayjs } from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+import duration from 'dayjs/plugin/duration'
+dayjs.extend(customParseFormat)
+dayjs.extend(duration)
 
 type Intervals = 'years' | 'months' | 'weeks' | 'days' | 'hours' | 'minutes' | 'seconds';
 
@@ -14,102 +14,102 @@ const durationData = [
 	['days', 'dag', 'dage'],
 	['hours', 'time', 'timer'],
 	['minutes', 'minut', 'minutter'],
-] as const;
+] as const
 function createTableHead(amount: number, now: Dayjs, start: Dayjs, intervalText: string) {
-	let duration = dayjs.duration(now.diff(start) / amount);
+	let duration = dayjs.duration(now.diff(start) / amount)
 
-	const times = [];
+	const times = []
 	for (const [interval, intervalSingle, intervalPlural] of durationData) {
-		const amountOfUnit = duration[interval]();
+		const amountOfUnit = duration[interval]()
 
 		if (amountOfUnit) {
 			if (amountOfUnit === 1) {
-				times.push(`${amountOfUnit} ${intervalSingle}`);
+				times.push(`${amountOfUnit} ${intervalSingle}`)
 			} else {
-				times.push(`${amountOfUnit} ${intervalPlural}`);
+				times.push(`${amountOfUnit} ${intervalPlural}`)
 			}
 
-			duration = duration.subtract(amountOfUnit, interval);
+			duration = duration.subtract(amountOfUnit, interval)
 		}
 	}
 
 	return `<span class="dashed" title="Gennemsnitligt ${times.join(', ')} mellem hver straf">
 		${intervalText}
-	</span>`;
+	</span>`
 }
 
 function createAllTimeTableData(amount: number, now: Dayjs, start: Dayjs, interval: Intervals) {
 	if (now.subtract(1, interval).isAfter(start)) {
-		return createTableData(amount, now, start, interval);
+		return createTableData(amount, now, start, interval)
 	}
 
-	return '';
+	return ''
 }
 
 function createTableData(amount: number, now: Dayjs, start: Dayjs, interval: Intervals) {
-	return (amount / now.diff(start, interval, true)).toFixed(3);
+	return (amount / now.diff(start, interval, true)).toFixed(3)
 }
 
-const skip = ['Unban', 'Update'];
+const skip = ['Unban', 'Update']
 
 function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionElement) {
 	//Reset table body
-	tbody.innerHTML = ``;
+	tbody.innerHTML = ''
 
 	const punishmentAmounts = {
-		all: 0,
-		year: 0,
-		month: 0,
-		week: 0,
-		day: 0,
-	};
+		'all': 0,
+		'year': 0,
+		'month': 0,
+		'week': 0,
+		'day': 0,
+	}
 
-	let firstPunishment: Dayjs | undefined;
+	let firstPunishment: Dayjs | undefined
 
-	const now = dayjs();
+	const now = dayjs()
 	for (const element of punishments) {
-		if (element.style.getPropertyValue('text-decoration') == 'line-through') continue;
+		if (element.style.getPropertyValue('text-decoration') == 'line-through') continue
 
-		const time = element.children[0].textContent;
-		if (time === null) continue;
+		const time = element.children[0].textContent
+		if (time === null) continue
 
-		const type = element.children[1].textContent;
-		if (type === null) continue;
+		const type = element.children[1].textContent
+		if (type === null) continue
 
-		if (skip.includes(type)) continue;
+		if (skip.includes(type)) continue
 
-		const date = dayjs(time, 'DD-MM-YY HH:mm:ss');
+		const date = dayjs(time, 'DD-MM-YY HH:mm:ss')
 
 		if (firstPunishment === undefined) {
-			firstPunishment = date;
+			firstPunishment = date
 		}
 
-		punishmentAmounts.all++;
+		punishmentAmounts.all++
 
 		if (date.diff(now, 'day') == 0) {
 			(['day', 'week', 'month', 'year'] as const).forEach((key) => {
-				punishmentAmounts[key]++;
-			});
+				punishmentAmounts[key]++
+			})
 		} else if (date.diff(now, 'week') == 0) {
 			(['week', 'month', 'year'] as const).forEach((key) => {
-				punishmentAmounts[key]++;
-			});
+				punishmentAmounts[key]++
+			})
 		} else if (date.diff(now, 'month') == 0) {
 			(['month', 'year'] as const).forEach((key) => {
-				punishmentAmounts[key]++;
-			});
+				punishmentAmounts[key]++
+			})
 		} else if (date.diff(now, 'year') == 0) {
 			(['year'] as const).forEach((key) => {
-				punishmentAmounts[key]++;
-			});
+				punishmentAmounts[key]++
+			})
 		}
 	}
 
 	if (firstPunishment) {
-		const row = document.createElement('tr');
-		row.classList.add('row-sxplus');
-		row.style.setProperty('font-weight', 'bold');
-		row.style.setProperty('color', '#ed4949');
+		const row = document.createElement('tr')
+		row.classList.add('row-sxplus')
+		row.style.setProperty('font-weight', 'bold')
+		row.style.setProperty('color', '#ed4949')
 		row.innerHTML = `<th>
 			${createTableHead(punishmentAmounts.all, now, firstPunishment, 'Siden første straf')}
 		</th>
@@ -124,16 +124,16 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 		</td>
 		<td>
 			${createAllTimeTableData(punishmentAmounts.all, now, firstPunishment, 'months')}
-		</td>`;
+		</td>`
 
-		tbody.appendChild(row);
+		tbody.appendChild(row)
 	}
 
 	if (punishmentAmounts.year > 0 && now.subtract(1, 'year').isAfter(firstPunishment)) {
-		const intervalStart = now.subtract(1, 'year');
+		const intervalStart = now.subtract(1, 'year')
 
-		const row = document.createElement('tr');
-		row.classList.add('row-sxplus');
+		const row = document.createElement('tr')
+		row.classList.add('row-sxplus')
 		row.innerHTML = `<th>
 			${createTableHead(punishmentAmounts.year, now, intervalStart, 'Seneste år')}
 		</th>
@@ -148,16 +148,16 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 		</td>
 		<td>
 			${createTableData(punishmentAmounts.year, now, intervalStart, 'months')}
-		</td>`;
+		</td>`
 
-		tbody.appendChild(row);
+		tbody.appendChild(row)
 	}
 
 	if (punishmentAmounts.month > 0 && now.subtract(1, 'month').isAfter(firstPunishment)) {
-		const intervalStart = now.subtract(1, 'month');
+		const intervalStart = now.subtract(1, 'month')
 
-		const row = document.createElement('tr');
-		row.classList.add('row-sxplus');
+		const row = document.createElement('tr')
+		row.classList.add('row-sxplus')
 		row.innerHTML = `<th>
 			${createTableHead(punishmentAmounts.month, now, intervalStart, 'Seneste måned')}
 		</th>
@@ -170,16 +170,16 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 		<td>
 			${createTableData(punishmentAmounts.month, now, intervalStart, 'weeks')}
 		</td>
-		<td></td>`;
+		<td></td>`
 
-		tbody.appendChild(row);
+		tbody.appendChild(row)
 	}
 
 	if (punishmentAmounts.week > 0 && now.subtract(1, 'week').isAfter(firstPunishment)) {
-		const intervalStart = now.subtract(1, 'week');
+		const intervalStart = now.subtract(1, 'week')
 
-		const row = document.createElement('tr');
-		row.classList.add('row-sxplus');
+		const row = document.createElement('tr')
+		row.classList.add('row-sxplus')
 		row.innerHTML = `<th>
 			${createTableHead(punishmentAmounts.week, now, intervalStart, 'Seneste uge')}
 		</th>
@@ -190,16 +190,16 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 			${createTableData(punishmentAmounts.week, now, intervalStart, 'days')}
 		</td>
 		<td></td>
-		<td></td>`;
+		<td></td>`
 
-		tbody.appendChild(row);
+		tbody.appendChild(row)
 	}
 
 	if (punishmentAmounts.day > 0 && now.subtract(1, 'day').isAfter(firstPunishment)) {
-		const intervalStart = now.subtract(1, 'day');
+		const intervalStart = now.subtract(1, 'day')
 
-		const row = document.createElement('tr');
-		row.classList.add('row-sxplus');
+		const row = document.createElement('tr')
+		row.classList.add('row-sxplus')
 		row.innerHTML = `<th>
 			${createTableHead(punishmentAmounts.day, now, intervalStart, 'Seneste døgn')}
 		</th>
@@ -208,38 +208,38 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 		</td>
 		<td></td>
 		<td></td>
-		<td></td>`;
+		<td></td>`
 
-		tbody.appendChild(row);
+		tbody.appendChild(row)
 	}
 }
 
-export const execute = async () => {
+export async function execute(): Promise<void> {
 	//Some fuckery was happening with the click event listeners when running the function immediately
 	setTimeout(() => {
-		const perfStart = performance.now();
+		const perfStart = performance.now()
 
-		const cont = document.querySelector<HTMLDivElement>('.template.template__controls');
-		if (cont === null) return;
+		const cont = document.querySelector<HTMLDivElement>('.template.template__controls')
+		if (cont === null) return
 
-		const [punishments, punishmentsRow]: [HTMLTableRowElement[], HTMLDivElement] | [null, null] = getLookupContainerFromHeaderText(
+		const [punishments, punishmentsRow] = getLookupContainerFromHeaderText<[HTMLTableRowElement[], HTMLDivElement], [null, null]>(
 			'Strafhistorik',
 			(element) => {
-				const container = element.closest('.row');
-				if (container === null) return;
+				const container = element.closest<HTMLDivElement>('.row')
+				if (container === null) return
 
-				const children = container.querySelectorAll<HTMLTableRowElement>('tbody > *');
+				const children = container.querySelectorAll<HTMLTableRowElement>('tbody > *')
 
-				const punishments = Array.from(children);
-				return [punishments, container];
+				const punishments = Array.from(children)
+				return [punishments, container]
 			},
-			[null, null]
-		);
+			[null, null],
+		)
 
-		if (punishments === null || punishmentsRow === null) return;
+		if (punishments === null || punishmentsRow === null) return
 
-		const container = document.createElement('div');
-		container.className = 'row';
+		const container = document.createElement('div')
+		container.className = 'row'
 		container.innerHTML = `<div class="col-md-12 col-xs-11">
 			<div class="panel panel-danger">
 				<div class="panel-heading" style="background-color:#16a085;border-bottom-color:white;">
@@ -268,19 +268,19 @@ export const execute = async () => {
 					</div>
 				</div>
 			</div>
-		</div>`;
+		</div>`
 
-		const tbody = container.querySelector<HTMLTableSectionElement>('tbody');
-		if (tbody === null) return;
+		const tbody = container.querySelector<HTMLTableSectionElement>('tbody')
+		if (tbody === null) return
 
-		cont.appendChild(container);
-		punishmentsRow.before(container);
+		cont.appendChild(container)
+		punishmentsRow.before(container)
 
-		punishmentsCreate(punishments, tbody);
+		punishmentsCreate(punishments, tbody)
 
-		const perfEnd = performance.now();
-		console.log(`punishmentFrequency took ${perfEnd - perfStart} milliseconds.`);
-	});
-};
+		const perfEnd = performance.now()
+		console.log(`punishmentFrequency took ${perfEnd - perfStart} milliseconds.`)
+	})
+}
 
-execute();
+execute()

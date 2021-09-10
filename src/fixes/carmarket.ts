@@ -1,41 +1,41 @@
 function confirmClickEventListener(evalString: string) {
-	const modal = document.querySelector<HTMLDivElement>('#modal-carmarket-confirm-sxplus');
-	if (modal === null) return;
+	const modal = document.querySelector<HTMLDivElement>('#modal-carmarket-confirm-sxplus')
+	if (modal === null) return
 
-	const modalButton = modal.querySelector<HTMLButtonElement>('button.btn.btn-danger');
-	if (modalButton === null) return;
+	const modalButton = modal.querySelector<HTMLButtonElement>('button.btn.btn-danger')
+	if (modalButton === null) return
 
-	modalButton.setAttribute('onclick', evalString);
+	modalButton.setAttribute('onclick', evalString)
 }
 
-export function confirmCreate() {
+export function confirmCreate(): void {
 	for (const element of document.querySelectorAll<HTMLButtonElement>('.users-preview__edit button.btn.btn-success')) {
-		const evalString = element.getAttribute('onclick');
-		if (evalString === null) continue;
+		const evalString = element.getAttribute('onclick')
+		if (evalString === null) continue
 
-		element.removeAttribute('onclick');
+		element.removeAttribute('onclick')
 
-		const clone = element.cloneNode(true) as HTMLButtonElement;
-		clone.setAttribute('data-toggle', 'modal');
-		clone.setAttribute('data-target', '#modal-carmarket-confirm-sxplus');
+		const clone = element.cloneNode(true) as HTMLButtonElement
+		clone.setAttribute('data-toggle', 'modal')
+		clone.setAttribute('data-target', '#modal-carmarket-confirm-sxplus')
 		clone.addEventListener('click', () => {
-			confirmClickEventListener(evalString);
-		});
+			confirmClickEventListener(evalString)
+		})
 
-		element.replaceWith(clone);
+		element.replaceWith(clone)
 	}
 }
 
-export const execute = async () => {
+export async function execute(): Promise<void> {
 	//Some fuckery was happening with the click event listeners when running the function immediately
 	setTimeout(() => {
-		const cont = document.querySelector<HTMLDivElement>('.pages.pages_dashboard');
-		if (cont === null) return;
+		const cont = document.querySelector<HTMLDivElement>('.pages.pages_dashboard')
+		if (cont === null) return
 
-		const modal = document.createElement('div');
-		modal.className = 'modal fade';
-		modal.id = 'modal-carmarket-confirm-sxplus';
-		modal.style.setProperty('display', 'none');
+		const modal = document.createElement('div')
+		modal.className = 'modal fade'
+		modal.id = 'modal-carmarket-confirm-sxplus'
+		modal.style.setProperty('display', 'none')
 		modal.innerHTML = `<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -50,12 +50,12 @@ export const execute = async () => {
 					<button type="button" class="btn btn-danger">Bekræft</a>
 				</div>
 			</div>
-		</div>`;
+		</div>`
 
-		cont.appendChild(modal);
+		cont.appendChild(modal)
 
-		confirmCreate();
-	});
-};
+		confirmCreate()
+	})
+}
 
-execute();
+execute()

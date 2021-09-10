@@ -11,12 +11,16 @@
 	"private": true,
 	"scripts": {
 		"watch": "webpack --config webpack/webpack.dev.js --watch",
-		"build": "webpack --config webpack/webpack.prod.js"
+		"build": "webpack --config webpack/webpack.prod.js",
+		"lint": "eslint . --format visualstudio"
 	},
 	"devDependencies": {
 		"@types/chrome": "^0.0.148",
 		"@types/debounce": "^1.2.0",
+		"@typescript-eslint/eslint-plugin": "^4.31.0",
+		"@typescript-eslint/parser": "^4.31.0",
 		"copy-webpack-plugin": "^9.0.1",
+		"eslint": "^7.32.0",
 		"ts-loader": "^9.2.3",
 		"typescript": "^4.3.5",
 		"webpack": "^5.46.0",

@@ -1,39 +1,39 @@
-const steamidPattern = /STEAM_\d:\d:\d+/g;
-const blacklistedLookup = ['STEAM_0:1:48016748', 'STEAM_0:0:56939043'];
+const steamidPattern = /STEAM_\d:\d:\d+/g
+const blacklistedLookup = ['STEAM_0:1:48016748', 'STEAM_0:0:56939043']
 
-let selectionChanged = false;
+let selectionChanged = false
 document.addEventListener('selectionchange', () => {
-	selectionChanged = true;
-});
+	selectionChanged = true
+})
 
 document.addEventListener('mouseup', () => {
-	if (selectionChanged === false) return;
+	if (selectionChanged === false) return
 
 	const steamids = (() => {
-		const selection = document.getSelection();
-		if (selection === null) return;
+		const selection = document.getSelection()
+		if (selection === null) return
 
-		const selectionText = selection.toString();
-		if (selectionText === '') return;
+		const selectionText = selection.toString()
+		if (selectionText === '') return
 
-		const match = selectionText.match(steamidPattern);
-		if (match === null) return;
+		const match = selectionText.match(steamidPattern)
+		if (match === null) return
 
-		const steamids: string[] = [];
+		const steamids: string[] = []
 		for (const steamid of match) {
-			if (blacklistedLookup.includes(steamid)) continue;
+			if (blacklistedLookup.includes(steamid)) continue
 
-			steamids.push(steamid);
+			steamids.push(steamid)
 		}
 
-		return steamids;
-	})();
+		return steamids
+	})()
 
 	if (steamids) {
-		chrome.runtime.sendMessage({ action: 'addContextMenu', steamids: steamids });
+		chrome.runtime.sendMessage({ 'action': 'addContextMenu', 'steamids': steamids })
 	} else {
-		chrome.runtime.sendMessage({ action: 'removeContextMenu' });
+		chrome.runtime.sendMessage({ 'action': 'removeContextMenu' })
 	}
 
-	selectionChanged = false;
-});
+	selectionChanged = false
+})

@@ -1,44 +1,44 @@
-import { getLookupContainerFromHeaderText } from './shared';
-import { debounce } from 'debounce';
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-dayjs.extend(customParseFormat);
+import { getLookupContainerFromHeaderText } from './shared'
+import { debounce } from 'debounce'
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+dayjs.extend(customParseFormat)
 
 type PunishmentArrayObject = { [key: string]: HTMLElement[] };
 
 function punishmentsClickEventListener(type: string, period: string, array: PunishmentArrayObject) {
-	const modal = document.querySelector<HTMLDivElement>('#modal-punishments-sxplus');
-	if (modal === null) return;
+	const modal = document.querySelector<HTMLDivElement>('#modal-punishments-sxplus')
+	if (modal === null) return
 
-	const modalTitle = modal.querySelector<HTMLHeadingElement>('h4');
-	if (modalTitle === null) return;
+	const modalTitle = modal.querySelector<HTMLHeadingElement>('h4')
+	if (modalTitle === null) return
 
-	const modalTable = modal.querySelector<HTMLTableSectionElement>('tbody');
-	if (modalTable === null) return;
+	const modalTable = modal.querySelector<HTMLTableSectionElement>('tbody')
+	if (modalTable === null) return
 
-	modalTitle.textContent = `${type} - ${period}`;
+	modalTitle.textContent = `${type} - ${period}`
 
 	while (modalTable.lastElementChild) {
-		modalTable.removeChild(modalTable.lastElementChild);
+		modalTable.removeChild(modalTable.lastElementChild)
 	}
 
 	for (const element of array[type]) {
-		const clone = element.cloneNode(true) as HTMLElement;
+		const clone = element.cloneNode(true) as HTMLElement
 
 		if (clone.lastElementChild) {
-			clone.removeChild(clone.lastElementChild);
+			clone.removeChild(clone.lastElementChild)
 		}
 
-		const punishmentNote = clone.querySelector('i');
+		const punishmentNote = clone.querySelector('i')
 		if (punishmentNote) {
-			punishmentNote.remove();
+			punishmentNote.remove()
 		}
 
-		modalTable.appendChild(clone);
+		modalTable.appendChild(clone)
 	}
 }
 
-const skip = ['Unban', 'Update'];
+const skip = ['Unban', 'Update']
 
 function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionElement) {
 	//Reset table body
@@ -53,204 +53,204 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 	</tr>
 	<tr class="row-sxplus">
 		<th>Seneste døgn</th>
-	</tr>`;
+	</tr>`
 
 	const allPunishments: PunishmentArrayObject = {
-		Alle: [],
-		Ban: [],
-		Kick: [],
-		Jail: [],
-		JobBan: [],
-		CarBan: [],
-	};
+		'Alle': [],
+		'Ban': [],
+		'Kick': [],
+		'Jail': [],
+		'JobBan': [],
+		'CarBan': [],
+	}
 
 	const monthPunishments: PunishmentArrayObject = {
-		Alle: [],
-		Ban: [],
-		Kick: [],
-		Jail: [],
-		JobBan: [],
-		CarBan: [],
-	};
+		'Alle': [],
+		'Ban': [],
+		'Kick': [],
+		'Jail': [],
+		'JobBan': [],
+		'CarBan': [],
+	}
 
 	const weekPunishments: PunishmentArrayObject = {
-		Alle: [],
-		Ban: [],
-		Kick: [],
-		Jail: [],
-		JobBan: [],
-		CarBan: [],
-	};
+		'Alle': [],
+		'Ban': [],
+		'Kick': [],
+		'Jail': [],
+		'JobBan': [],
+		'CarBan': [],
+	}
 
 	const dayPunishments: PunishmentArrayObject = {
-		Alle: [],
-		Ban: [],
-		Kick: [],
-		Jail: [],
-		JobBan: [],
-		CarBan: [],
-	};
+		'Alle': [],
+		'Ban': [],
+		'Kick': [],
+		'Jail': [],
+		'JobBan': [],
+		'CarBan': [],
+	}
 
-	const now = dayjs();
+	const now = dayjs()
 	for (const element of punishments) {
-		if (element.style.getPropertyValue('text-decoration') == 'line-through') continue;
+		if (element.style.getPropertyValue('text-decoration') == 'line-through') continue
 
-		const time = element.children[0].textContent;
-		if (time === null) continue;
+		const time = element.children[0].textContent
+		if (time === null) continue
 
-		const type = element.children[1].textContent;
-		if (type === null) continue;
+		const type = element.children[1].textContent
+		if (type === null) continue
 
-		if (skip.includes(type)) continue;
+		if (skip.includes(type)) continue
 
-		const date = dayjs(time, 'DD-MM-YY HH:mm:ss');
+		const date = dayjs(time, 'DD-MM-YY HH:mm:ss')
 
-		allPunishments.Alle.push(element);
-		allPunishments[type].push(element);
+		allPunishments.Alle.push(element)
+		allPunishments[type].push(element)
 
 		if (date.diff(now, 'day') == 0) {
 			[dayPunishments, weekPunishments, monthPunishments].forEach((punishmentArray) => {
-				punishmentArray.Alle.push(element);
-				punishmentArray[type].push(element);
-			});
+				punishmentArray.Alle.push(element)
+				punishmentArray[type].push(element)
+			})
 		} else if (date.diff(now, 'week') == 0) {
 			[weekPunishments, monthPunishments].forEach((punishmentArray) => {
-				punishmentArray.Alle.push(element);
-				punishmentArray[type].push(element);
-			});
+				punishmentArray.Alle.push(element)
+				punishmentArray[type].push(element)
+			})
 		} else if (date.diff(now, 'month') == 0) {
 			[monthPunishments].forEach((punishmentArray) => {
-				punishmentArray.Alle.push(element);
-				punishmentArray[type].push(element);
-			});
+				punishmentArray.Alle.push(element)
+				punishmentArray[type].push(element)
+			})
 		}
 	}
 
 	for (const key in allPunishments) {
-		if (allPunishments.hasOwnProperty(key)) {
-			const td = document.createElement('td');
+		if (Object.prototype.hasOwnProperty.call(allPunishments, key)) {
+			const td = document.createElement('td')
 
 			if (allPunishments[key].length > 0) {
-				const a = document.createElement('a');
-				a.textContent = allPunishments[key].length.toString();
-				a.style.setProperty('color', 'inherit');
-				a.style.setProperty('text-decoration', 'underline');
-				a.setAttribute('data-toggle', 'modal');
-				a.setAttribute('data-target', '#modal-punishments-sxplus');
+				const a = document.createElement('a')
+				a.textContent = allPunishments[key].length.toString()
+				a.style.setProperty('color', 'inherit')
+				a.style.setProperty('text-decoration', 'underline')
+				a.setAttribute('data-toggle', 'modal')
+				a.setAttribute('data-target', '#modal-punishments-sxplus')
 				a.addEventListener('click', () => {
-					punishmentsClickEventListener(key, 'Altid', allPunishments);
-				});
+					punishmentsClickEventListener(key, 'Altid', allPunishments)
+				})
 
-				td.appendChild(a);
+				td.appendChild(a)
 			} else {
-				td.textContent = '0';
+				td.textContent = '0'
 			}
 
-			tbody.children[0].appendChild(td);
+			tbody.children[0].appendChild(td)
 		}
 	}
 
 	for (const key in monthPunishments) {
-		if (monthPunishments.hasOwnProperty(key)) {
-			const td = document.createElement('td');
+		if (Object.prototype.hasOwnProperty.call(monthPunishments, key)) {
+			const td = document.createElement('td')
 
 			if (monthPunishments[key].length > 0) {
-				const a = document.createElement('a');
-				a.textContent = monthPunishments[key].length.toString();
-				a.style.setProperty('color', 'inherit');
-				a.style.setProperty('text-decoration', 'underline');
-				a.setAttribute('data-toggle', 'modal');
-				a.setAttribute('data-target', '#modal-punishments-sxplus');
+				const a = document.createElement('a')
+				a.textContent = monthPunishments[key].length.toString()
+				a.style.setProperty('color', 'inherit')
+				a.style.setProperty('text-decoration', 'underline')
+				a.setAttribute('data-toggle', 'modal')
+				a.setAttribute('data-target', '#modal-punishments-sxplus')
 				a.addEventListener('click', () => {
-					punishmentsClickEventListener(key, 'Seneste måned', monthPunishments);
-				});
+					punishmentsClickEventListener(key, 'Seneste måned', monthPunishments)
+				})
 
-				td.appendChild(a);
+				td.appendChild(a)
 			} else {
-				td.textContent = '0';
+				td.textContent = '0'
 			}
 
-			tbody.children[1].appendChild(td);
+			tbody.children[1].appendChild(td)
 		}
 	}
 
 	for (const key in weekPunishments) {
-		if (weekPunishments.hasOwnProperty(key)) {
-			const td = document.createElement('td');
+		if (Object.prototype.hasOwnProperty.call(weekPunishments, key)) {
+			const td = document.createElement('td')
 
 			if (weekPunishments[key].length > 0) {
-				const a = document.createElement('a');
-				a.textContent = weekPunishments[key].length.toString();
-				a.style.setProperty('color', 'inherit');
-				a.style.setProperty('text-decoration', 'underline');
-				a.setAttribute('data-toggle', 'modal');
-				a.setAttribute('data-target', '#modal-punishments-sxplus');
+				const a = document.createElement('a')
+				a.textContent = weekPunishments[key].length.toString()
+				a.style.setProperty('color', 'inherit')
+				a.style.setProperty('text-decoration', 'underline')
+				a.setAttribute('data-toggle', 'modal')
+				a.setAttribute('data-target', '#modal-punishments-sxplus')
 				a.addEventListener('click', () => {
-					punishmentsClickEventListener(key, 'Seneste uge', weekPunishments);
-				});
+					punishmentsClickEventListener(key, 'Seneste uge', weekPunishments)
+				})
 
-				td.appendChild(a);
+				td.appendChild(a)
 			} else {
-				td.textContent = '0';
+				td.textContent = '0'
 			}
 
-			tbody.children[2].appendChild(td);
+			tbody.children[2].appendChild(td)
 		}
 	}
 
 	for (const key in dayPunishments) {
-		if (dayPunishments.hasOwnProperty(key)) {
-			const td = document.createElement('td');
+		if (Object.prototype.hasOwnProperty.call(dayPunishments, key)) {
+			const td = document.createElement('td')
 
 			if (dayPunishments[key].length > 0) {
-				const a = document.createElement('a');
-				a.textContent = dayPunishments[key].length.toString();
-				a.style.setProperty('color', 'inherit');
-				a.style.setProperty('text-decoration', 'underline');
-				a.setAttribute('data-toggle', 'modal');
-				a.setAttribute('data-target', '#modal-punishments-sxplus');
+				const a = document.createElement('a')
+				a.textContent = dayPunishments[key].length.toString()
+				a.style.setProperty('color', 'inherit')
+				a.style.setProperty('text-decoration', 'underline')
+				a.setAttribute('data-toggle', 'modal')
+				a.setAttribute('data-target', '#modal-punishments-sxplus')
 				a.addEventListener('click', () => {
-					punishmentsClickEventListener(key, 'Seneste døgn', dayPunishments);
-				});
+					punishmentsClickEventListener(key, 'Seneste døgn', dayPunishments)
+				})
 
-				td.appendChild(a);
+				td.appendChild(a)
 			} else {
-				td.textContent = '0';
+				td.textContent = '0'
 			}
 
-			tbody.children[3].appendChild(td);
+			tbody.children[3].appendChild(td)
 		}
 	}
 }
 
-export const execute = async () => {
+export async function execute(): Promise<void> {
 	//Some fuckery was happening with the click event listeners when running the function immediately
 	setTimeout(() => {
-		const perfStart = performance.now();
+		const perfStart = performance.now()
 
-		const cont = document.querySelector<HTMLDivElement>('.template.template__controls');
-		if (cont === null) return;
+		const cont = document.querySelector<HTMLDivElement>('.template.template__controls')
+		if (cont === null) return
 
-		const [punishments, punishmentsRow]: [HTMLTableRowElement[], HTMLDivElement] | [null, null] = getLookupContainerFromHeaderText(
+		const [punishments, punishmentsRow] = getLookupContainerFromHeaderText<[HTMLTableRowElement[], HTMLDivElement], [null, null]>(
 			'Strafhistorik',
 			(element) => {
-				const container = element.closest('.row');
-				if (container === null) return;
+				const container = element.closest<HTMLDivElement>('.row')
+				if (container === null) return
 
-				const children = container.querySelectorAll<HTMLTableRowElement>('tbody > *');
+				const children = container.querySelectorAll<HTMLTableRowElement>('tbody > *')
 
-				const punishments = Array.from(children);
-				return [punishments, container];
+				const punishments = Array.from(children)
+				return [punishments, container]
 			},
-			[null, null]
-		);
+			[null, null],
+		)
 
-		if (punishments === null || punishmentsRow === null) return;
+		if (punishments === null || punishmentsRow === null) return
 
-		const modal = document.createElement('div');
-		modal.className = 'modal fade';
-		modal.id = 'modal-punishments-sxplus';
-		modal.style.setProperty('display', 'none');
+		const modal = document.createElement('div')
+		modal.className = 'modal fade'
+		modal.id = 'modal-punishments-sxplus'
+		modal.style.setProperty('display', 'none')
 		modal.innerHTML = `<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -278,12 +278,12 @@ export const execute = async () => {
 					<button type="button" data-dismiss="modal" class="btn btn-default">Luk</button>
 				</div>
 			</div>
-		</div>`;
+		</div>`
 
-		cont.appendChild(modal);
+		cont.appendChild(modal)
 
-		const container = document.createElement('div');
-		container.className = 'row';
+		const container = document.createElement('div')
+		container.className = 'row'
 		container.innerHTML = `<div class="col-md-12 col-xs-11">
 			<div class="panel panel-danger">
 				<div class="panel-heading" style="background-color:#16a085;border-bottom-color:white;">
@@ -315,44 +315,44 @@ export const execute = async () => {
 					</div>
 				</div>
 			</div>
-		</div>`;
+		</div>`
 
-		const filter = container.querySelector<HTMLInputElement>('input');
-		if (filter === null) return;
+		const filter = container.querySelector<HTMLInputElement>('input')
+		if (filter === null) return
 
-		const tbody = container.querySelector<HTMLTableSectionElement>('tbody');
-		if (tbody === null) return;
+		const tbody = container.querySelector<HTMLTableSectionElement>('tbody')
+		if (tbody === null) return
 
-		cont.appendChild(container);
-		punishmentsRow.before(container);
+		cont.appendChild(container)
+		punishmentsRow.before(container)
 
 		filter.addEventListener(
 			'keyup',
 			debounce(() => {
-				const filterText = filter.value.toLowerCase();
+				const filterText = filter.value.toLowerCase()
 
-				const filteredPunishments = [];
+				const filteredPunishments = []
 				for (const punishment of punishments) {
 					for (const cell of punishment.children) {
-						const cellTextContent = cell.textContent?.toLowerCase();
+						const cellTextContent = cell.textContent?.toLowerCase()
 
 						if (cellTextContent && cellTextContent.includes(filterText)) {
-							filteredPunishments.push(punishment);
+							filteredPunishments.push(punishment)
 
-							break;
+							break
 						}
 					}
 				}
 
-				punishmentsCreate(filteredPunishments, tbody);
-			}, 800)
-		);
+				punishmentsCreate(filteredPunishments, tbody)
+			}, 800),
+		)
 
-		punishmentsCreate(punishments, tbody);
+		punishmentsCreate(punishments, tbody)
 
-		const perfEnd = performance.now();
-		console.log(`punishments took ${perfEnd - perfStart} milliseconds.`);
-	});
-};
+		const perfEnd = performance.now()
+		console.log(`punishments took ${perfEnd - perfStart} milliseconds.`)
+	})
+}
 
-execute();
+execute()

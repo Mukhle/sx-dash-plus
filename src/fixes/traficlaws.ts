@@ -1,9 +1,9 @@
-export const execute = async () => {
-	const mainHeading = document.querySelector('.main-heading');
+export async function execute(): Promise<void> {
+	const mainHeading = document.querySelector('.main-heading')
 
 	if (mainHeading?.childElementCount == 0) {
-		mainHeading.remove();
+		mainHeading.remove()
 	}
-};
+}
 
-execute();
+execute()

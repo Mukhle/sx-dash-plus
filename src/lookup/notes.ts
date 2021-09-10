@@ -1,27 +1,27 @@
-import { getLookupContainerFromHeaderText } from './shared';
-import { debounce } from 'debounce';
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-dayjs.extend(customParseFormat);
+import { getLookupContainerFromHeaderText } from './shared'
+import { debounce } from 'debounce'
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+dayjs.extend(customParseFormat)
 
 function notesClickEventListener(period: string, array: HTMLElement[]) {
-	const modal = document.querySelector<HTMLDivElement>('#modal-notes-sxplus');
-	if (modal === null) return;
+	const modal = document.querySelector<HTMLDivElement>('#modal-notes-sxplus')
+	if (modal === null) return
 
-	const modalTitle = modal.querySelector<HTMLHeadingElement>('h4');
-	if (modalTitle === null) return;
+	const modalTitle = modal.querySelector<HTMLHeadingElement>('h4')
+	if (modalTitle === null) return
 
-	const modalList = modal.querySelector<HTMLDivElement>('div.sp-widget__list');
-	if (modalList === null) return;
+	const modalList = modal.querySelector<HTMLDivElement>('div.sp-widget__list')
+	if (modalList === null) return
 
-	modalTitle.textContent = `Noter - ${period}`;
+	modalTitle.textContent = `Noter - ${period}`
 
 	while (modalList.lastElementChild) {
-		modalList.removeChild(modalList.lastElementChild);
+		modalList.removeChild(modalList.lastElementChild)
 	}
 
 	for (const element of array) {
-		modalList.appendChild(element.cloneNode(true));
+		modalList.appendChild(element.cloneNode(true))
 	}
 }
 
@@ -29,150 +29,150 @@ function notesCreate(notes: HTMLElement[], tbody: HTMLTableSectionElement) {
 	//Reset table body
 	tbody.innerHTML = `<tr class="row-sxplus">
 		<th>Antal</th>
-	</tr>`;
+	</tr>`
 
-	const allNotes: HTMLElement[] = [];
-	const monthNotes: HTMLElement[] = [];
-	const weekNotes: HTMLElement[] = [];
-	const dayNotes: HTMLElement[] = [];
+	const allNotes: HTMLElement[] = []
+	const monthNotes: HTMLElement[] = []
+	const weekNotes: HTMLElement[] = []
+	const dayNotes: HTMLElement[] = []
 
-	const now = dayjs();
+	const now = dayjs()
 	for (const element of notes) {
-		const noteTime = element.querySelector<HTMLDivElement>('.sp-widget__date')?.textContent?.substring(2);
-		if (noteTime === undefined) continue;
+		const noteTime = element.querySelector<HTMLDivElement>('.sp-widget__date')?.textContent?.substring(2)
+		if (noteTime === undefined) continue
 
-		const noteText = element.querySelector<HTMLDivElement>('.sp-widget__text')?.textContent;
-		if (noteText === null || noteText === undefined) continue;
+		const noteText = element.querySelector<HTMLDivElement>('.sp-widget__text')?.textContent
+		if (noteText === null || noteText === undefined) continue
 
-		const date = dayjs(noteTime, 'DD-MM-YY HH:mm');
+		const date = dayjs(noteTime, 'DD-MM-YY HH:mm')
 
-		allNotes.push(element);
+		allNotes.push(element)
 
 		if (date.diff(now, 'day') == 0) {
-			dayNotes.push(element);
-			weekNotes.push(element);
-			monthNotes.push(element);
+			dayNotes.push(element)
+			weekNotes.push(element)
+			monthNotes.push(element)
 		} else if (date.diff(now, 'week') == 0) {
-			weekNotes.push(element);
-			monthNotes.push(element);
+			weekNotes.push(element)
+			monthNotes.push(element)
 		} else if (date.diff(now, 'month') == 0) {
-			monthNotes.push(element);
+			monthNotes.push(element)
 		}
 	}
 
 	if (allNotes.length > 0) {
-		const td = document.createElement('td');
+		const td = document.createElement('td')
 
-		const a = document.createElement('a');
-		a.textContent = allNotes.length.toString();
-		a.style.setProperty('color', 'inherit');
-		a.style.setProperty('text-decoration', 'underline');
-		a.setAttribute('data-toggle', 'modal');
-		a.setAttribute('data-target', '#modal-notes-sxplus');
+		const a = document.createElement('a')
+		a.textContent = allNotes.length.toString()
+		a.style.setProperty('color', 'inherit')
+		a.style.setProperty('text-decoration', 'underline')
+		a.setAttribute('data-toggle', 'modal')
+		a.setAttribute('data-target', '#modal-notes-sxplus')
 		a.addEventListener('click', () => {
-			notesClickEventListener('Altid', allNotes);
-		});
+			notesClickEventListener('Altid', allNotes)
+		})
 
-		td.appendChild(a);
-		tbody.children[0].appendChild(td);
+		td.appendChild(a)
+		tbody.children[0].appendChild(td)
 	} else {
-		const td = document.createElement('td');
-		td.textContent = '0';
-		tbody.children[0].appendChild(td);
+		const td = document.createElement('td')
+		td.textContent = '0'
+		tbody.children[0].appendChild(td)
 	}
 
 	if (monthNotes.length > 0) {
-		const td = document.createElement('td');
+		const td = document.createElement('td')
 
-		const a = document.createElement('a');
-		a.textContent = monthNotes.length.toString();
-		a.style.setProperty('color', 'inherit');
-		a.style.setProperty('text-decoration', 'underline');
-		a.setAttribute('data-toggle', 'modal');
-		a.setAttribute('data-target', '#modal-notes-sxplus');
+		const a = document.createElement('a')
+		a.textContent = monthNotes.length.toString()
+		a.style.setProperty('color', 'inherit')
+		a.style.setProperty('text-decoration', 'underline')
+		a.setAttribute('data-toggle', 'modal')
+		a.setAttribute('data-target', '#modal-notes-sxplus')
 		a.addEventListener('click', () => {
-			notesClickEventListener('Seneste måned', monthNotes);
-		});
+			notesClickEventListener('Seneste måned', monthNotes)
+		})
 
-		td.appendChild(a);
-		tbody.children[0].appendChild(td);
+		td.appendChild(a)
+		tbody.children[0].appendChild(td)
 	} else {
-		const td = document.createElement('td');
-		td.textContent = '0';
-		tbody.children[0].appendChild(td);
+		const td = document.createElement('td')
+		td.textContent = '0'
+		tbody.children[0].appendChild(td)
 	}
 
 	if (weekNotes.length > 0) {
-		const td = document.createElement('td');
+		const td = document.createElement('td')
 
-		const a = document.createElement('a');
-		a.textContent = weekNotes.length.toString();
-		a.style.setProperty('color', 'inherit');
-		a.style.setProperty('text-decoration', 'underline');
-		a.setAttribute('data-toggle', 'modal');
-		a.setAttribute('data-target', '#modal-notes-sxplus');
+		const a = document.createElement('a')
+		a.textContent = weekNotes.length.toString()
+		a.style.setProperty('color', 'inherit')
+		a.style.setProperty('text-decoration', 'underline')
+		a.setAttribute('data-toggle', 'modal')
+		a.setAttribute('data-target', '#modal-notes-sxplus')
 		a.addEventListener('click', () => {
-			notesClickEventListener('Seneste uge', weekNotes);
-		});
+			notesClickEventListener('Seneste uge', weekNotes)
+		})
 
-		td.appendChild(a);
-		tbody.children[0].appendChild(td);
+		td.appendChild(a)
+		tbody.children[0].appendChild(td)
 	} else {
-		const td = document.createElement('td');
-		td.textContent = '0';
-		tbody.children[0].appendChild(td);
+		const td = document.createElement('td')
+		td.textContent = '0'
+		tbody.children[0].appendChild(td)
 	}
 
 	if (dayNotes.length > 0) {
-		const td = document.createElement('td');
+		const td = document.createElement('td')
 
-		const a = document.createElement('a');
-		a.textContent = dayNotes.length.toString();
-		a.style.setProperty('color', 'inherit');
-		a.style.setProperty('text-decoration', 'underline');
-		a.setAttribute('data-toggle', 'modal');
-		a.setAttribute('data-target', '#modal-notes-sxplus');
+		const a = document.createElement('a')
+		a.textContent = dayNotes.length.toString()
+		a.style.setProperty('color', 'inherit')
+		a.style.setProperty('text-decoration', 'underline')
+		a.setAttribute('data-toggle', 'modal')
+		a.setAttribute('data-target', '#modal-notes-sxplus')
 		a.addEventListener('click', () => {
-			notesClickEventListener('Seneste døgn', dayNotes);
-		});
+			notesClickEventListener('Seneste døgn', dayNotes)
+		})
 
-		td.appendChild(a);
-		tbody.children[0].appendChild(td);
+		td.appendChild(a)
+		tbody.children[0].appendChild(td)
 	} else {
-		const td = document.createElement('td');
-		td.textContent = '0';
-		tbody.children[0].appendChild(td);
+		const td = document.createElement('td')
+		td.textContent = '0'
+		tbody.children[0].appendChild(td)
 	}
 }
 
-export const execute = async () => {
+export async function execute(): Promise<void> {
 	//Some fuckery was happening with the click event listeners when running the function immediately
 	setTimeout(() => {
-		const perfStart = performance.now();
+		const perfStart = performance.now()
 
-		const cont = document.querySelector<HTMLDivElement>('.template.template__controls');
-		if (cont === null) return;
+		const cont = document.querySelector<HTMLDivElement>('.template.template__controls')
+		if (cont === null) return
 
-		const [notes, notesRow]: [HTMLDivElement[], HTMLDivElement] | [null, null] = getLookupContainerFromHeaderText(
+		const [notes, notesRow] = getLookupContainerFromHeaderText<[HTMLDivElement[], HTMLDivElement], [null, null] >(
 			'Noter',
 			(element) => {
-				const container = element.closest('.row');
-				if (container === null) return;
+				const container = element.closest<HTMLDivElement>('.row')
+				if (container === null) return
 
-				const children = container.querySelectorAll<HTMLDivElement>('.sp-widget__list > *');
+				const children = container.querySelectorAll<HTMLDivElement>('.sp-widget__list > *')
 
-				const notes = Array.from(children);
-				return [notes, container];
+				const notes = Array.from(children)
+				return [notes, container]
 			},
-			[null, null]
-		);
+			[null, null],
+		)
 
-		if (notes === null || notesRow === null) return;
+		if (notes === null || notesRow === null) return
 
-		const modal = document.createElement('div');
-		modal.className = 'modal fade';
-		modal.id = 'modal-notes-sxplus';
-		modal.style.setProperty('display', 'none');
+		const modal = document.createElement('div')
+		modal.className = 'modal fade'
+		modal.id = 'modal-notes-sxplus'
+		modal.style.setProperty('display', 'none')
 		modal.innerHTML = `<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -194,12 +194,12 @@ export const execute = async () => {
 					<button type="button" data-dismiss="modal" class="btn btn-default">Luk</button>
 				</div>
 			</div>
-		</div>`;
+		</div>`
 
-		cont.appendChild(modal);
+		cont.appendChild(modal)
 
-		const container = document.createElement('div');
-		container.className = 'row';
+		const container = document.createElement('div')
+		container.className = 'row'
 		container.innerHTML = `<div class="col-md-12 col-xs-11">
 			<div class="panel panel-danger">
 				<div class="panel-heading" style="background-color:#2980b9;border-bottom-color:white;">
@@ -229,42 +229,42 @@ export const execute = async () => {
 					</div>
 				</div>
 			</div>
-		</div>`;
+		</div>`
 
-		const filter = container.querySelector<HTMLInputElement>('input');
-		if (filter === null) return;
+		const filter = container.querySelector<HTMLInputElement>('input')
+		if (filter === null) return
 
-		const tbody = container.querySelector<HTMLTableSectionElement>('tbody');
-		if (tbody === null) return;
+		const tbody = container.querySelector<HTMLTableSectionElement>('tbody')
+		if (tbody === null) return
 
-		cont.appendChild(container);
-		notesRow.before(container);
+		cont.appendChild(container)
+		notesRow.before(container)
 
 		filter.addEventListener(
 			'keyup',
 			debounce(() => {
-				const filterText = filter.value.toLowerCase();
+				const filterText = filter.value.toLowerCase()
 
-				const filteredNotes = [];
+				const filteredNotes = []
 				for (const note of notes) {
-					const noteTextContent = note.textContent?.toLowerCase();
+					const noteTextContent = note.textContent?.toLowerCase()
 
 					if (noteTextContent && noteTextContent.includes(filterText)) {
-						filteredNotes.push(note);
+						filteredNotes.push(note)
 
-						break;
+						break
 					}
 				}
 
-				notesCreate(filteredNotes, tbody);
-			}, 800)
-		);
+				notesCreate(filteredNotes, tbody)
+			}, 800),
+		)
 
-		notesCreate(notes, tbody);
+		notesCreate(notes, tbody)
 
-		const perfEnd = performance.now();
-		console.log(`notes took ${perfEnd - perfStart} milliseconds.`);
-	});
-};
+		const perfEnd = performance.now()
+		console.log(`notes took ${perfEnd - perfStart} milliseconds.`)
+	})
+}
 
-execute();
+execute()

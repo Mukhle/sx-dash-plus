@@ -1,12 +1,12 @@
-export const execute = async () => {
+export async function execute(): Promise<void> {
 	for (const element of document.querySelectorAll<HTMLTableRowElement>('.table > tbody > tr')) {
-		element.removeAttribute('onclick');
+		element.removeAttribute('onclick')
 
-		const clone = element.cloneNode(true) as HTMLTableRowElement;
-		clone.classList.add('row-sxplus');
+		const clone = element.cloneNode(true) as HTMLTableRowElement
+		clone.classList.add('row-sxplus')
 
-		element.replaceWith(clone);
+		element.replaceWith(clone)
 	}
-};
+}
 
-execute();
+execute()
