@@ -2,4 +2,8 @@ dist/
 node_modules/
 tmp/
 
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+
 *.log
