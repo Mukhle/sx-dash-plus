@@ -31,7 +31,9 @@ export async function execute(): Promise<void> {
 				}
 			})
 
-			observer.observe(container, { 'childList': true })
+			observer.observe(container, {
+				'childList': true,
+			})
 		}
 	}
 }

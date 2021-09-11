@@ -1,5 +1,5 @@
 import { getLookupContainerFromHeaderText } from './shared'
-import { debounce } from 'lodash'
+import debounce from 'lodash/debounce'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 dayjs.extend(customParseFormat)

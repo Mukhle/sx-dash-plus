@@ -13,6 +13,7 @@ module.exports = {
 		'fixes/traficlaws': path.join(srcDir, 'fixes/traficlaws.ts'),
 		'lookup/info': path.join(srcDir, 'lookup/info.ts'),
 		'lookup/notes': path.join(srcDir, 'lookup/notes.ts'),
+		'lookup/playtimeTotal': path.join(srcDir, 'lookup/playtimeTotal.ts'),
 		'lookup/punishmentFrequency': path.join(srcDir, 'lookup/punishmentFrequency.ts'),
 		'lookup/punishmentnotes': path.join(srcDir, 'lookup/punishmentnotes.ts'),
 		'lookup/punishments': path.join(srcDir, 'lookup/punishments.ts'),
@@ -27,10 +28,6 @@ module.exports = {
 		'filename': '[name].js',
 	},
 	'optimization': {
-		'splitChunks': {
-			'name': 'vendor',
-			'chunks': 'initial',
-		},
 		'minimize': false,
 	},
 	'module': {

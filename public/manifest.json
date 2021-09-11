@@ -31,7 +31,7 @@
 			"matches": ["*://stavox.dk/dash/*"]
 		},
 		{
-			"js": ["js/lookup/notes.js", "js/lookup/punishmentnotes.js", "js/lookup/punishments.js", "js/lookup/punishmentFrequency.js", "js/lookup/watcher.js", "js/lookup/info.js", "js/fixes/button.js"],
+			"js": ["js/lookup/notes.js", "js/lookup/punishmentnotes.js", "js/lookup/punishments.js", "js/lookup/punishmentFrequency.js", "js/lookup/watcher.js", "js/lookup/info.js", "js/fixes/button.js", "js/lookup/playtimeTotal.js"],
 			"css": ["pulse.css", "button.css"],
 			"matches": ["*://stavox.dk/dash/lookup*?lookupid=*"]
 		},
