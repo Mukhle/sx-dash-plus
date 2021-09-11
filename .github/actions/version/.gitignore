@@ -4,5 +4,3 @@
 .yarn/*
 !.yarn/releases
 !.yarn/plugins
-
-*.log
