@@ -1,10 +1,46 @@
 import { userIsStaff, getLookupContainerFromHeaderText } from './shared'
-import throttle from 'lodash/throttle'
 
-function setupTotalsContainer() {
-	console.log('create thing')
+function proccessPlaytimeTotals(root: HTMLElement) {
+	const tspans = root.querySelectorAll('tspan')
+	if (tspans === null) return
+
+	const largest = tspans[4]
+	if (largest === null) return
+
+	const largestAsString = largest.textContent
+	if (largestAsString === null) return
+
+	const largestAsNumber = Number.parseInt(largestAsString)
+	if (largestAsNumber === null) return
+
+	const hover = root.querySelector('.morris-hover')
+	if (hover === null) return
+
+	const bars = root.querySelectorAll('svg > rect')
+	if (bars === null) return
+
+	const dataPoints: [string, number][] = []
+	for (const bar of bars) {
+		const element = bar.getBoundingClientRect()
+
+		const timeLength = Math.round(element.height / 284 * largestAsNumber)
+
+		const fill = bar.getAttribute('fill')
+		if (fill === null) continue
+
+		switch (fill) {
+			case '#2980b9':
+				dataPoints.push(['Aktiv', timeLength])
+
+				break
+			case '#34495e':
+				dataPoints.push(['Inaktiv', timeLength])
+
+				break
+		}
+	}
+
 	const cont = document.querySelector<HTMLDivElement>('.template.template__controls')
-	console.log('cont', cont)
 	if (cont === null) return
 
 	const row = getLookupContainerFromHeaderText<HTMLDivElement, null>(
@@ -17,7 +53,6 @@ function setupTotalsContainer() {
 		},
 		null,
 	)
-	console.log('row', row)
 	if (row === null) return
 
 	const container = document.createElement('div')
@@ -34,107 +69,31 @@ function setupTotalsContainer() {
 		</div>
 	</div>`
 
-	console.log('container', container)
-
 	const paragraph = container.querySelector<HTMLParagraphElement>('.panel-body > p')
-	console.log('paragraph', paragraph)
 	if (paragraph === null) return
 
 	cont.appendChild(container)
 	row.after(container)
 
 	const texts = []
-	for (const [label, value] of Object.entries(dataPoints.totals)) {
-		texts.push(`${label}: ${value}`)
+	const totals = dataPoints.reduce<{[key: string]: number}>((current, element) => {
+		const [identifier, span] = element
+
+		const storedValue = current[identifier]
+		if (storedValue) {
+			current[identifier] = storedValue + span
+		} else {
+			current[identifier] = span
+		}
+
+		return current
+	}, {})
+
+	for (const [identifier, span] of Object.entries(totals)) {
+		texts.push(`${identifier}: ${span}`)
 	}
 
 	paragraph.innerText = texts.join(' | ')
-}
-
-interface IAccumulatedData {
-	totalPoints: number
-	processed: {
-		[key: string]: boolean
-	}
-	totals: {
-		[key: string]: number
-	}
-}
-
-const dataPoints: IAccumulatedData = {
-	'totalPoints': 0,
-	'processed': {},
-	'totals': {},
-}
-
-const recordData = throttle((element: HTMLElement): true | undefined => {
-	const label = element.querySelector('.morris-hover-row-label')
-	if (label === null) return
-
-	const labelValue = label.textContent
-	if (labelValue === null) return
-
-	if (dataPoints.processed[labelValue] !== undefined) return
-
-	const hoverPoints = element.querySelectorAll('.morris-hover-point')
-	if (hoverPoints === null) return
-
-	hoverPoints.forEach((hoverPoint) => {
-		const dataPointText = hoverPoint.textContent
-		if (dataPointText === null) return
-
-		const labelMatch = dataPointText.match(/\w+/)
-		if (labelMatch === null) return
-		const [dataPointLabel] = labelMatch
-
-		const valueMatch = dataPointText.match(/\d+/)
-		if (valueMatch === null) return
-		const [dataPointValue] = valueMatch
-
-		const dataPointNumber = Number.parseInt(dataPointValue)
-
-		const storedTotal = dataPoints.totals[dataPointLabel]
-		if (storedTotal === undefined) {
-			dataPoints.totals[dataPointLabel] = dataPointNumber
-		} else {
-			dataPoints.totals[dataPointLabel] = storedTotal + dataPointNumber
-		}
-	})
-
-	dataPoints.processed[labelValue] = true
-
-	if (dataPoints.totalPoints === Object.values(dataPoints.processed).length) {
-		console.log(dataPoints)
-		return true
-	}
-}, 150)
-
-function setupPlaytimeMutationObserver(root: HTMLElement) {
-	const hover = root.querySelector('.morris-hover')
-	if (hover === null) return
-
-	const bars = root.querySelectorAll('svg > rect')
-	if (bars === null) return
-
-	dataPoints.totalPoints = bars.length / 2
-
-	const observer = new MutationObserver((mutationsList, observer) => {
-		for (const mutation of mutationsList) {
-			if (mutation.type === 'childList') {
-				if (mutation.target instanceof HTMLElement) {
-					if (recordData(mutation.target)) {
-						setupTotalsContainer()
-						observer.disconnect()
-					}
-				}
-			}
-		}
-	})
-
-	observer.observe(hover, {
-		'subtree': true,
-		'childList': true,
-	})
 }
 
 export async function execute(): Promise<void> {
@@ -150,7 +109,7 @@ export async function execute(): Promise<void> {
 						mutation.addedNodes.forEach((node) => {
 							if (node instanceof HTMLElement) {
 								if (node.getAttribute('data-ajaxlookup-table') === 'playtime') {
-									setupPlaytimeMutationObserver(node)
+									proccessPlaytimeTotals(node)
 
 									observer.disconnect()
 								}
