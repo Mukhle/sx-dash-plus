@@ -68,7 +68,7 @@ export function processTextNodes(start: Node): void {
 
 export const userIsStaff = (() => {
 	for (const element of document.querySelectorAll('.sidebar__title')) {
-		if (element.textContent == 'Staff') {
+		if (element.textContent == ' Staff') {
 			return true
 		}
 	}
