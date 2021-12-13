@@ -10,11 +10,8 @@ function proccessPlaytimeTotals(root: HTMLElement) {
 	const largestAsString = largest.textContent
 	if (largestAsString === null) return
 
-	const largestAsNumber = Number.parseInt(largestAsString)
+	const largestAsNumber = Number.parseInt(largestAsString.replaceAll(',', ''))
 	if (largestAsNumber === null) return
-
-	const hover = root.querySelector('.morris-hover')
-	if (hover === null) return
 
 	const bars = root.querySelectorAll('svg > rect')
 	if (bars === null) return
@@ -29,12 +26,20 @@ function proccessPlaytimeTotals(root: HTMLElement) {
 		if (fill === null) continue
 
 		switch (fill) {
+			case '#ddd78d':
+				dataPoints.push(['Online', timeLength])
+
+				break
 			case '#2980b9':
 				dataPoints.push(['Aktiv', timeLength])
 
 				break
 			case '#34495e':
 				dataPoints.push(['Inaktiv', timeLength])
+
+				break
+			case '#9fadbd':
+				dataPoints.push(['Politi', timeLength])
 
 				break
 		}
