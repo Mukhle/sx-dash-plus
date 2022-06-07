@@ -1,5 +1,5 @@
 {
-	"manifest_version": 2,
+	"manifest_version": 3,
 	"name": "Dash+",
 	"description": "Tilføjer ekstra funktionalitet til stavox dash side.",
 	"version": "1.5.3.2",
@@ -7,9 +7,14 @@
 		"64": "icon128.png",
 		"128": "icon128.png"
 	},
-	"permissions": ["*://stavox.dk/dash/*", "<all_urls>", "contextMenus"],
+	"permissions": [
+		"contextMenus"
+	],
+	"host_permissions": [
+		"*://*/*"
+	],
 	"background": {
-		"scripts": ["js/background/background.js"]
+		"service_worker": "js/background/worker.js"
 	},
 	"content_scripts": [
 		{

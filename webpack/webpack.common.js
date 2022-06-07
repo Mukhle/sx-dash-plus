@@ -5,7 +5,7 @@ const srcDir = path.join(__dirname, '..', 'src')
 
 module.exports = {
 	'entry': {
-		'background/background': path.join(srcDir, 'background/background.ts'),
+		'background/worker': path.join(srcDir, 'background/worker.ts'),
 		'fixes/button': path.join(srcDir, 'fixes/button.ts'),
 		'fixes/carmarket': path.join(srcDir, 'fixes/carmarket.ts'),
 		'fixes/stafflist': path.join(srcDir, 'fixes/stafflist.ts'),
