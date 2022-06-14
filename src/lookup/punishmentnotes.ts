@@ -94,6 +94,59 @@ function createNotesLink(punishments: HTMLTableRowElement[], notes: HTMLDivEleme
 	}
 }
 
+function createNotePunishmentEntires(punishments: HTMLTableRowElement[], notes: HTMLDivElement[]) {
+	const reversedPunishments = punishments.reverse()
+
+	for (const noteEntry of notes) {
+		const [noteHeadingElement, noteContentsElement] = noteEntry.children as HTMLCollectionOf<HTMLDivElement>
+		if (noteHeadingElement === null || noteContentsElement === null) continue
+
+		const noteHeading = noteHeadingElement.textContent
+		if (noteHeading === null) continue
+
+		const noteContents = noteContentsElement.textContent
+		if (noteContents === null) continue
+
+		const [noteAuthor, noteTime] = noteHeading.split(',')
+
+		const noteDate = dayjs(noteTime, 'DD-MM-YY HH:mm:ss')
+
+		for (const punishmentRow of reversedPunishments) {
+			const punishmentTime = punishmentRow.children[0].textContent
+			if (punishmentTime === null) continue
+
+			const punishmentDate = dayjs(punishmentTime, 'DD-MM-YY HH:mm:ss')
+
+			const dateDiff = punishmentDate.diff(noteDate, 'second')
+
+			if (dateDiff > 0) {
+				const timeString = noteDate.format('DD-MM-YY HH:mm:ss')
+
+				const clone = punishmentRow.cloneNode(true) as HTMLTableRowElement
+				clone.style.removeProperty('font-weight')
+				clone.style.setProperty('color', '#2980b9')
+
+				const [timeCell, typeCell, reasonCell, staffCell, dateCell, buttonCell] = clone.children as HTMLCollectionOf<HTMLTableCellElement>
+				if (timeCell === null || typeCell === null || reasonCell === null || staffCell === null || dateCell === null || buttonCell === null) continue
+
+				timeCell.textContent = timeString
+				typeCell.textContent = 'Note'
+				reasonCell.textContent = noteContents
+				staffCell.textContent = noteAuthor
+				dateCell.textContent = '-'
+
+				while (buttonCell.lastElementChild) {
+					buttonCell.removeChild(buttonCell.lastElementChild)
+				}
+
+				punishmentRow.insertAdjacentElement('afterend', clone)
+
+				break
+			}
+		}
+	}
+}
+
 export async function execute(): Promise<void> {
 	setTimeout(() => {
 		const perfStart = performance.now()
@@ -136,6 +189,8 @@ export async function execute(): Promise<void> {
 		//Some fuckery was happening with the click event listeners when running the function immediately
 
 		createNotesLink(punishments, notes)
+
+		createNotePunishmentEntires(punishments, notes)
 
 		const perfEnd = performance.now()
 		console.log(`punishmentnotes took ${perfEnd - perfStart} milliseconds.`)

@@ -38,7 +38,7 @@ function punishmentsClickEventListener(type: string, period: string, array: Puni
 	}
 }
 
-const skip = ['Unban', 'Update']
+const skip = ['Unban', 'Update', 'Note']
 
 function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionElement) {
 	//Reset table body
@@ -223,6 +223,15 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 	}
 }
 
+function modifyPunishmentRows(punishments: HTMLElement[]) {
+	for (const punishment of punishments) {
+		const reasonCell = punishment.children[2] as HTMLTableCellElement
+		if (reasonCell === null) continue
+
+		reasonCell.style.setProperty('white-space', 'pre-wrap')
+	}
+}
+
 export async function execute(): Promise<void> {
 	//Some fuckery was happening with the click event listeners when running the function immediately
 	setTimeout(() => {
@@ -349,6 +358,8 @@ export async function execute(): Promise<void> {
 		)
 
 		punishmentsCreate(punishments, tbody)
+
+		modifyPunishmentRows(punishments)
 
 		const perfEnd = performance.now()
 		console.log(`punishments took ${perfEnd - perfStart} milliseconds.`)
