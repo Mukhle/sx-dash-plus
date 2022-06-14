@@ -1,7 +1,7 @@
 export async function execute(): Promise<void> {
 	for (const element of document.querySelectorAll<HTMLTableRowElement>('.table > tbody > tr')) {
 		const attribute = element.getAttribute('onclick')
-		if (!attribute?.includes('lookup')) continue
+		if (attribute && !attribute.includes('lookup')) continue
 
 		element.removeAttribute('onclick')
 
