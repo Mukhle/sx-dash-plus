@@ -95,8 +95,6 @@ function createNotesLink(punishments: HTMLTableRowElement[], notes: HTMLDivEleme
 }
 
 function createNotePunishmentEntires(punishments: HTMLTableRowElement[], notes: HTMLDivElement[]) {
-	const reversedPunishments = punishments.reverse()
-
 	for (const noteEntry of notes) {
 		const [noteHeadingElement, noteContentsElement] = noteEntry.children as HTMLCollectionOf<HTMLDivElement>
 		if (noteHeadingElement === null || noteContentsElement === null) continue
@@ -111,7 +109,7 @@ function createNotePunishmentEntires(punishments: HTMLTableRowElement[], notes: 
 
 		const noteDate = dayjs(noteTime, 'DD-MM-YY HH:mm:ss')
 
-		for (const punishmentRow of reversedPunishments) {
+		for (const punishmentRow of punishments) {
 			const punishmentTime = punishmentRow.children[0].textContent
 			if (punishmentTime === null) continue
 
@@ -119,7 +117,7 @@ function createNotePunishmentEntires(punishments: HTMLTableRowElement[], notes: 
 
 			const dateDiff = punishmentDate.diff(noteDate, 'second')
 
-			if (dateDiff > 0) {
+			if (dateDiff < 0) {
 				const timeString = noteDate.format('DD-MM-YY HH:mm:ss')
 
 				const clone = punishmentRow.cloneNode(true) as HTMLTableRowElement
@@ -139,7 +137,7 @@ function createNotePunishmentEntires(punishments: HTMLTableRowElement[], notes: 
 					buttonCell.removeChild(buttonCell.lastElementChild)
 				}
 
-				punishmentRow.insertAdjacentElement('afterend', clone)
+				punishmentRow.insertAdjacentElement('beforebegin', clone)
 
 				break
 			}
