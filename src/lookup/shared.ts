@@ -1,11 +1,8 @@
 export function getLookupContainerFromHeaderText<R, D>(headerText: string, getReturnValue: (element: HTMLElement) => R | undefined, defaults: D): R | D {
 	const headers = document.querySelectorAll<HTMLElement>('h3.panel-title')
-	console.log(`LOOKING FOR ${headerText}`)
 
 	for (const element of headers) {
-		console.log(`CHECKING ${element.textContent}`)
 		if (element.textContent?.includes(headerText)) {
-			console.log(`MATCHED ${element.textContent}`)
 			const returnValue = getReturnValue(element)
 
 			if (returnValue) {

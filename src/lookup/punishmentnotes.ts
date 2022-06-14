@@ -149,7 +149,7 @@ function createNotePunishmentEntires(punishments: HTMLTableRowElement[], notes: 
 
 export async function execute(): Promise<void> {
 	setTimeout(() => {
-		const perfStart = performance.now()
+		console.profile('punishmentNotes')
 
 		const cont = document.querySelector('.template.template__controls')
 		if (cont === null) return
@@ -192,8 +192,7 @@ export async function execute(): Promise<void> {
 
 		createNotePunishmentEntires(punishments, notes)
 
-		const perfEnd = performance.now()
-		console.log(`punishmentnotes took ${perfEnd - perfStart} milliseconds.`)
+		console.profileEnd('punishmentNotes')
 	})
 }
 

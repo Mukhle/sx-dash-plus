@@ -217,7 +217,7 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 export async function execute(): Promise<void> {
 	//Some fuckery was happening with the click event listeners when running the function immediately
 	setTimeout(() => {
-		const perfStart = performance.now()
+		console.profile('punishmentFrequency')
 
 		const cont = document.querySelector<HTMLDivElement>('.template.template__controls')
 		if (cont === null) return
@@ -278,8 +278,7 @@ export async function execute(): Promise<void> {
 
 		punishmentsCreate(punishments, tbody)
 
-		const perfEnd = performance.now()
-		console.log(`punishmentFrequency took ${perfEnd - perfStart} milliseconds.`)
+		console.profileEnd('punishmentFrequency')
 	})
 }
 

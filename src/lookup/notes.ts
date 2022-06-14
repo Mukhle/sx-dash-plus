@@ -148,7 +148,7 @@ function notesCreate(notes: HTMLElement[], tbody: HTMLTableSectionElement) {
 export async function execute(): Promise<void> {
 	//Some fuckery was happening with the click event listeners when running the function immediately
 	setTimeout(() => {
-		const perfStart = performance.now()
+		console.profile('notes')
 
 		const cont = document.querySelector<HTMLDivElement>('.template.template__controls')
 		if (cont === null) return
@@ -262,8 +262,7 @@ export async function execute(): Promise<void> {
 
 		notesCreate(notes, tbody)
 
-		const perfEnd = performance.now()
-		console.log(`notes took ${perfEnd - perfStart} milliseconds.`)
+		console.profileEnd('notes')
 	})
 }
 

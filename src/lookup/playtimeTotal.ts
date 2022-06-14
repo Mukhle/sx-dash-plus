@@ -103,7 +103,7 @@ function proccessPlaytimeTotals(root: HTMLElement) {
 
 export async function execute(): Promise<void> {
 	if (userIsStaff) {
-		const perfStart = performance.now()
+		console.profile('playtimeTotal')
 
 		const container = document.querySelector('div.template.template__controls')
 
@@ -129,8 +129,7 @@ export async function execute(): Promise<void> {
 			})
 		}
 
-		const perfEnd = performance.now()
-		console.log(`playtimeTotal took ${perfEnd - perfStart} milliseconds.`)
+		console.profileEnd('playtimeTotal')
 	}
 }
 
