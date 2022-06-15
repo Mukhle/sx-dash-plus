@@ -19,7 +19,30 @@ const blacklistedLookup = ['STEAM_0:1:48016748', 'STEAM_0:0:56939043']
 
 export function handleTextNode(textNode: Node): void {
 	const origText = textNode.textContent
-	const newHtml = origText?.replaceAll(steamidPattern, (match) => {
+	if (origText === null) return
+
+	const element = textNode.parentElement
+	if (element === null) return
+
+	if (element instanceof HTMLAnchorElement) {
+		if (element.classList.contains('convertedlink')) {
+			const elementContent = element.textContent
+			if (elementContent === null) return
+
+			if (blacklistedLookup.includes(elementContent)) {
+				element.replaceWith(elementContent)
+
+				return
+			}
+
+			element.classList.remove('convertedlink')
+			element.classList.add('lookup-sxplus')
+
+			return
+		}
+	}
+
+	const newHtml = origText.replaceAll(steamidPattern, (match) => {
 		if (blacklistedLookup.includes(match)) {
 			return match
 		}
@@ -27,11 +50,12 @@ export function handleTextNode(textNode: Node): void {
 		return `<a class="lookup-sxplus" href="https://stavox.dk/dash/lookup?lookupid=${match}">${match}</a>`
 	})
 
-	if (newHtml && origText && newHtml !== origText) {
-		const newSpan = document.createElement('span')
-		newSpan.innerHTML = newHtml
-		textNode.parentNode?.replaceChild(newSpan, textNode)
-	}
+	if (newHtml === origText) return
+
+	const newSpan = document.createElement('span')
+	newSpan.innerHTML = newHtml
+
+	element.replaceChild(newSpan, textNode)
 }
 
 const nodeNameSkip = ['SCRIPT', 'STYLE']
