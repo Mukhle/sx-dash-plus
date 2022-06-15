@@ -15,7 +15,7 @@ module.exports = {
 		'lookup/notes': path.join(srcDir, 'lookup/notes.ts'),
 		'lookup/playtimeTotal': path.join(srcDir, 'lookup/playtimeTotal.ts'),
 		'lookup/punishmentFrequency': path.join(srcDir, 'lookup/punishmentFrequency.ts'),
-		'lookup/punishmentnotes': path.join(srcDir, 'lookup/punishmentnotes.ts'),
+		'lookup/punishmentNotes': path.join(srcDir, 'lookup/punishmentNotes.ts'),
 		'lookup/punishments': path.join(srcDir, 'lookup/punishments.ts'),
 		'lookup/shared': path.join(srcDir, 'lookup/shared.ts'),
 		'lookup/watcher': path.join(srcDir, 'lookup/watcher.ts'),
