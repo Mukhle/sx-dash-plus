@@ -110,21 +110,23 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 		row.classList.add('row-sxplus')
 		row.style.setProperty('font-weight', 'bold')
 		row.style.setProperty('color', '#ed4949')
-		row.innerHTML = `<th>
-			${createTableHead(punishmentAmounts.all, now, firstPunishment, 'Siden første straf')}
-		</th>
-		<td>
-			${createAllTimeTableData(punishmentAmounts.all, now, firstPunishment, 'hours')}
-		</td>
-		<td>
-			${createAllTimeTableData(punishmentAmounts.all, now, firstPunishment, 'days')}
-		</td>
-		<td>
-			${createAllTimeTableData(punishmentAmounts.all, now, firstPunishment, 'weeks')}
-		</td>
-		<td>
-			${createAllTimeTableData(punishmentAmounts.all, now, firstPunishment, 'months')}
-		</td>`
+		row.innerHTML = `
+			<th>
+				${createTableHead(punishmentAmounts.all, now, firstPunishment, 'Siden første straf')}
+			</th>
+			<td>
+				${createAllTimeTableData(punishmentAmounts.all, now, firstPunishment, 'hours')}
+			</td>
+			<td>
+				${createAllTimeTableData(punishmentAmounts.all, now, firstPunishment, 'days')}
+			</td>
+			<td>
+				${createAllTimeTableData(punishmentAmounts.all, now, firstPunishment, 'weeks')}
+			</td>
+			<td>
+				${createAllTimeTableData(punishmentAmounts.all, now, firstPunishment, 'months')}
+			</td>
+		`
 
 		tbody.appendChild(row)
 	}
@@ -134,21 +136,23 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 
 		const row = document.createElement('tr')
 		row.classList.add('row-sxplus')
-		row.innerHTML = `<th>
-			${createTableHead(punishmentAmounts.year, now, intervalStart, 'Seneste år')}
-		</th>
-		<td>
-			${createTableData(punishmentAmounts.year, now, intervalStart, 'hours')}
-		</td>
-		<td>
-			${createTableData(punishmentAmounts.year, now, intervalStart, 'days')}
-		</td>
-		<td>
-			${createTableData(punishmentAmounts.year, now, intervalStart, 'weeks')}
-		</td>
-		<td>
-			${createTableData(punishmentAmounts.year, now, intervalStart, 'months')}
-		</td>`
+		row.innerHTML = `
+			<th>
+				${createTableHead(punishmentAmounts.year, now, intervalStart, 'Seneste år')}
+			</th>
+			<td>
+				${createTableData(punishmentAmounts.year, now, intervalStart, 'hours')}
+			</td>
+			<td>
+				${createTableData(punishmentAmounts.year, now, intervalStart, 'days')}
+			</td>
+			<td>
+				${createTableData(punishmentAmounts.year, now, intervalStart, 'weeks')}
+			</td>
+			<td>
+				${createTableData(punishmentAmounts.year, now, intervalStart, 'months')}
+			</td>
+		`
 
 		tbody.appendChild(row)
 	}
@@ -158,19 +162,21 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 
 		const row = document.createElement('tr')
 		row.classList.add('row-sxplus')
-		row.innerHTML = `<th>
-			${createTableHead(punishmentAmounts.month, now, intervalStart, 'Seneste måned')}
-		</th>
-		<td>
-			${createTableData(punishmentAmounts.month, now, intervalStart, 'hours')}
-		</td>
-		<td>
-			${createTableData(punishmentAmounts.month, now, intervalStart, 'days')}
-		</td>
-		<td>
-			${createTableData(punishmentAmounts.month, now, intervalStart, 'weeks')}
-		</td>
-		<td></td>`
+		row.innerHTML = `
+			<th>
+				${createTableHead(punishmentAmounts.month, now, intervalStart, 'Seneste måned')}
+			</th>
+			<td>
+				${createTableData(punishmentAmounts.month, now, intervalStart, 'hours')}
+			</td>
+			<td>
+				${createTableData(punishmentAmounts.month, now, intervalStart, 'days')}
+			</td>
+			<td>
+				${createTableData(punishmentAmounts.month, now, intervalStart, 'weeks')}
+			</td>
+			<td></td>
+		`
 
 		tbody.appendChild(row)
 	}
@@ -180,17 +186,19 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 
 		const row = document.createElement('tr')
 		row.classList.add('row-sxplus')
-		row.innerHTML = `<th>
-			${createTableHead(punishmentAmounts.week, now, intervalStart, 'Seneste uge')}
-		</th>
-		<td>
-			${createTableData(punishmentAmounts.week, now, intervalStart, 'hours')}
-		</td>
-		<td>
-			${createTableData(punishmentAmounts.week, now, intervalStart, 'days')}
-		</td>
-		<td></td>
-		<td></td>`
+		row.innerHTML = `
+			<th>
+				${createTableHead(punishmentAmounts.week, now, intervalStart, 'Seneste uge')}
+			</th>
+			<td>
+				${createTableData(punishmentAmounts.week, now, intervalStart, 'hours')}
+			</td>
+			<td>
+				${createTableData(punishmentAmounts.week, now, intervalStart, 'days')}
+			</td>
+			<td></td>
+			<td></td>
+		`
 
 		tbody.appendChild(row)
 	}
@@ -200,15 +208,17 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 
 		const row = document.createElement('tr')
 		row.classList.add('row-sxplus')
-		row.innerHTML = `<th>
-			${createTableHead(punishmentAmounts.day, now, intervalStart, 'Seneste døgn')}
-		</th>
-		<td>
-			${createTableData(punishmentAmounts.day, now, intervalStart, 'hours')}
-		</td>
-		<td></td>
-		<td></td>
-		<td></td>`
+		row.innerHTML = `
+			<th>
+				${createTableHead(punishmentAmounts.day, now, intervalStart, 'Seneste døgn')}
+			</th>
+			<td>
+				${createTableData(punishmentAmounts.day, now, intervalStart, 'hours')}
+			</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		`
 
 		tbody.appendChild(row)
 	}
@@ -240,35 +250,37 @@ export async function execute(): Promise<void> {
 
 		const container = document.createElement('div')
 		container.className = 'row'
-		container.innerHTML = `<div class="col-md-12 col-xs-11">
-			<div class="panel panel-danger">
-				<div class="panel-heading" style="background-color:#16a085;border-bottom-color:white;">
-					<h3 class="panel-title">Strafhyppighed</h3>
-				</div>
+		container.innerHTML = `
+			<div class="col-md-12 col-xs-11">
+				<div class="panel panel-danger">
+					<div class="panel-heading" style="background-color:#16a085;border-bottom-color:white;">
+						<h3 class="panel-title">Strafhyppighed</h3>
+					</div>
 
-				<div class="panel-body">	
-					<div class="template__table_static template__table_responsive">
-						<div class="scrollable">
-							<table class="table table_sortable {sortlist: [[0,0]]}" cellspacing="0" width="100%">
-								<thead>
-									<tr>
-										<th></th>
-										<th>Timeligt gennemsnit</th>
-										<th>Dagligt gennemsnit</th>
-										<th>Ugentligt gennemsnit</th>
-										<th>Månedligt gennemsnit</th>
-									</tr>
-								</thead>
+					<div class="panel-body">	
+						<div class="template__table_static template__table_responsive">
+							<div class="scrollable">
+								<table class="table table_sortable {sortlist: [[0,0]]}" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th></th>
+											<th>Timeligt gennemsnit</th>
+											<th>Dagligt gennemsnit</th>
+											<th>Ugentligt gennemsnit</th>
+											<th>Månedligt gennemsnit</th>
+										</tr>
+									</thead>
 
-								<tbody>
-									
-								</tbody>
-							</table>
+									<tbody>
+										
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>`
+		`
 
 		const tbody = container.querySelector<HTMLTableSectionElement>('tbody')
 		if (tbody === null) return

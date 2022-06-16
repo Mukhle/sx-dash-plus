@@ -38,22 +38,22 @@ function punishmentsClickEventListener(type: string, period: string, array: Puni
 	}
 }
 
-const skip = ['Unban', 'Update', 'Note']
-
 function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionElement) {
 	//Reset table body
-	tbody.innerHTML = `<tr class="row-sxplus" style="font-weight: bold;color:#ed4949;">
-		<th>Altid</th>
-	</tr>
-	<tr class="row-sxplus">
-		<th>Seneste måned</th>
-	</tr>
-	<tr class="row-sxplus">
-		<th>Seneste uge</th>
-	</tr>
-	<tr class="row-sxplus">
-		<th>Seneste døgn</th>
-	</tr>`
+	tbody.innerHTML = `
+		<tr class="row-sxplus" style="font-weight: bold;color:#ed4949;">
+			<th>Altid</th>
+		</tr>
+		<tr class="row-sxplus">
+			<th>Seneste måned</th>
+		</tr>
+		<tr class="row-sxplus">
+			<th>Seneste uge</th>
+		</tr>
+		<tr class="row-sxplus">
+			<th>Seneste døgn</th>
+		</tr>
+	`
 
 	const allPunishments: PunishmentArrayObject = {
 		'Alle': [],
@@ -260,71 +260,75 @@ export async function execute(): Promise<void> {
 		modal.className = 'modal fade'
 		modal.id = 'modal-punishments-sxplus'
 		modal.style.setProperty('display', 'none')
-		modal.innerHTML = `<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-					<h4 class="modal-title" style="color:white;"></h4>
-				</div>
-				<div class="modal-body" style="color:white;font-size:15px;">
-					<table class="table table_sortable {sortlist: [[0,0]]}" cellspacing="0" width="100%">
-						<thead>
-							<tr>
-								<th>Tidspunkt</th>
-								<th>Type</th>
-								<th>Reason</th>
-								<th>AdminID</th>
-								<th>Unban</th>
-							</tr>
-						</thead>
+		modal.innerHTML = `
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+						<h4 class="modal-title" style="color:white;"></h4>
+					</div>
+					<div class="modal-body" style="color:white;font-size:15px;">
+						<table class="table table_sortable {sortlist: [[0,0]]}" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>Tidspunkt</th>
+									<th>Type</th>
+									<th>Reason</th>
+									<th>AdminID</th>
+									<th>Unban</th>
+								</tr>
+							</thead>
 
-						<tbody>
+							<tbody>
 
-						</tbody>
-					</table>
-				</div>
-				<div class="modal-footer">
-					<button type="button" data-dismiss="modal" class="btn btn-default">Luk</button>
+							</tbody>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" class="btn btn-default">Luk</button>
+					</div>
 				</div>
 			</div>
-		</div>`
+		`
 
 		cont.appendChild(modal)
 
 		const container = document.createElement('div')
 		container.className = 'row'
-		container.innerHTML = `<div class="col-md-12 col-xs-11">
-			<div class="panel panel-danger">
-				<div class="panel-heading" style="background-color:#16a085;border-bottom-color:white;">
-					<h3 class="panel-title">Strafoverblik</h3>
-				</div>
+		container.innerHTML = `
+			<div class="col-md-12 col-xs-11">
+				<div class="panel panel-danger">
+					<div class="panel-heading" style="background-color:#16a085;border-bottom-color:white;">
+						<h3 class="panel-title">Strafoverblik</h3>
+					</div>
 
-				<div class="panel-body">
-					<input class="form-control" type="text" placeholder="Filter..">
-					<div class="template__table_static template__table_responsive">
-						<div class="scrollable">
-							<table class="table table_sortable {sortlist: [[0,0]]}" cellspacing="0" width="100%">
-								<thead>
-									<tr>
-										<th></th>
-										<th>Alle</th>
-										<th>Ban</th>
-										<th>Kick</th>
-										<th>Jail</th>
-										<th>JobBan</th>
-										<th>CarBan</th>
-									</tr>
-								</thead>
+					<div class="panel-body">
+						<input class="form-control" type="text" placeholder="Filter..">
+						<div class="template__table_static template__table_responsive">
+							<div class="scrollable">
+								<table class="table table_sortable {sortlist: [[0,0]]}" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th></th>
+											<th>Alle</th>
+											<th>Ban</th>
+											<th>Kick</th>
+											<th>Jail</th>
+											<th>JobBan</th>
+											<th>CarBan</th>
+										</tr>
+									</thead>
 
-								<tbody>
-									
-								</tbody>
-							</table>
+									<tbody>
+										
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>`
+		`
 
 		const filter = container.querySelector<HTMLInputElement>('input')
 		if (filter === null) return

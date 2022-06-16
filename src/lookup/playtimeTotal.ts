@@ -62,17 +62,19 @@ function proccessPlaytimeTotals(root: HTMLElement) {
 
 	const container = document.createElement('div')
 	container.className = 'row'
-	container.innerHTML = `<div class="col-md-12 col-xs-11">
-		<div class="panel panel-danger">
-			<div class="panel-heading" style="background-color:#2980b9;border-bottom-color:white;">
-				<h3 class="panel-title">Spilletidsoverblik</h3>
-			</div>
+	container.innerHTML = `
+		<div class="col-md-12 col-xs-11">
+			<div class="panel panel-danger">
+				<div class="panel-heading" style="background-color:#2980b9;border-bottom-color:white;">
+					<h3 class="panel-title">Spilletidsoverblik</h3>
+				</div>
 
-			<div class="panel-body">
-				<p></p>
+				<div class="panel-body">
+					<p></p>
+				</div>
 			</div>
 		</div>
-	</div>`
+	`
 
 	const paragraph = container.querySelector<HTMLParagraphElement>('.panel-body > p')
 	if (paragraph === null) return

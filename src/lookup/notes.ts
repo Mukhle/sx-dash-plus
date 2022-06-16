@@ -27,9 +27,11 @@ function notesClickEventListener(period: string, array: HTMLElement[]) {
 
 function notesCreate(notes: HTMLElement[], tbody: HTMLTableSectionElement) {
 	//Reset table body
-	tbody.innerHTML = `<tr class="row-sxplus">
-		<th>Antal</th>
-	</tr>`
+	tbody.innerHTML = `
+		<tr class="row-sxplus">
+			<th>Antal</th>
+		</tr>
+	`
 
 	const allNotes: HTMLElement[] = []
 	const monthNotes: HTMLElement[] = []
@@ -173,63 +175,67 @@ export async function execute(): Promise<void> {
 		modal.className = 'modal fade'
 		modal.id = 'modal-notes-sxplus'
 		modal.style.setProperty('display', 'none')
-		modal.innerHTML = `<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-					<h4 class="modal-title" style="color:white;"></h4>
-				</div>
-				<div class="modal-body" style="color:white;font-size:15px;">
-					<div class="sp-widget">
-						<div class="scrollable">
-							<div class="sp-widget__cont">
-								<div class="sp-widget__list">
+		modal.innerHTML = `
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+						<h4 class="modal-title" style="color:white;"></h4>
+					</div>
+					<div class="modal-body" style="color:white;font-size:15px;">
+						<div class="sp-widget">
+							<div class="scrollable">
+								<div class="sp-widget__cont">
+									<div class="sp-widget__list">
 
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" data-dismiss="modal" class="btn btn-default">Luk</button>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" class="btn btn-default">Luk</button>
+					</div>
 				</div>
 			</div>
-		</div>`
+		`
 
 		cont.appendChild(modal)
 
 		const container = document.createElement('div')
 		container.className = 'row'
-		container.innerHTML = `<div class="col-md-12 col-xs-11">
-			<div class="panel panel-danger">
-				<div class="panel-heading" style="background-color:#2980b9;border-bottom-color:white;">
-					<h3 class="panel-title">Noteoverblik</h3>
-				</div>
+		container.innerHTML = `
+			<div class="col-md-12 col-xs-11">
+				<div class="panel panel-danger">
+					<div class="panel-heading" style="background-color:#2980b9;border-bottom-color:white;">
+						<h3 class="panel-title">Noteoverblik</h3>
+					</div>
 
-				<div class="panel-body">
-					<input class="form-control" type="text" placeholder="Filter..">
-					<div class="template__table_static template__table_responsive">
-						<div class="scrollable">
-							<table class="table table_sortable {sortlist: [[0,0]]}" cellspacing="0" width="100%">
-								<thead>
-									<tr>
-										<th></th>
-										<th>Altid</th>
-										<th>Seneste måned</th>
-										<th>Seneste uge</th>
-										<th>Seneste døgn</th>
-									</tr>
-								</thead>
+					<div class="panel-body">
+						<input class="form-control" type="text" placeholder="Filter..">
+						<div class="template__table_static template__table_responsive">
+							<div class="scrollable">
+								<table class="table table_sortable {sortlist: [[0,0]]}" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th></th>
+											<th>Altid</th>
+											<th>Seneste måned</th>
+											<th>Seneste uge</th>
+											<th>Seneste døgn</th>
+										</tr>
+									</thead>
 
-								<tbody>
-									
-								</tbody>
-							</table>
+									<tbody>
+										
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>`
+		`
 
 		const filter = container.querySelector<HTMLInputElement>('input')
 		if (filter === null) return

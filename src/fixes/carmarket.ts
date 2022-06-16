@@ -36,21 +36,23 @@ export async function execute(): Promise<void> {
 		modal.className = 'modal fade'
 		modal.id = 'modal-carmarket-confirm-sxplus'
 		modal.style.setProperty('display', 'none')
-		modal.innerHTML = `<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-					<h4 class="modal-title" style="color:white;">Bekræft handling</h4>
-				</div>
-				<div class="modal-body">
-					Du er ved at købe en bil. Det er ikke muligt at fortryde handlingen senere.
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Annuller</button>
-					<button type="button" class="btn btn-danger">Bekræft</a>
+		modal.innerHTML = `
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+						<h4 class="modal-title" style="color:white;">Bekræft handling</h4>
+					</div>
+					<div class="modal-body">
+						Du er ved at købe en bil. Det er ikke muligt at fortryde handlingen senere.
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Annuller</button>
+						<button type="button" class="btn btn-danger">Bekræft</a>
+					</div>
 				</div>
 			</div>
-		</div>`
+		`
 
 		cont.appendChild(modal)
 
