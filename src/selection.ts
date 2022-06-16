@@ -1,5 +1,4 @@
-const steamidPattern = /STEAM_\d:\d:\d+/g
-const blacklistedLookup = ['STEAM_0:1:48016748', 'STEAM_0:0:56939043']
+import { blacklistedLookupSteamIDs, regexSteamID } from './shared'
 
 let selectionChanged = false
 document.addEventListener('selectionchange', () => {
@@ -16,12 +15,12 @@ document.addEventListener('mouseup', () => {
 		const selectionText = selection.toString()
 		if (selectionText === '') return
 
-		const match = selectionText.match(steamidPattern)
+		const match = selectionText.match(regexSteamID)
 		if (match === null) return
 
 		const steamids: string[] = []
 		for (const steamid of match) {
-			if (blacklistedLookup.includes(steamid)) continue
+			if (blacklistedLookupSteamIDs.includes(steamid)) continue
 
 			steamids.push(steamid)
 		}

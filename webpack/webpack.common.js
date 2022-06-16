@@ -22,6 +22,7 @@ module.exports = {
 		'lookupsearch': path.join(srcDir, 'lookupsearch.ts'),
 		'selection': path.join(srcDir, 'selection.ts'),
 		'steamids': path.join(srcDir, 'steamids.ts'),
+		'shared': path.join(srcDir, 'shared.ts'),
 	},
 	'output': {
 		'path': path.join(__dirname, '../dist/js'),

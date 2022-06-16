@@ -2,6 +2,7 @@ import { getLookupContainerFromHeaderText } from './shared'
 import debounce from 'lodash/debounce'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import { informationPunishmentTypes } from '../shared'
 dayjs.extend(customParseFormat)
 
 type PunishmentArrayObject = { [key: string]: HTMLElement[] };
@@ -101,7 +102,7 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 		const type = element.children[1].textContent
 		if (type === null) continue
 
-		if (skip.includes(type)) continue
+		if (informationPunishmentTypes.includes(type)) continue
 
 		const date = dayjs(time, 'DD-MM-YY HH:mm:ss')
 

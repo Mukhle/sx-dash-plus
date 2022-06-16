@@ -2,6 +2,7 @@ import { getLookupContainerFromHeaderText } from './shared'
 import dayjs, { Dayjs } from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import duration from 'dayjs/plugin/duration'
+import { informationPunishmentTypes } from '../shared'
 dayjs.extend(customParseFormat)
 dayjs.extend(duration)
 
@@ -50,8 +51,6 @@ function createTableData(amount: number, now: Dayjs, start: Dayjs, interval: Int
 	return (amount / now.diff(start, interval, true)).toFixed(3)
 }
 
-const skip = ['Unban', 'Update']
-
 function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionElement) {
 	//Reset table body
 	tbody.innerHTML = ''
@@ -76,13 +75,9 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 		const type = element.children[1].textContent
 		if (type === null) continue
 
-		if (skip.includes(type)) continue
+		if (informationPunishmentTypes.includes(type)) continue
 
 		const date = dayjs(time, 'DD-MM-YY HH:mm:ss')
-
-		if (firstPunishment === undefined) {
-			firstPunishment = date
-		}
 
 		punishmentAmounts.all++
 
@@ -103,6 +98,8 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 				punishmentAmounts[key]++
 			})
 		}
+
+		firstPunishment = date
 	}
 
 	if (firstPunishment) {
@@ -129,98 +126,98 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 		`
 
 		tbody.appendChild(row)
-	}
 
-	if (punishmentAmounts.year > 0 && now.subtract(1, 'year').isAfter(firstPunishment)) {
-		const intervalStart = now.subtract(1, 'year')
+		if (punishmentAmounts.year > 0 && now.subtract(1, 'year').isAfter(firstPunishment)) {
+			const intervalStart = now.subtract(1, 'year')
 
-		const row = document.createElement('tr')
-		row.classList.add('row-sxplus')
-		row.innerHTML = `
-			<th>
-				${createTableHead(punishmentAmounts.year, now, intervalStart, 'Seneste år')}
-			</th>
-			<td>
-				${createTableData(punishmentAmounts.year, now, intervalStart, 'hours')}
-			</td>
-			<td>
-				${createTableData(punishmentAmounts.year, now, intervalStart, 'days')}
-			</td>
-			<td>
-				${createTableData(punishmentAmounts.year, now, intervalStart, 'weeks')}
-			</td>
-			<td>
-				${createTableData(punishmentAmounts.year, now, intervalStart, 'months')}
-			</td>
-		`
+			const row = document.createElement('tr')
+			row.classList.add('row-sxplus')
+			row.innerHTML = `
+				<th>
+					${createTableHead(punishmentAmounts.year, now, intervalStart, 'Seneste år')}
+				</th>
+				<td>
+					${createTableData(punishmentAmounts.year, now, intervalStart, 'hours')}
+				</td>
+				<td>
+					${createTableData(punishmentAmounts.year, now, intervalStart, 'days')}
+				</td>
+				<td>
+					${createTableData(punishmentAmounts.year, now, intervalStart, 'weeks')}
+				</td>
+				<td>
+					${createTableData(punishmentAmounts.year, now, intervalStart, 'months')}
+				</td>
+			`
 
-		tbody.appendChild(row)
-	}
+			tbody.appendChild(row)
+		}
 
-	if (punishmentAmounts.month > 0 && now.subtract(1, 'month').isAfter(firstPunishment)) {
-		const intervalStart = now.subtract(1, 'month')
+		if (punishmentAmounts.month > 0 && now.subtract(1, 'month').isAfter(firstPunishment)) {
+			const intervalStart = now.subtract(1, 'month')
 
-		const row = document.createElement('tr')
-		row.classList.add('row-sxplus')
-		row.innerHTML = `
-			<th>
-				${createTableHead(punishmentAmounts.month, now, intervalStart, 'Seneste måned')}
-			</th>
-			<td>
-				${createTableData(punishmentAmounts.month, now, intervalStart, 'hours')}
-			</td>
-			<td>
-				${createTableData(punishmentAmounts.month, now, intervalStart, 'days')}
-			</td>
-			<td>
-				${createTableData(punishmentAmounts.month, now, intervalStart, 'weeks')}
-			</td>
-			<td></td>
-		`
+			const row = document.createElement('tr')
+			row.classList.add('row-sxplus')
+			row.innerHTML = `
+				<th>
+					${createTableHead(punishmentAmounts.month, now, intervalStart, 'Seneste måned')}
+				</th>
+				<td>
+					${createTableData(punishmentAmounts.month, now, intervalStart, 'hours')}
+				</td>
+				<td>
+					${createTableData(punishmentAmounts.month, now, intervalStart, 'days')}
+				</td>
+				<td>
+					${createTableData(punishmentAmounts.month, now, intervalStart, 'weeks')}
+				</td>
+				<td></td>
+			`
 
-		tbody.appendChild(row)
-	}
+			tbody.appendChild(row)
+		}
 
-	if (punishmentAmounts.week > 0 && now.subtract(1, 'week').isAfter(firstPunishment)) {
-		const intervalStart = now.subtract(1, 'week')
+		if (punishmentAmounts.week > 0 && now.subtract(1, 'week').isAfter(firstPunishment)) {
+			const intervalStart = now.subtract(1, 'week')
 
-		const row = document.createElement('tr')
-		row.classList.add('row-sxplus')
-		row.innerHTML = `
-			<th>
-				${createTableHead(punishmentAmounts.week, now, intervalStart, 'Seneste uge')}
-			</th>
-			<td>
-				${createTableData(punishmentAmounts.week, now, intervalStart, 'hours')}
-			</td>
-			<td>
-				${createTableData(punishmentAmounts.week, now, intervalStart, 'days')}
-			</td>
-			<td></td>
-			<td></td>
-		`
+			const row = document.createElement('tr')
+			row.classList.add('row-sxplus')
+			row.innerHTML = `
+				<th>
+					${createTableHead(punishmentAmounts.week, now, intervalStart, 'Seneste uge')}
+				</th>
+				<td>
+					${createTableData(punishmentAmounts.week, now, intervalStart, 'hours')}
+				</td>
+				<td>
+					${createTableData(punishmentAmounts.week, now, intervalStart, 'days')}
+				</td>
+				<td></td>
+				<td></td>
+			`
 
-		tbody.appendChild(row)
-	}
+			tbody.appendChild(row)
+		}
 
-	if (punishmentAmounts.day > 0 && now.subtract(1, 'day').isAfter(firstPunishment)) {
-		const intervalStart = now.subtract(1, 'day')
+		if (punishmentAmounts.day > 0 && now.subtract(1, 'day').isAfter(firstPunishment)) {
+			const intervalStart = now.subtract(1, 'day')
 
-		const row = document.createElement('tr')
-		row.classList.add('row-sxplus')
-		row.innerHTML = `
-			<th>
-				${createTableHead(punishmentAmounts.day, now, intervalStart, 'Seneste døgn')}
-			</th>
-			<td>
-				${createTableData(punishmentAmounts.day, now, intervalStart, 'hours')}
-			</td>
-			<td></td>
-			<td></td>
-			<td></td>
-		`
+			const row = document.createElement('tr')
+			row.classList.add('row-sxplus')
+			row.innerHTML = `
+				<th>
+					${createTableHead(punishmentAmounts.day, now, intervalStart, 'Seneste døgn')}
+				</th>
+				<td>
+					${createTableData(punishmentAmounts.day, now, intervalStart, 'hours')}
+				</td>
+				<td></td>
+				<td></td>
+				<td></td>
+			`
 
-		tbody.appendChild(row)
+			tbody.appendChild(row)
+		}
 	}
 }
 

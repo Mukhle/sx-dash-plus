@@ -1,3 +1,5 @@
+import { blacklistedLookupSteamIDs, regexSteamID } from '../shared'
+
 export function getLookupContainerFromHeaderText<R, D>(headerText: string, getReturnValue: (element: HTMLElement) => R | undefined, defaults: D): R | D {
 	const headers = document.querySelectorAll<HTMLElement>('h3.panel-title')
 
@@ -14,9 +16,6 @@ export function getLookupContainerFromHeaderText<R, D>(headerText: string, getRe
 	return defaults
 }
 
-const steamidPattern = /STEAM_\d:\d:\d+/g
-const blacklistedLookup = ['STEAM_0:1:48016748', 'STEAM_0:0:56939043']
-
 export function handleTextNode(textNode: Node): void {
 	const origText = textNode.textContent
 	if (origText === null) return
@@ -29,7 +28,7 @@ export function handleTextNode(textNode: Node): void {
 			const elementContent = element.textContent
 			if (elementContent === null) return
 
-			if (blacklistedLookup.includes(elementContent)) {
+			if (blacklistedLookupSteamIDs.includes(elementContent)) {
 				element.replaceWith(elementContent)
 
 				return
@@ -42,8 +41,8 @@ export function handleTextNode(textNode: Node): void {
 		}
 	}
 
-	const newHtml = origText.replaceAll(steamidPattern, (match) => {
-		if (blacklistedLookup.includes(match)) {
+	const newHtml = origText.replaceAll(regexSteamID, (match) => {
+		if (blacklistedLookupSteamIDs.includes(match)) {
 			return match
 		}
 
