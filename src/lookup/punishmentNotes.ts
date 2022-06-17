@@ -21,10 +21,21 @@ function createNotesLink(punishments: HTMLTableRowElement[], notes: HTMLDivEleme
 		if (buttonCell === null) continue
 
 		for (const noteEntry of notes) {
-			const noteText = noteEntry.textContent?.toLowerCase()
-			if (noteText === undefined) continue
+			const [noteHeadingElement, noteContentsElement] = noteEntry.children as HTMLCollectionOf<HTMLDivElement>
+			if (noteHeadingElement === null || noteContentsElement === null) continue
 
-			if (noteText.includes(punishmentTime)) {
+			const noteHeading = noteHeadingElement.textContent
+			if (noteHeading === null || noteHeading === 'Ingen noter') continue
+
+			const noteContents = noteContentsElement.textContent
+			if (noteContents === null) continue
+
+			const [noteAuthor, noteTime] = noteHeading.split(',')
+
+			const skipUser = skipNoteUsers.some((username) => noteAuthor.includes(username))
+			if (skipUser) continue
+
+			if (noteContents.includes(punishmentTime)) {
 				const button = document.createElement('i')
 				button.className = 'fa fa-link button-sxplus'
 				button.title = 'Gå til note, som indeholder det tidspunkt, hvor hændelsen blev registreret.'
@@ -45,12 +56,6 @@ function createNotesLink(punishments: HTMLTableRowElement[], notes: HTMLDivEleme
 
 				buttonCell.prepend(button)
 			} else {
-				const noteTime = noteEntry.querySelector<HTMLDivElement>('.sp-widget__date')?.textContent?.substring(2)
-				if (noteTime === undefined) continue
-
-				const noteUser = noteEntry.querySelector<HTMLDivElement>('.sp-widget__user')?.textContent
-				if (noteUser === null || noteUser === undefined) continue
-
 				const skipUser = skipNoteUsers.some((username) => noteAuthor.includes(username))
 				if (skipUser) continue
 
