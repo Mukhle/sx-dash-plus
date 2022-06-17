@@ -2,7 +2,7 @@ import { getLookupContainerFromHeaderText } from './shared'
 import dayjs, { Dayjs } from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import duration from 'dayjs/plugin/duration'
-import { informationPunishmentTypes } from '../shared'
+import { skipPunishmentTypes } from '../shared'
 dayjs.extend(customParseFormat)
 dayjs.extend(duration)
 
@@ -75,7 +75,7 @@ function punishmentsCreate(punishments: HTMLElement[], tbody: HTMLTableSectionEl
 		const type = element.children[1].textContent
 		if (type === null) continue
 
-		if (informationPunishmentTypes.includes(type)) continue
+		if (skipPunishmentTypes.includes(type)) continue
 
 		const date = dayjs(time, 'DD-MM-YY HH:mm:ss')
 
