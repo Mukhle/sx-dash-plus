@@ -100,7 +100,7 @@ function createNotePunishmentEntires(punishments: HTMLTableRowElement[], notes: 
 		if (noteHeadingElement === null || noteContentsElement === null) continue
 
 		const noteHeading = noteHeadingElement.textContent
-		if (noteHeading === null) continue
+		if (noteHeading === null || noteHeading === 'Ingen noter') continue
 
 		const noteContents = noteContentsElement.textContent
 		if (noteContents === null) continue
