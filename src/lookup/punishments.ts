@@ -23,16 +23,29 @@ function punishmentsClickEventListener(type: string, period: string, array: Puni
 		modalTable.removeChild(modalTable.lastElementChild)
 	}
 
-	for (const element of array[type]) {
-		const clone = element.cloneNode(true) as HTMLElement
+	const removeLastColumn = (() => {
+		for (const element of array[type]) {
+			const table = element.closest<HTMLTableElement>('table')
+			if (table === null) continue
 
-		if (clone.lastElementChild) {
-			clone.removeChild(clone.lastElementChild)
+			const tableColumns = table.querySelector<HTMLTableSectionElement>('thead > tr')
+			if (tableColumns === null) continue
+
+			for (const element of tableColumns.children) {
+				if (element.textContent === null || element.textContent !== 'Handling') continue
+
+				return true
+			}
 		}
 
-		const punishmentNote = clone.querySelector('i')
-		if (punishmentNote) {
-			punishmentNote.remove()
+		return false
+	})()
+
+	for (const element of array[type]) {
+		const clone = element.cloneNode(true) as HTMLTableRowElement
+
+		if (removeLastColumn && clone.lastElementChild) {
+			clone.lastElementChild.remove()
 		}
 
 		modalTable.appendChild(clone)
