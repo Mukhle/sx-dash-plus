@@ -1,6 +1,7 @@
 import { getLookupContainerFromHeaderText } from './shared'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import { skipNoteUsers } from '../shared'
 dayjs.extend(customParseFormat)
 
 function createNotesLink(punishments: HTMLTableRowElement[], notes: HTMLDivElement[]) {
@@ -50,7 +51,7 @@ function createNotesLink(punishments: HTMLTableRowElement[], notes: HTMLDivEleme
 				const noteUser = noteEntry.querySelector<HTMLDivElement>('.sp-widget__user')?.textContent
 				if (noteUser === null || noteUser === undefined) continue
 
-				const skipUser = ['CABPSH', 'ForumUnban', 'MASSUnban'].some((username) => noteUser.includes(username))
+				const skipUser = skipNoteUsers.some((username) => noteAuthor.includes(username))
 				if (skipUser) continue
 
 				const noteDate = dayjs(noteTime, 'DD-MM-YY HH:mm')
@@ -106,6 +107,9 @@ function createNotePunishmentEntires(punishments: HTMLTableRowElement[], notes: 
 		if (noteContents === null) continue
 
 		const [noteAuthor, noteTime] = noteHeading.split(',')
+
+		const skipUser = skipNoteUsers.some((username) => noteAuthor.includes(username))
+		if (skipUser) continue
 
 		const noteDate = dayjs(noteTime, 'DD-MM-YY HH:mm:ss')
 
