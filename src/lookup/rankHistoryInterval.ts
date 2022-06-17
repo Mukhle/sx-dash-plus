@@ -58,18 +58,20 @@ function proccessRankHistory(root: HTMLElement) {
 		const previousRankAsString = previousRank.textContent
 		if (previousRankAsString === null || previousRankAsString === 'Ingen data') continue
 
-		const newTableData = document.createElement('td')
-		row.appendChild(newTableData)
+		const durationCell = document.createElement('td')
+		row.appendChild(durationCell)
 
 		const newRankAsString = newRank.textContent
-		if (newRankAsString === null || newRankAsString === 'user') continue
+		if (newRankAsString === null) continue
 
 		const timestampAsString = timestamp.textContent
 		if (timestampAsString === null) continue
 
 		const timestampAsDate = dayjs(timestampAsString, 'DD-MM-YY HH.mm')
 
-		newTableData.innerHTML = secondsToDurationString(previousDate, timestampAsDate)
+		if (newRankAsString !== 'user') {
+			durationCell.innerHTML = secondsToDurationString(previousDate, timestampAsDate)
+		}
 
 		previousDate = timestampAsDate
 	}
