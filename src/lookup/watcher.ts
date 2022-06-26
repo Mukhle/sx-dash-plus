@@ -2,6 +2,9 @@ import { userIsStaff, processTextNodes } from './shared'
 
 function removeTableRowListeners(root: HTMLElement) {
 	for (const element of root.querySelectorAll<HTMLTableRowElement>('.table > tbody > tr')) {
+		const attribute = element.getAttribute('onclick')
+		if (attribute && !attribute.includes('lookup')) continue
+
 		element.removeAttribute('onclick')
 
 		const clone = element.cloneNode(true) as HTMLTableRowElement
